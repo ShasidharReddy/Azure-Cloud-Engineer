@@ -2,6 +2,10 @@
 
 > Comprehensive Azure serverless reference with Mermaid diagrams, Azure CLI examples, `func` CLI examples, decision guidance, and best practices.
 
+## Standalone Deep Dive
+
+- [Azure Functions Deep Dive](./azure-functions-deep-dive.md) — dedicated guide for triggers, bindings, hosting plans, Durable Functions, Event Grid, Logic Apps comparison, and API Management integration.
+
 <!-- workflow-diagram:start -->
 ## Workflow Snapshot
 

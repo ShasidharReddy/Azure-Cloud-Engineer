@@ -4,6 +4,10 @@
 >
 > Scope: platform selection, AKS architecture, networking, security, storage, autoscaling, monitoring, Azure Container Apps, Azure Container Instances, Azure Container Registry, Azure Red Hat OpenShift, service mesh, and AKS best practices.
 
+## Standalone Deep Dive
+
+- [AKS Deep Dive](./aks-deep-dive.md) — dedicated guide for AKS provisioning, node pools, networking, ingress, ACR integration, GitOps, security, and troubleshooting.
+
 ---
 
 ## How to use this guide

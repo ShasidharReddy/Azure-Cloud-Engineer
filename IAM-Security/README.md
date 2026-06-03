@@ -2,6 +2,10 @@
 
 > Comprehensive Azure IAM, identity, governance, and security reference with Mermaid diagrams, Azure CLI examples, and operational best practices.
 
+## Standalone Deep Dive
+
+- [Identity and Governance Deep Dive](./identity-and-governance.md) — dedicated guide for Entra ID, Conditional Access, PIM, management groups, Azure Policy, Blueprints, and Azure Lighthouse.
+
 All Mermaid diagrams in this guide use Azure-themed brand colors such as Azure blue `#0078D4`, light blue `#50E6FF`, purple `#5C2D91`, green `#107C10`, orange `#FF8C00`, red-orange `#D83B01`, and magenta `#B146C2`.
 
 <!-- workflow-diagram:start -->

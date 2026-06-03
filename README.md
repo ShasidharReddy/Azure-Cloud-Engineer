@@ -2,28 +2,37 @@
 <pre>
 ┌──────────────────────────────────────────────────────────────────────┐
 │                                                                      │
-│      _                                                               │
-│     / \    _____   _ _ __ ___                                        │
-│    / _ \  |_  / | | | '__/ _ \                                       │
-│   / ___ \  / /| |_| | | |  __/                                       │
-│  /_/   \_\/___|\__,_|_|  \___|                                       │
+│   ____  _               _        _                                   │
+│  / ___|| |__   __ _ ___(_)      / \    _____   _ _ __ ___           │
+│  \___ \| '_ \ / _` / __| |____ / _ \  |_  / | | | '__/ _ \          │
+│   ___) | | | | (_| \__ \ |____/ ___ \  / /| |_| | | |  __/          │
+│  |____/|_| |_|\__,_|___/_|   /_/   \_\/___|\__,_|_|  \___|          │
 │                                                                      │
-│        Azure-Cloud-Engineer :: Cloud Terminal Login                  │
-│                Basic to Advanced Azure Guide                         │
+│         Comprehensive Azure Guide  —  Basic to Advanced              │
 │                                                                      │
 ├──────────────────────────────────────────────────────────────────────┤
-│  Provider : Microsoft Azure          Region  : Global                │
-│  Services : Compute, Network, Data   Modules : 13+                  │
 │                                                                      │
-│  admin@azure-cloud:~$ az account show                                │
-│  Welcome to Azure Cloud Engineer Guide!                              │
+│   Provider : Microsoft Azure         Region  : Global                │
+│   Services : Compute, Network, DB    Modules : 13+                   │
+│                                                                      │
+│   Last login: Tue Jun 3 11:19:46 2025 from github.com/ShasidharReddy │
+│                                                                      │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│   admin@shasi-azure:~$ az account show                               │
+│                                                                      │
+│   Welcome to Shasi-Azure!                                            │
+│   Your complete Azure learning environment.                          │
+│                                                                      │
+│   Type 'ls' to explore modules. Happy learning!                      │
+│                                                                      │
 └──────────────────────────────────────────────────────────────────────┘
 </pre>
 </div>
 
-# Azure Cloud Engineer — Reference & Lab Notes
+# ☁️ Shasi-Azure — Comprehensive Guide (Basic → Advanced)
 
-A curated collection of Azure command references, architecture diagrams, scripts, and step-by-step guides covering core Azure services. Organized by topic — use this as a quick reference while working on Azure projects.
+Shasi-Azure is a curated collection of Azure command references, architecture diagrams, scripts, and step-by-step guides covering core Azure services from basics through advanced scenarios. Organized by topic — use this as a practical quick reference while working on Azure projects.
 
 ---
 
@@ -32,7 +41,7 @@ A curated collection of Azure command references, architecture diagrams, scripts
 ```mermaid
 %%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#0078D4','secondaryColor':'#50E6FF','tertiaryColor':'#E6F4FF','background':'#ffffff'}}}%%
 flowchart LR
-  R[Azure-Cloud-Engineer] --> A[Architecture]
+  R[Shasi-Azure] --> A[Architecture]
   R --> CMP[Compute]
   R --> NET[Networking]
   R --> SEC[IAM-Security]

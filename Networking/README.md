@@ -88,6 +88,7 @@ All diagrams use Azure-themed colors:
 - CLI commands are examples and may require parameter adjustments for your subscription, region, or service SKU.
 - Replace placeholder names, subscription IDs, passwords, PSKs, and hostnames before use.
 - For production, prefer Infrastructure as Code, Azure Policy, and CI/CD validation over manual changes.
+- For a deep-dive runbook, see [Azure Load Balancing: Real-World Traffic Switching Scenarios](./load-balancer-real-world-scenarios.md).
 
 ---
 
