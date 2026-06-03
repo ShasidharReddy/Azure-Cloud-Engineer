@@ -11,6 +11,51 @@ Every required section includes:
 - Sample `az` CLI commands
 - Best practices
 
+<!-- workflow-diagram:start -->
+## Workflow Snapshot
+
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#0078D4','secondaryColor':'#50E6FF','tertiaryColor':'#E6F4FF'}}}%%
+flowchart LR
+  subgraph Edge[Ingress Edge]
+    A[Client Request] --> B[Azure Front Door / Public IP]
+    B --> C[WAF Policy]
+    C --> D[Azure Load Balancer / App Gateway]
+  end
+  subgraph Fabric[VNet Fabric]
+    D --> E[VNet]
+    E --> F[Subnet Selection]
+    F --> G[User Defined Route]
+  end
+  subgraph Security[Security Controls]
+    F --> H{NSG allows flow?}
+    H -- No --> I[Drop Packet & Log]
+    H -- Yes --> J[Private Endpoint / NIC]
+  end
+  subgraph Delivery[Backend Delivery]
+    G --> K[Application Subnet]
+    J --> K
+    K --> L{Backend healthy?}
+    L -- Yes --> M[Return Response]
+    L -- No --> N[Health Probe Fails Over]
+  end
+  M --> O[NSG Flow Logs / Monitor]
+  N --> D
+  I --> O
+  O --> P[Network Insights & Tuning]
+  classDef edge fill:#0078D4,stroke:#005A9E,color:#ffffff,stroke-width:2px;
+  classDef network fill:#50E6FF,stroke:#0078D4,color:#002050,stroke-width:2px;
+  classDef decision fill:#FFF4CE,stroke:#FFB900,color:#5C2D00,stroke-width:2px;
+  classDef ops fill:#107C10,stroke:#0B5A0B,color:#ffffff,stroke-width:2px;
+  class A,B,C,D edge;
+  class E,F,G,J,K network;
+  class H,L decision;
+  class I,M,N,O,P ops;
+```
+
+This packet-flow view connects Azure edge routing, VNet placement, NSG policy, backend health, and network observability.
+<!-- workflow-diagram:end -->
+
 ## Mermaid styling
 
 All diagrams use Azure-themed colors:
@@ -43,6 +88,7 @@ All diagrams use Azure-themed colors:
 - CLI commands are examples and may require parameter adjustments for your subscription, region, or service SKU.
 - Replace placeholder names, subscription IDs, passwords, PSKs, and hostnames before use.
 - For production, prefer Infrastructure as Code, Azure Policy, and CI/CD validation over manual changes.
+- For a deep-dive runbook, see [Azure Load Balancing: Real-World Traffic Switching Scenarios](./load-balancer-real-world-scenarios.md).
 
 ---
 
@@ -1713,13 +1759,11 @@ az network watcher test-connectivity -g $RG --source-resource vm-app-01 --dest-a
 - Validate next hop after every route or peering change.
 - Keep Watcher enabled by policy in active regions.
 
-
 ---
 
 ## Operational validation appendices
 
 These appendices provide additional topic-by-topic validation checklists to support design reviews, deployment reviews, and production readiness assessments.
-
 
 ### Virtual Network (VNet) validation checklist
 
@@ -1754,7 +1798,6 @@ These appendices provide additional topic-by-topic validation checklists to supp
 - [29] Confirm dependencies on certificates, secrets, or PSKs are operationally managed.
 - [30] Confirm the solution has been reviewed for cost implications under scale or failover.
 
-
 ### Network Security Groups (NSGs) validation checklist
 
 - [01] Confirm rule priorities follow a documented numbering scheme.
@@ -1787,7 +1830,6 @@ These appendices provide additional topic-by-topic validation checklists to supp
 - [28] Confirm documentation includes known caveats and platform restrictions.
 - [29] Confirm dependencies on certificates, secrets, or PSKs are operationally managed.
 - [30] Confirm the solution has been reviewed for cost implications under scale or failover.
-
 
 ### Azure Firewall validation checklist
 
@@ -1822,7 +1864,6 @@ These appendices provide additional topic-by-topic validation checklists to supp
 - [29] Confirm dependencies on certificates, secrets, or PSKs are operationally managed.
 - [30] Confirm the solution has been reviewed for cost implications under scale or failover.
 
-
 ### NAT Gateway validation checklist
 
 - [01] Confirm the subnet truly requires simple outbound internet access rather than inspection.
@@ -1855,7 +1896,6 @@ These appendices provide additional topic-by-topic validation checklists to supp
 - [28] Confirm documentation includes known caveats and platform restrictions.
 - [29] Confirm dependencies on certificates, secrets, or PSKs are operationally managed.
 - [30] Confirm the solution has been reviewed for cost implications under scale or failover.
-
 
 ### User Defined Routes (UDRs) validation checklist
 
@@ -1890,7 +1930,6 @@ These appendices provide additional topic-by-topic validation checklists to supp
 - [29] Confirm dependencies on certificates, secrets, or PSKs are operationally managed.
 - [30] Confirm the solution has been reviewed for cost implications under scale or failover.
 
-
 ### VNet Peering validation checklist
 
 - [01] Confirm all peered VNets have non-overlapping address spaces.
@@ -1923,7 +1962,6 @@ These appendices provide additional topic-by-topic validation checklists to supp
 - [28] Confirm documentation includes known caveats and platform restrictions.
 - [29] Confirm dependencies on certificates, secrets, or PSKs are operationally managed.
 - [30] Confirm the solution has been reviewed for cost implications under scale or failover.
-
 
 ### Azure Virtual WAN validation checklist
 
@@ -1958,7 +1996,6 @@ These appendices provide additional topic-by-topic validation checklists to supp
 - [29] Confirm dependencies on certificates, secrets, or PSKs are operationally managed.
 - [30] Confirm the solution has been reviewed for cost implications under scale or failover.
 
-
 ### ExpressRoute validation checklist
 
 - [01] Confirm circuit bandwidth matches expected throughput and growth.
@@ -1991,7 +2028,6 @@ These appendices provide additional topic-by-topic validation checklists to supp
 - [28] Confirm documentation includes known caveats and platform restrictions.
 - [29] Confirm dependencies on certificates, secrets, or PSKs are operationally managed.
 - [30] Confirm the solution has been reviewed for cost implications under scale or failover.
-
 
 ### Azure VPN Gateway validation checklist
 
@@ -2026,7 +2062,6 @@ These appendices provide additional topic-by-topic validation checklists to supp
 - [29] Confirm dependencies on certificates, secrets, or PSKs are operationally managed.
 - [30] Confirm the solution has been reviewed for cost implications under scale or failover.
 
-
 ### Azure Load Balancer validation checklist
 
 - [01] Confirm Standard SKU is used for new production workloads.
@@ -2059,7 +2094,6 @@ These appendices provide additional topic-by-topic validation checklists to supp
 - [28] Confirm documentation includes known caveats and platform restrictions.
 - [29] Confirm dependencies on certificates, secrets, or PSKs are operationally managed.
 - [30] Confirm the solution has been reviewed for cost implications under scale or failover.
-
 
 ### Application Gateway validation checklist
 
@@ -2094,7 +2128,6 @@ These appendices provide additional topic-by-topic validation checklists to supp
 - [29] Confirm dependencies on certificates, secrets, or PSKs are operationally managed.
 - [30] Confirm the solution has been reviewed for cost implications under scale or failover.
 
-
 ### Azure Front Door validation checklist
 
 - [01] Confirm Front Door is required for global edge entry rather than simple DNS steering.
@@ -2127,7 +2160,6 @@ These appendices provide additional topic-by-topic validation checklists to supp
 - [28] Confirm documentation includes known caveats and platform restrictions.
 - [29] Confirm dependencies on certificates, secrets, or PSKs are operationally managed.
 - [30] Confirm the solution has been reviewed for cost implications under scale or failover.
-
 
 ### Azure Traffic Manager validation checklist
 
@@ -2162,7 +2194,6 @@ These appendices provide additional topic-by-topic validation checklists to supp
 - [29] Confirm dependencies on certificates, secrets, or PSKs are operationally managed.
 - [30] Confirm the solution has been reviewed for cost implications under scale or failover.
 
-
 ### Azure DNS validation checklist
 
 - [01] Confirm public and private zones are intentionally designed together.
@@ -2195,7 +2226,6 @@ These appendices provide additional topic-by-topic validation checklists to supp
 - [28] Confirm documentation includes known caveats and platform restrictions.
 - [29] Confirm dependencies on certificates, secrets, or PSKs are operationally managed.
 - [30] Confirm the solution has been reviewed for cost implications under scale or failover.
-
 
 ### Azure Private Link / Private Endpoint validation checklist
 
@@ -2230,7 +2260,6 @@ These appendices provide additional topic-by-topic validation checklists to supp
 - [29] Confirm dependencies on certificates, secrets, or PSKs are operationally managed.
 - [30] Confirm the solution has been reviewed for cost implications under scale or failover.
 
-
 ### Azure DDoS Protection validation checklist
 
 - [01] Confirm all business-critical public entry points are associated with the right protection plan.
@@ -2263,7 +2292,6 @@ These appendices provide additional topic-by-topic validation checklists to supp
 - [28] Confirm documentation includes known caveats and platform restrictions.
 - [29] Confirm dependencies on certificates, secrets, or PSKs are operationally managed.
 - [30] Confirm the solution has been reviewed for cost implications under scale or failover.
-
 
 ### Network Watcher validation checklist
 

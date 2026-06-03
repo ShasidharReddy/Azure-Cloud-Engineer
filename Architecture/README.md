@@ -6,6 +6,50 @@ It consolidates global platform concepts, workload patterns, networking foundati
 Use it as the first stop for visual orientation, then jump to the linked deep-dive guide for implementation details.
 Each major section includes a Mermaid diagram, a short explanation, architecture cues, and a deeper reference link.
 
+<!-- workflow-diagram:start -->
+## Workflow Snapshot
+
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#0078D4','secondaryColor':'#50E6FF','tertiaryColor':'#E6F4FF'}}}%%
+flowchart LR
+  subgraph Intake[Architecture Intake]
+    A[Business Goal] --> B[Requirements & Constraints]
+    B --> C{Need global reach?}
+  end
+  subgraph Foundation[Platform Foundation]
+    D[Landing Zone] --> E[Identity & Governance]
+    E --> F[Network Topology]
+  end
+  subgraph Blueprint[Workload Blueprint]
+    G[Compute Pattern] --> H[Data Platform]
+    H --> I[Integration & Messaging]
+  end
+  subgraph Validate[Readiness Review]
+    L[Observability & Security Baseline] --> M{Resiliency target met?}
+    M -- Yes --> N[Deploy Reference Architecture]
+    M -- No --> O[Review WAF / DR / Scale Design]
+  end
+  C -- Yes --> J[Multi-region Pattern]
+  C -- No --> K[Single-region Pattern]
+  J --> D
+  K --> D
+  F --> G
+  I --> L
+  O --> G
+  N --> P[Operate & Optimize]
+  classDef core fill:#0078D4,stroke:#005A9E,color:#ffffff,stroke-width:2px;
+  classDef support fill:#50E6FF,stroke:#0078D4,color:#002050,stroke-width:2px;
+  classDef decision fill:#FFF4CE,stroke:#FFB900,color:#5C2D00,stroke-width:2px;
+  classDef ops fill:#107C10,stroke:#0B5A0B,color:#ffffff,stroke-width:2px;
+  class A,B,D,E,F,G,H,I,L,N core;
+  class J,K support;
+  class C,M decision;
+  class O,P ops;
+```
+
+This workflow shows how Azure architecture decisions move from intake through landing zone design, workload selection, and operational readiness.
+<!-- workflow-diagram:end -->
+
 ## Table of Contents
 
 - [How to Use This Guide](#how-to-use-this-guide)

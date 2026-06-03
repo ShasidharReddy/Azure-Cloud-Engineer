@@ -2,7 +2,54 @@
 
 > Comprehensive Azure IAM, identity, governance, and security reference with Mermaid diagrams, Azure CLI examples, and operational best practices.
 
+## Standalone Deep Dive
+
+- [Identity and Governance Deep Dive](./identity-and-governance.md) — dedicated guide for Entra ID, Conditional Access, PIM, management groups, Azure Policy, Blueprints, and Azure Lighthouse.
+
 All Mermaid diagrams in this guide use Azure-themed brand colors such as Azure blue `#0078D4`, light blue `#50E6FF`, purple `#5C2D91`, green `#107C10`, orange `#FF8C00`, red-orange `#D83B01`, and magenta `#B146C2`.
+
+<!-- workflow-diagram:start -->
+## Workflow Snapshot
+
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#0078D4','secondaryColor':'#50E6FF','tertiaryColor':'#E6F4FF'}}}%%
+flowchart LR
+  subgraph Identity[Identity Proof]
+    A[User / Workload] --> B[Microsoft Entra ID]
+    B --> C{Conditional Access passed?}
+    C -- No --> D[Block / Step-up MFA]
+  end
+  subgraph Authorization[Authorization]
+    C -- Yes --> E[Issue Token]
+    E --> F[Evaluate RBAC Scope]
+    F --> G{Privileged role required?}
+    G -- Yes --> H[PIM Activation]
+    G -- No --> I[Standard Assignment]
+  end
+  subgraph Protection[Resource Access]
+    H --> J[Access Azure Resource]
+    I --> J
+    J --> K[Managed Identity / Key Vault]
+    K --> L{Risk or policy violation?}
+    L -- Yes --> M[Defender / Sentinel Alert]
+    L -- No --> N[Approved Operation]
+  end
+  D --> O[Audit Log]
+  M --> O
+  N --> O
+  O --> P[Review, Govern, Improve]
+  classDef id fill:#0078D4,stroke:#005A9E,color:#ffffff,stroke-width:2px;
+  classDef secure fill:#50E6FF,stroke:#0078D4,color:#002050,stroke-width:2px;
+  classDef decision fill:#FFF4CE,stroke:#FFB900,color:#5C2D00,stroke-width:2px;
+  classDef ops fill:#B146C2,stroke:#7A2F87,color:#ffffff,stroke-width:2px;
+  class A,B,E,F,J,K id;
+  class H,I,N secure;
+  class C,G,L decision;
+  class D,M,O,P ops;
+```
+
+This identity workflow maps authentication, token issuance, RBAC evaluation, privileged access, and security monitoring across Azure environments.
+<!-- workflow-diagram:end -->
 
 ## Table of Contents
 

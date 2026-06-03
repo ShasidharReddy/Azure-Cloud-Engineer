@@ -4,6 +4,10 @@
 >
 > Scope: platform selection, AKS architecture, networking, security, storage, autoscaling, monitoring, Azure Container Apps, Azure Container Instances, Azure Container Registry, Azure Red Hat OpenShift, service mesh, and AKS best practices.
 
+## Standalone Deep Dive
+
+- [AKS Deep Dive](./aks-deep-dive.md) — dedicated guide for AKS provisioning, node pools, networking, ingress, ACR integration, GitOps, security, and troubleshooting.
+
 ---
 
 ## How to use this guide
@@ -14,6 +18,49 @@
 - Use the **Azure Container Instances** section for burst, batch, and single-container workloads.
 - Use the **ACR** section for image supply chain, registry, tasks, and replication.
 - Use the **Best Practices** section as a production readiness checklist.
+
+<!-- workflow-diagram:start -->
+## Workflow Snapshot
+
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#0078D4','secondaryColor':'#50E6FF','tertiaryColor':'#E6F4FF'}}}%%
+flowchart LR
+  subgraph Build[Build & Package]
+    A[Source Commit] --> B[CI Build]
+    B --> C[Security / IaC Scan]
+    C --> D[Container Image]
+    D --> E[Azure Container Registry]
+  end
+  subgraph Deploy[Runtime Choice]
+    E --> F{Long-running platform?}
+    F -- AKS --> G[AKS Cluster]
+    F -- ACI --> H[Azure Container Instances]
+    F -- Serverless --> I[Azure Container Apps]
+  end
+  subgraph Operate[Lifecycle]
+    G --> J[Ingress, Secrets, Policies]
+    H --> J
+    I --> J
+    J --> K{Healthy rollout?}
+    K -- Yes --> L[Autoscale with HPA / KEDA]
+    K -- No --> M[Rollback Revision]
+    L --> N[Monitor Logs & Metrics]
+    M --> N
+    N --> O[Patch Base Image & Rebuild]
+    O --> B
+  end
+  classDef container fill:#0078D4,stroke:#005A9E,color:#ffffff,stroke-width:2px;
+  classDef platform fill:#50E6FF,stroke:#0078D4,color:#002050,stroke-width:2px;
+  classDef decision fill:#FFF4CE,stroke:#FFB900,color:#5C2D00,stroke-width:2px;
+  classDef ops fill:#107C10,stroke:#0B5A0B,color:#ffffff,stroke-width:2px;
+  class A,B,C,D,E container;
+  class G,H,I,J,N platform;
+  class F,K decision;
+  class L,M,O ops;
+```
+
+This container lifecycle covers image creation, registry promotion, AKS or serverless runtime deployment, scaling, monitoring, and rollback.
+<!-- workflow-diagram:end -->
 
 ---
 
@@ -2350,7 +2397,6 @@ Use these only when you intentionally want to remove the demo resources created 
 ```bash
 az group delete --name $RG --yes --no-wait
 ```
-
 
 ---
 

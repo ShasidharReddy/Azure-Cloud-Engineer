@@ -6,6 +6,49 @@ Azure Monitoring & Observability is the combination of platform services, agents
 
 This guide covers the core monitoring services used in Azure environments, with diagrams, Azure CLI commands, Kusto Query Language (KQL) examples, and best practices for production-grade observability.
 
+<!-- workflow-diagram:start -->
+## Workflow Snapshot
+
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#0078D4','secondaryColor':'#50E6FF','tertiaryColor':'#E6F4FF'}}}%%
+flowchart LR
+  subgraph Collect[Telemetry Collection]
+    A[Apps / VMs / PaaS] --> B[Metrics]
+    A --> C[Logs]
+    A --> D[Traces]
+  end
+  subgraph Analyze[Central Analysis]
+    B --> E[Azure Monitor]
+    C --> F[Log Analytics]
+    D --> G[Application Insights]
+    E --> H[Workbooks / Dashboards]
+    F --> H
+    G --> H
+  end
+  subgraph Respond[Detection & Response]
+    H --> I{Threshold or anomaly?}
+    I -- Yes --> J[Alert Rule]
+    J --> K[Action Group]
+    K --> L[Ticket / Automation / Teams]
+    I -- No --> M[Trend Review]
+  end
+  L --> N[Remediation]
+  M --> O[Capacity Planning]
+  N --> P[Post-Incident Learning]
+  O --> P
+  classDef observe fill:#0078D4,stroke:#005A9E,color:#ffffff,stroke-width:2px;
+  classDef data fill:#50E6FF,stroke:#0078D4,color:#002050,stroke-width:2px;
+  classDef decision fill:#FFF4CE,stroke:#FFB900,color:#5C2D00,stroke-width:2px;
+  classDef ops fill:#107C10,stroke:#0B5A0B,color:#ffffff,stroke-width:2px;
+  class A,B,C,D,E,F,G observe;
+  class H,J,K data;
+  class I decision;
+  class L,M,N,O,P ops;
+```
+
+This observability workflow shows how Azure monitoring data is collected, analyzed, escalated, and fed back into reliability improvement.
+<!-- workflow-diagram:end -->
+
 ---
 
 ## Table of Contents

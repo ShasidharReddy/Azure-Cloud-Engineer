@@ -9,6 +9,48 @@
 - Some operations, such as Azure Files AD DS integration or Azure Backup protected item workflows, often need portal, PowerShell, or workload-specific steps in addition to CLI.
 - Mermaid diagrams use Azure-inspired brand colors centered on `#0078D4`.
 
+<!-- workflow-diagram:start -->
+## Workflow Snapshot
+
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#0078D4','secondaryColor':'#50E6FF','tertiaryColor':'#E6F4FF'}}}%%
+flowchart LR
+  subgraph Tiering[Storage Selection]
+    A[Data Arrival] --> B{Access pattern?}
+    B -- Hot --> C[Premium / Hot Tier]
+    B -- Warm --> D[Cool Tier]
+    B -- Cold --> E[Archive Tier]
+  end
+  subgraph Access[Access Path]
+    C --> F[Blob / Files / ADLS]
+    D --> F
+    E --> F
+    F --> G[Private Endpoint / SAS / RBAC]
+  end
+  subgraph Protection[Protection & Lifecycle]
+    G --> H[Lifecycle Management]
+    H --> I[Replication Choice]
+    I --> J{Compliance or DR need?}
+    J -- Yes --> K[Backup / Site Recovery / Immutability]
+    J -- No --> L[Standard Protection]
+  end
+  K --> M[Monitor Capacity & Cost]
+  L --> M
+  M --> N{Tier still optimal?}
+  N -- Yes --> O[Continue Serving Data]
+  N -- No --> B
+  classDef storage fill:#0078D4,stroke:#005A9E,color:#ffffff,stroke-width:2px;
+  classDef access fill:#50E6FF,stroke:#0078D4,color:#002050,stroke-width:2px;
+  classDef decision fill:#FFF4CE,stroke:#FFB900,color:#5C2D00,stroke-width:2px;
+  classDef ops fill:#107C10,stroke:#0B5A0B,color:#ffffff,stroke-width:2px;
+  class A,C,D,E,F,H,I storage;
+  class G,K,L,M,O access;
+  class B,J,N decision;
+```
+
+This workflow connects Azure storage tiering, access design, lifecycle policy, resilience choices, and ongoing cost review.
+<!-- workflow-diagram:end -->
+
 ## Global variables used in examples
 
 ```bash
@@ -191,7 +233,6 @@ az storage account create \
 
 - Plan for service limits such as account throughput, object scale, and per-account networking rules before consolidating many workloads into one account.
 
-
 ---
 
 ## 2. Blob Storage
@@ -340,7 +381,6 @@ az storage account management-policy show \
 
 - Avoid storing millions of unrelated workloads in a single flat container without naming conventions or policy boundaries.
 
-
 ---
 
 ## 3. Azure Data Lake Storage Gen2
@@ -480,7 +520,6 @@ az storage fs access show \
 - Standardize landing, raw, curated, and serving zones with documented ownership and retention.
 
 - Validate ABFS configuration, identity passthrough, and metastore integration early in Synapse or Databricks projects.
-
 
 ---
 
@@ -629,7 +668,6 @@ az storage file download \
 
 - Review firewall rules, private endpoints, and DNS resolution before rolling out hybrid mounts at scale.
 
-
 ---
 
 ## 5. Azure Queue Storage
@@ -753,7 +791,6 @@ az storage queue list \
 
 - Design consumers to be idempotent because messages can be delivered more than once.
 
-
 ---
 
 ## 6. Azure Table Storage
@@ -864,7 +901,6 @@ az storage account show \
 - Avoid unbounded growth in a single hot partition such as `PartitionKey='all'`.
 
 - Pair Table Storage with monitoring to detect skewed partitions and rising latency.
-
 
 ---
 
@@ -1003,7 +1039,6 @@ az disk show \
 - Use incremental snapshots for frequent protection points to reduce storage consumption.
 
 - Encrypt disks with customer-managed keys when compliance requires key ownership separation.
-
 
 ---
 
@@ -1159,7 +1194,6 @@ az storage container-rm create \
 
 - Grant least privilege RBAC roles at the smallest practical scope.
 
-
 ---
 
 ## 9. Storage Replication & Redundancy
@@ -1292,7 +1326,6 @@ az storage account show \
 
 - Choose the simplest redundancy tier that satisfies business continuity needs and budget.
 
-
 ---
 
 ## 10. Azure Backup
@@ -1423,7 +1456,6 @@ az backup recoverypoint list \
 - Secure backup administration with RBAC, soft delete, and approval-based controls where available.
 
 - Monitor failed jobs, aging recovery points, and vault redundancy settings in Backup Center.
-
 
 ---
 
@@ -1558,7 +1590,6 @@ az site-recovery recovery-plan planned-failover \
 
 - Review region quotas and supported VM/disk combinations to avoid failover surprises.
 
-
 ---
 
 ## 12. Azure Data Box
@@ -1670,7 +1701,6 @@ az databox catalog sku list \
 - Track chain of custody and use the platform-provided encryption and tamper handling processes.
 
 - After ingestion, switch to online methods such as AzCopy or Data Factory for ongoing incremental movement.
-
 
 ---
 
@@ -1786,7 +1816,6 @@ open -a "Storage Explorer"
 
 - For huge datasets, benchmark a pilot transfer before committing migration timelines.
 
-
 ---
 
 ## 14. Storage Decision Guide
@@ -1898,7 +1927,6 @@ az storage account create \
 - Select the simplest service that meets requirements, then add premium tiers or advanced controls only where justified.
 
 - Revisit storage decisions as workloads evolve; analytics, compliance, and scale often change the best fit over time.
-
 
 ---
 

@@ -4,6 +4,49 @@
 
 This guide is designed for cloud engineers, solution architects, platform teams, and operations teams working in Azure environments. It focuses on real service-selection tradeoffs, deployment patterns, CLI-driven operations, and best practices you can apply immediately.
 
+<!-- workflow-diagram:start -->
+## Workflow Snapshot
+
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#0078D4','secondaryColor':'#50E6FF','tertiaryColor':'#E6F4FF'}}}%%
+flowchart LR
+  subgraph Select[Service Selection]
+    A[Application Need] --> B{Relational workload?}
+    B -- Yes --> C[Azure SQL / PostgreSQL / MySQL]
+    B -- No --> D[Cosmos DB / Redis / Synapse]
+  end
+  subgraph Connect[Connectivity]
+    C --> E[Private Endpoint / Firewall Rules]
+    D --> E
+    E --> F[Managed Identity / Secrets]
+    F --> G[Connection Policy]
+  end
+  subgraph Operate[Operations]
+    G --> H{Performance target met?}
+    H -- Yes --> I[Serve Reads / Writes]
+    H -- No --> J[Scale SKU / Tune Queries]
+    J --> G
+  end
+  subgraph Protect[Data Protection]
+    I --> K[Backups / Geo-Replication]
+    K --> L{Recovery posture verified?}
+    L -- Yes --> M[Monitor & Capacity Plan]
+    L -- No --> N[Run DR Test / Adjust RPO-RTO]
+    N --> K
+  end
+  classDef data fill:#0078D4,stroke:#005A9E,color:#ffffff,stroke-width:2px;
+  classDef access fill:#50E6FF,stroke:#0078D4,color:#002050,stroke-width:2px;
+  classDef decision fill:#FFF4CE,stroke:#FFB900,color:#5C2D00,stroke-width:2px;
+  classDef ops fill:#107C10,stroke:#0B5A0B,color:#ffffff,stroke-width:2px;
+  class A,C,D,E,F,G,K data;
+  class I,M access;
+  class B,H,L decision;
+  class J,N ops;
+```
+
+This workflow highlights Azure database selection, secure connectivity, performance tuning, backup strategy, and resilience validation.
+<!-- workflow-diagram:end -->
+
 ## How to use this guide
 
 - Start with the **Database Decision Guide** when choosing a platform.
@@ -33,6 +76,11 @@ export REDIS_NAME=redis-prod-01
 export SYNAPSE_WS=synw-prod-01
 export DMS_NAME=dms-prod-01
 ```
+
+## Companion deep-dive guides
+
+- [`database-migration-scenarios.md`](./database-migration-scenarios.md) — comprehensive real-world Azure database migration scenarios covering SQL Server, MySQL, PostgreSQL, Managed Instance, cross-cloud migrations, validation, rollback, and production cutover patterns.
+- [`private-database-access.md`](./private-database-access.md) — private endpoint, DNS, and secure connectivity patterns for Azure database services.
 
 ## Azure database landscape at a glance
 
@@ -149,7 +197,6 @@ az group create --name $RG --location $LOCATION
 - Prefer managed services unless a hard compatibility or control requirement justifies IaaS.
 - Plan observability from day one: metrics, logs, query performance data, and audit trails.
 
-
 ## 2. Azure SQL Database
 
 Azure SQL Database is a fully managed relational database service built on the SQL Server engine. It is optimized for modern cloud applications and provides high availability, automated backups, patching, intelligence features, and multiple purchasing models.
@@ -227,7 +274,6 @@ az sql failover-group create --name fog-app-prod --resource-group $RG --server $
 az sql db show --resource-group $RG --server $SQL_SERVER --name $SQL_DB
 ```
 
-
 ### Best practices
 
 - Default to the vCore model for new designs unless a DTU-specific reason exists.
@@ -301,7 +347,6 @@ az sql instance-pool create --name mipool-prod --resource-group $RG --location $
 az sql instance-pool show --name mipool-prod --resource-group $RG
 ```
 
-
 ### Best practices
 
 - Validate feature compatibility, but still test edge cases such as SQL Agent behavior, linked dependencies, and collation-sensitive workloads.
@@ -372,7 +417,6 @@ az sql vm show --resource-group $RG --name $VM_NAME
 
 az vm disk attach --resource-group $RG --vm-name $VM_NAME --name datadisk01 --new --size-gb 512 --sku Premium_LRS
 ```
-
 
 ### Best practices
 
@@ -465,7 +509,6 @@ az cosmosdb failover-priority-change --name $COSMOS_ACCOUNT --resource-group $RG
 az cosmosdb keys list --name $COSMOS_ACCOUNT --resource-group $RG
 ```
 
-
 ### Best practices
 
 - Model containers and partition keys around query paths, tenant distribution, and write intensity.
@@ -534,7 +577,6 @@ az postgres flexible-server show --resource-group $RG --name $PG_SERVER
 az postgres flexible-server firewall-rule create --resource-group $RG --name $PG_SERVER --rule-name officeip --start-ip-address 203.0.113.10 --end-ip-address 203.0.113.10
 ```
 
-
 ### Best practices
 
 - Prefer Flexible Server for new deployments unless a legacy constraint requires otherwise.
@@ -598,7 +640,6 @@ az mysql flexible-server firewall-rule create --resource-group $RG --name $MYSQL
 
 az mysql flexible-server parameter set --resource-group $RG --server-name $MYSQL_SERVER --name slow_query_log --value ON
 ```
-
 
 ### Best practices
 
@@ -680,7 +721,6 @@ az redisenterprise create --name ${REDIS_NAME}-ent --resource-group $RG --locati
 az redisenterprise database create --cluster-name ${REDIS_NAME}-ent --resource-group $RG --name default --client-protocol Encrypted --clustering-policy OSSCluster
 ```
 
-
 ### Best practices
 
 - Never treat Redis as the only durable copy of critical data.
@@ -756,7 +796,6 @@ az synapse sql pool show --name sqlpooldw01 --resource-group $RG --workspace-nam
 az synapse spark pool show --name sparkpool01 --resource-group $RG --workspace-name $SYNAPSE_WS
 ```
 
-
 ### Best practices
 
 - Separate exploratory serverless querying from production-grade dedicated warehouse workloads.
@@ -827,7 +866,6 @@ az dms project show --resource-group $RG --service-name $DMS_NAME --name sql-to-
 az dms show --resource-group $RG --name $DMS_NAME
 ```
 
-
 ### Best practices
 
 - Perform assessment early and fix blockers before the cutover window is scheduled.
@@ -896,7 +934,6 @@ az postgres flexible-server list --resource-group $RG --output table
 
 az mysql flexible-server list --resource-group $RG --output table
 ```
-
 
 ### Best practices
 

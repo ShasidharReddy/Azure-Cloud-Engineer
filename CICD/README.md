@@ -2,6 +2,47 @@
 
 This README is a comprehensive Azure CI/CD and DevOps guide covering Azure DevOps, Azure-native CI/CD, GitHub Actions for Azure, ARM, Bicep, Terraform, deployment strategies, GitOps, and Azure Container Registry Tasks.
 
+<!-- workflow-diagram:start -->
+## Workflow Snapshot
+
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#0078D4','secondaryColor':'#50E6FF','tertiaryColor':'#E6F4FF'}}}%%
+flowchart LR
+  subgraph CI[Continuous Integration]
+    A[Code Commit] --> B[PR Validation]
+    B --> C[Build & Unit Test]
+    C --> D[Security / IaC Scan]
+    D --> E[Publish Artifact]
+  end
+  subgraph CD[Continuous Delivery]
+    E --> F[Deploy Dev]
+    F --> G{Checks passed?}
+    G -- Yes --> H[Promote to Test / Stage]
+    G -- No --> I[Fail Fast & Notify]
+  end
+  subgraph Release[Controlled Release]
+    H --> J[Approval Gate]
+    J --> K[Deploy Prod]
+    K --> L{Blue-Green / Canary healthy?}
+    L -- Yes --> M[Cut Traffic Over]
+    L -- No --> N[Rollback Artifact]
+  end
+  M --> O[Post-Deploy Smoke Test]
+  N --> O
+  O --> P[Observe, Audit, Improve]
+  classDef devops fill:#0078D4,stroke:#005A9E,color:#ffffff,stroke-width:2px;
+  classDef delivery fill:#50E6FF,stroke:#0078D4,color:#002050,stroke-width:2px;
+  classDef decision fill:#FFF4CE,stroke:#FFB900,color:#5C2D00,stroke-width:2px;
+  classDef ops fill:#107C10,stroke:#0B5A0B,color:#ffffff,stroke-width:2px;
+  class A,B,C,D,E devops;
+  class F,H,J,K,O delivery;
+  class G,L decision;
+  class I,M,N,P ops;
+```
+
+This pipeline workflow links code changes to validation, artifact promotion, gated releases, rollout safety checks, and continuous improvement.
+<!-- workflow-diagram:end -->
+
 ## Table of contents
 
 - [1. Azure DevOps Overview](#1-azure-devops-overview)

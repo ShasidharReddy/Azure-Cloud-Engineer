@@ -4,6 +4,48 @@ A comprehensive Azure-focused guide covering ingestion, orchestration, streaming
 
 > This document intentionally combines architecture patterns, Azure CLI examples, and operational guidance. Azure CLI command coverage varies by service and extension version, so validate commands in your tenant and pin versions in automation.
 
+<!-- workflow-diagram:start -->
+## Workflow Snapshot
+
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#0078D4','secondaryColor':'#50E6FF','tertiaryColor':'#E6F4FF'}}}%%
+flowchart LR
+  subgraph Ingest[Ingestion Layer]
+    A[SaaS / DB / Files / IoT] --> B{Batch or streaming?}
+    B -- Batch --> C[Azure Data Factory]
+    B -- Streaming --> D[Event Hubs / Service Bus]
+  end
+  subgraph Process[Processing Layer]
+    C --> E[ADLS Bronze]
+    D --> E
+    E --> F[Databricks / Synapse Transform]
+    F --> G{Quality checks passed?}
+  end
+  subgraph Serve[Serving Layer]
+    G -- Yes --> H[Silver / Gold Data Products]
+    G -- No --> I[Quarantine / Replay]
+    H --> J[Power BI / APIs / ML]
+  end
+  subgraph Govern[Governance & Ops]
+    J --> K[Purview Lineage]
+    K --> L[Monitoring & Cost Controls]
+    I --> L
+    L --> M[Iterate Pipelines]
+  end
+  M --> B
+  classDef data fill:#0078D4,stroke:#005A9E,color:#ffffff,stroke-width:2px;
+  classDef analytics fill:#50E6FF,stroke:#0078D4,color:#002050,stroke-width:2px;
+  classDef decision fill:#FFF4CE,stroke:#FFB900,color:#5C2D00,stroke-width:2px;
+  classDef ops fill:#107C10,stroke:#0B5A0B,color:#ffffff,stroke-width:2px;
+  class A,C,D,E data;
+  class F,H,J,K analytics;
+  class B,G decision;
+  class I,L,M ops;
+```
+
+This data pipeline flow shows how Azure ingestion, transformation, serving, and governance layers work together in a modern analytics platform.
+<!-- workflow-diagram:end -->
+
 ## Table of Contents
 - [Azure Data Factory](#azure-data-factory)
 - [Azure Synapse Analytics](#azure-synapse-analytics)

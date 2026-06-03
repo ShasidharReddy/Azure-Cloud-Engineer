@@ -18,6 +18,46 @@
 4. Use **Cost Management + Billing**, **Tagging**, and **FinOps** sections to operationalize governance and accountability.
 5. Revisit the **Monthly Azure Cost Review Checklist** every billing cycle.
 
+<!-- workflow-diagram:start -->
+## Workflow Snapshot
+
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#0078D4','secondaryColor':'#50E6FF','tertiaryColor':'#E6F4FF'}}}%%
+flowchart LR
+  subgraph Visibility[Cost Visibility]
+    A[Usage & Billing Export] --> B[Tag / Scope Allocation]
+    B --> C[Identify Idle or Oversized Resources]
+  end
+  subgraph Optimize[Optimization Actions]
+    C --> D{Steady workload?}
+    D -- Yes --> E[Reservations / Savings Plan]
+    D -- No --> F[Autoscale / Spot / Schedules]
+    E --> G[Storage Tiering / DB Tuning]
+    F --> G
+  end
+  subgraph Govern[Governance Loop]
+    G --> H[Policy, Budgets, Advisor]
+    H --> I{Savings validated?}
+    I -- Yes --> J[Publish FinOps KPI]
+    I -- No --> K[Refine Rightsizing Model]
+  end
+  J --> L[Monthly Cost Review]
+  K --> C
+  L --> M[Forecast Next Cycle]
+  M --> N[Continuous Optimization]
+  classDef finance fill:#0078D4,stroke:#005A9E,color:#ffffff,stroke-width:2px;
+  classDef optimize fill:#50E6FF,stroke:#0078D4,color:#002050,stroke-width:2px;
+  classDef decision fill:#FFF4CE,stroke:#FFB900,color:#5C2D00,stroke-width:2px;
+  classDef ops fill:#107C10,stroke:#0B5A0B,color:#ffffff,stroke-width:2px;
+  class A,B,C finance;
+  class E,F,G,H optimize;
+  class D,I decision;
+  class J,K,L,M,N ops;
+```
+
+This workflow shows how Azure cost optimization moves from visibility and prioritization into savings actions, governance, and monthly FinOps feedback loops.
+<!-- workflow-diagram:end -->
+
 ## Quick Savings Summary
 
 | Optimization lever | Typical savings | Best use case | Primary caution |
