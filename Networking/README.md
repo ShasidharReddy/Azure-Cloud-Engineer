@@ -2325,3 +2325,12 @@ These appendices provide additional topic-by-topic validation checklists to supp
 - [28] Confirm documentation includes known caveats and platform restrictions.
 - [29] Confirm dependencies on certificates, secrets, or PSKs are operationally managed.
 - [30] Confirm the solution has been reviewed for cost implications under scale or failover.
+
+---
+
+## 📚 Official Documentation
+- [Azure Virtual Network](https://learn.microsoft.com/en-us/azure/virtual-network/)
+- [Azure Load Balancer](https://learn.microsoft.com/en-us/azure/load-balancer/)
+- [Azure Application Gateway](https://learn.microsoft.com/en-us/azure/application-gateway/)
+- [Azure Front Door](https://learn.microsoft.com/en-us/azure/frontdoor/)
+- [Azure Private Link](https://learn.microsoft.com/en-us/azure/private-link/)

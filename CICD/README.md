@@ -1771,3 +1771,11 @@ steps:
 4. Capture logs and outputs.
 5. Record the artifact, environment, and operator context.
 
+---
+
+## 📚 Official Documentation
+- [Azure DevOps documentation](https://learn.microsoft.com/en-us/azure/devops/?view=azure-devops)
+- [Deploy to Azure with GitHub Actions](https://learn.microsoft.com/en-us/azure/developer/github/github-actions)
+- [Bicep documentation](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/)
+- [ARM templates documentation](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/)
+- [Terraform on Azure](https://learn.microsoft.com/en-us/azure/terraform/)

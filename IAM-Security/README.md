@@ -1495,3 +1495,11 @@ flowchart TD
 
 This handbook is intentionally comprehensive. Adapt the examples, scopes, and policy targets to your tenant architecture, regulatory requirements, and landing zone standards.
 
+---
+
+## 📚 Official Documentation
+- [Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/fundamentals/whatis)
+- [Azure RBAC](https://learn.microsoft.com/en-us/azure/role-based-access-control/)
+- [Azure Key Vault](https://learn.microsoft.com/en-us/azure/key-vault/)
+- [Microsoft Defender for Cloud](https://learn.microsoft.com/en-us/azure/defender-for-cloud/)
+- [Azure Policy](https://learn.microsoft.com/en-us/azure/governance/policy/)

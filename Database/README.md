@@ -1333,3 +1333,12 @@ At major growth points, cost changes, architecture shifts, and platform refresh 
 8. Schema freezes reduce surprises.
 9. Hypercare monitoring should be planned.
 10. Migration is an operational program, not only a technical copy.
+
+---
+
+## 📚 Official Documentation
+- [Azure SQL documentation](https://learn.microsoft.com/en-us/azure/azure-sql/)
+- [Azure Cosmos DB documentation](https://learn.microsoft.com/en-us/azure/cosmos-db/)
+- [Azure Database for PostgreSQL](https://learn.microsoft.com/en-us/azure/postgresql/)
+- [Azure Cache for Redis](https://learn.microsoft.com/en-us/azure/azure-cache-for-redis/)
+- [Azure Database Migration Service](https://learn.microsoft.com/en-us/azure/dms/)

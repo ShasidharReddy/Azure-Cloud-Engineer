@@ -1396,3 +1396,12 @@ Regularly decommission obsolete datasets, jobs, and test clusters.
 - Build reference implementations for one real-time and one batch domain using the patterns in this guide.
 - Create operational dashboards that track pipeline freshness, latency, failures, and cost together.
 - Align Purview, Power BI certification, and gold data products into one governed data marketplace approach.
+
+---
+
+## 📚 Official Documentation
+- [Azure Data Factory](https://learn.microsoft.com/en-us/azure/data-factory/)
+- [Azure Synapse Analytics](https://learn.microsoft.com/en-us/azure/synapse-analytics/)
+- [Azure Event Hubs](https://learn.microsoft.com/en-us/azure/event-hubs/)
+- [Azure Databricks](https://learn.microsoft.com/en-us/azure/databricks/)
+- [Microsoft Purview](https://learn.microsoft.com/en-us/purview/)

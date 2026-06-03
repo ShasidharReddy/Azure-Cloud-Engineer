@@ -1779,3 +1779,11 @@ Use these prompts during design reviews, platform standardization sessions, inci
 - Keep diagrams aligned with actual landing zone standards instead of historical one-off experiments.
 - Treat this file as living architecture documentation, not a static one-time deliverable.
 
+---
+
+## 📚 Official Documentation
+- [Azure Architecture Center](https://learn.microsoft.com/en-us/azure/architecture/)
+- [Azure Well-Architected Framework](https://learn.microsoft.com/en-us/azure/well-architected/)
+- [Azure Landing Zones](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/)
+- [Cloud Adoption Framework](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/)
+- [Azure Reference Architectures](https://learn.microsoft.com/en-us/azure/architecture/browse/)

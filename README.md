@@ -232,3 +232,21 @@ This repo includes **Mermaid flow diagrams** that render directly on GitHub — 
 - All guides include practical `az` CLI commands — replace placeholder values before running.
 - Each guide includes Mermaid diagrams, best practices, and comparison tables.
 - Guides are for **learning and reference** purposes — review before running in production.
+
+---
+
+## 📚 Official Documentation
+- [Azure Virtual Machines (Compute)](https://learn.microsoft.com/en-us/azure/virtual-machines/)
+- [Azure Virtual Network (Networking)](https://learn.microsoft.com/en-us/azure/virtual-network/)
+- [Azure Storage](https://learn.microsoft.com/en-us/azure/storage/)
+- [Azure Functions (Serverless)](https://learn.microsoft.com/en-us/azure/azure-functions/)
+- [Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/)
+- [Azure Load Balancer](https://learn.microsoft.com/en-us/azure/load-balancer/)
+- [Azure App Service](https://learn.microsoft.com/en-us/azure/app-service/)
+- [Azure Data Factory](https://learn.microsoft.com/en-us/azure/data-factory/)
+- [Azure Monitor](https://learn.microsoft.com/en-us/azure/azure-monitor/)
+- [Terraform on Azure](https://learn.microsoft.com/en-us/azure/terraform/)
+- [Azure Architecture Center](https://learn.microsoft.com/en-us/azure/architecture/)
+- [Azure RBAC (IAM/Security)](https://learn.microsoft.com/en-us/azure/role-based-access-control/)
+- [Azure Site Recovery (Disaster Recovery)](https://learn.microsoft.com/en-us/azure/site-recovery/)
+- [Azure Database Migration Service](https://learn.microsoft.com/en-us/azure/dms/)
