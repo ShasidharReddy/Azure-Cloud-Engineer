@@ -1645,3 +1645,11 @@ az graph query -q "Resources | project name, type, tags | where isempty(tags.Cos
 - Keep cost review tightly coupled with architecture review, SRE review, and product roadmap decisions.
 - Measure realized savings every month and continuously improve the optimization backlog.
 
+---
+
+## 📚 Official Documentation
+- [Azure Cost Management and Billing](https://learn.microsoft.com/en-us/azure/cost-management-billing/)
+- [Azure Advisor](https://learn.microsoft.com/en-us/azure/advisor/)
+- [Azure Reservations](https://learn.microsoft.com/en-us/azure/cost-management-billing/reservations/)
+- [Azure savings plan for compute](https://learn.microsoft.com/en-us/azure/cost-management-billing/savings-plan/)
+- [FinOps on Azure](https://learn.microsoft.com/en-us/azure/finops/)

@@ -91,7 +91,7 @@ DISK=<disk-name>
 ### Diagram
 
 ```mermaid
-%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%%
 flowchart TD
     A[Storage Account] --> B[Account Types]
     A --> C[Performance Tiers]
@@ -240,7 +240,7 @@ az storage account create \
 ### Diagram
 
 ```mermaid
-%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%%
 flowchart LR
     A[Blob Storage] --> B[Blob Types]
     A --> C[Access Tiers]
@@ -388,7 +388,7 @@ az storage account management-policy show \
 ### Diagram
 
 ```mermaid
-%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%%
 flowchart TD
     A[StorageV2 + HNS] --> B[Hierarchical Namespace]
     B --> C[Directories and atomic rename]
@@ -528,7 +528,7 @@ az storage fs access show \
 ### Diagram
 
 ```mermaid
-%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%%
 flowchart LR
     A[Azure Files] --> B[Protocols]
     A --> C[Protection]
@@ -675,7 +675,7 @@ az storage file download \
 ### Diagram
 
 ```mermaid
-%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%%
 flowchart TD
     A[Producer] --> B[Azure Queue Storage]
     B --> C[Consumer]
@@ -798,7 +798,7 @@ az storage queue list \
 ### Diagram
 
 ```mermaid
-%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%%
 flowchart LR
     A[Client] --> B[Table Storage]
     B --> C[PartitionKey]
@@ -909,7 +909,7 @@ az storage account show \
 ### Diagram
 
 ```mermaid
-%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%%
 flowchart TD
     A[Azure Managed Disks] --> B[Ultra Disk]
     A --> C[Premium SSD v2]
@@ -1047,7 +1047,7 @@ az disk show \
 ### Diagram
 
 ```mermaid
-%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%%
 flowchart TD
     A[Storage Security] --> B[AuthN/AuthZ]
     A --> C[Encryption]
@@ -1201,7 +1201,7 @@ az storage container-rm create \
 ### Diagram
 
 ```mermaid
-%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%%
 flowchart TD
     A[Need storage resilience] --> B{Zone failure protection needed?}
     B -- No --> C{Regional disaster recovery needed?}
@@ -1333,7 +1333,7 @@ az storage account show \
 ### Diagram
 
 ```mermaid
-%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%%
 flowchart TD
     A[Azure Backup] --> B[Recovery Services Vault]
     B --> C[Backup Policies]
@@ -1464,7 +1464,7 @@ az backup recoverypoint list \
 ### Diagram
 
 ```mermaid
-%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%%
 flowchart LR
     A[Source Site / Azure Region] --> B[Replication Policy]
     B --> C[Recovery Services Vault]
@@ -1597,7 +1597,7 @@ az site-recovery recovery-plan planned-failover \
 ### Diagram
 
 ```mermaid
-%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%%
 flowchart TD
     A[Need offline data transfer] --> B{How much data?}
     B -- Up to 8 TB --> C[Data Box Disk]
@@ -1709,7 +1709,7 @@ az databox catalog sku list \
 ### Diagram
 
 ```mermaid
-%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%%
 flowchart LR
     A[Source] --> B[AzCopy]
     A --> C[Storage Explorer]
@@ -1823,7 +1823,7 @@ open -a "Storage Explorer"
 ### Diagram
 
 ```mermaid
-%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#005A9E','secondaryColor':'#50E6FF','tertiaryColor':'#F5FBFF','background':'#ffffff','fontFamily':'Segoe UI'}, 'flowchart': {'curve':'basis'}}}%%
 flowchart TD
     A[Need Azure storage] --> B{Need block device for a VM?}
     B -- Yes --> C[Managed Disks]
@@ -2052,3 +2052,12 @@ az lock create \
 ## Closing notes
 
 Azure Storage is not one service but a portfolio of storage abstractions. The best design comes from matching the access model, durability target, security posture, and operational workflow to the right service: blobs for objects, files for shared mounts, disks for VM-attached block storage, queues for decoupled work, tables for simple key-value data, and backup/ASR for protection and recovery.
+
+---
+
+## 📚 Official Documentation
+- [Azure Storage](https://learn.microsoft.com/en-us/azure/storage/)
+- [Azure Blob Storage](https://learn.microsoft.com/en-us/azure/storage/blobs/)
+- [Azure Files](https://learn.microsoft.com/en-us/azure/storage/files/)
+- [Azure Backup](https://learn.microsoft.com/en-us/azure/backup/)
+- [Azure Site Recovery](https://learn.microsoft.com/en-us/azure/site-recovery/)

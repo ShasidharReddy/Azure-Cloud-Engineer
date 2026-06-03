@@ -2906,3 +2906,12 @@ kubectl get hpa -A
 kubectl get pods -A | head
 az aks show -g $RG -n $AKS --query '{version:kubernetesVersion,identity:identity.type,network:networkProfile.networkPlugin,upgrade:autoUpgradeProfile.upgradeChannel}'
 ```
+
+---
+
+## 📚 Official Documentation
+- [Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/)
+- [Azure Container Apps](https://learn.microsoft.com/en-us/azure/container-apps/)
+- [Azure Container Instances](https://learn.microsoft.com/en-us/azure/container-instances/)
+- [Azure Container Registry](https://learn.microsoft.com/en-us/azure/container-registry/)
+- [Azure Red Hat OpenShift](https://learn.microsoft.com/en-us/azure/openshift/)

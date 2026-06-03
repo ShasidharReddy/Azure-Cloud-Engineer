@@ -2173,3 +2173,12 @@ This guide covered:
 - Proximity Placement Groups.
 
 Use it as a deployment reference, a migration primer, and a review checklist.
+
+---
+
+## 📚 Official Documentation
+- [Azure Virtual Machines](https://learn.microsoft.com/en-us/azure/virtual-machines/)
+- [Azure Virtual Machine Scale Sets](https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/)
+- [Azure App Service](https://learn.microsoft.com/en-us/azure/app-service/)
+- [Azure Managed Disks](https://learn.microsoft.com/en-us/azure/virtual-machines/managed-disks-overview)
+- [Azure Batch](https://learn.microsoft.com/en-us/azure/batch/)

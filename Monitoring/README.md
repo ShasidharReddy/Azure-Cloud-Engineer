@@ -2522,3 +2522,11 @@ sum(increase(kube_pod_container_status_restarts_total[6h])) by (namespace, pod)
 - Use Azure-native tools together rather than in isolation.
 - Continuously review cost, retention, routing, and responder effectiveness.
 
+---
+
+## 📚 Official Documentation
+- [Azure Monitor](https://learn.microsoft.com/en-us/azure/azure-monitor/)
+- [Log Analytics](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-overview)
+- [Application Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview)
+- [Azure Managed Grafana](https://learn.microsoft.com/en-us/azure/managed-grafana/)
+- [Azure Managed Prometheus](https://learn.microsoft.com/en-us/azure/azure-monitor/metrics/prometheus-metrics-overview)

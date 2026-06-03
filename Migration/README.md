@@ -1399,3 +1399,12 @@ az provider register --namespace Microsoft.Migrate
 - Prefer managed Azure services when they reduce operational toil without violating requirements.
 - Treat cutover, rollback, security, and post-migration optimization as one continuous program.
 - Revisit business-case assumptions after each wave and use telemetry to improve the next one.
+
+---
+
+## 📚 Official Documentation
+- [Cloud Adoption Framework](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/)
+- [Azure Migrate](https://learn.microsoft.com/en-us/azure/migrate/)
+- [Azure Database Migration Service](https://learn.microsoft.com/en-us/azure/dms/)
+- [Azure Site Recovery](https://learn.microsoft.com/en-us/azure/site-recovery/)
+- [Azure Data Box](https://learn.microsoft.com/en-us/azure/databox/)

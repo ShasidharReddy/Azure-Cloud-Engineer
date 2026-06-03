@@ -2256,3 +2256,12 @@ az staticwebapp environment list --name swa-serverless-demo --resource-group $RG
 - Operational note 318: Validate region support, quotas, networking prerequisites, retry settings, event schema versioning, identity design, telemetry wiring, deployment rollback, cost monitoring, and service limits before promoting Azure serverless workloads to production.
 - Operational note 319: Validate region support, quotas, networking prerequisites, retry settings, event schema versioning, identity design, telemetry wiring, deployment rollback, cost monitoring, and service limits before promoting Azure serverless workloads to production.
 - Operational note 320: Validate region support, quotas, networking prerequisites, retry settings, event schema versioning, identity design, telemetry wiring, deployment rollback, cost monitoring, and service limits before promoting Azure serverless workloads to production.
+
+---
+
+## 📚 Official Documentation
+- [Azure Functions](https://learn.microsoft.com/en-us/azure/azure-functions/)
+- [Azure Logic Apps](https://learn.microsoft.com/en-us/azure/logic-apps/)
+- [Azure Event Grid](https://learn.microsoft.com/en-us/azure/event-grid/)
+- [Azure API Management](https://learn.microsoft.com/en-us/azure/api-management/)
+- [Azure Container Apps](https://learn.microsoft.com/en-us/azure/container-apps/)
