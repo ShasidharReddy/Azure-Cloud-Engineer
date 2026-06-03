@@ -77,6 +77,11 @@ export SYNAPSE_WS=synw-prod-01
 export DMS_NAME=dms-prod-01
 ```
 
+## Companion deep-dive guides
+
+- [`database-migration-scenarios.md`](./database-migration-scenarios.md) — comprehensive real-world Azure database migration scenarios covering SQL Server, MySQL, PostgreSQL, Managed Instance, cross-cloud migrations, validation, rollback, and production cutover patterns.
+- [`private-database-access.md`](./private-database-access.md) — private endpoint, DNS, and secure connectivity patterns for Azure database services.
+
 ## Azure database landscape at a glance
 
 ```mermaid

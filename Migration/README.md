@@ -75,6 +75,10 @@ This migration workflow follows the Azure journey from assessment and landing-zo
 - Use the Migration Waves section to sequence delivery and the Post-Migration section to capture value after cutover.
 - Replace placeholders such as `<subscription-id>`, `<Password>`, `<policy-definition-id>`, and `<resource-id>` before executing commands.
 
+## Companion deep-dive guides
+
+- [`disaster-recovery-prod-scenarios.md`](./disaster-recovery-prod-scenarios.md) — production DR, Azure Site Recovery, backup, multi-region HA, incident response, monitoring, maintenance, and compliance runbooks.
+
 ## Mermaid Theme Notes
 
 - All Mermaid diagrams in this document use Azure brand-inspired colors.
