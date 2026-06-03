@@ -4,6 +4,49 @@
 
 **Document path:** `/Users/shasidharreddy_mallu/Git-Infoblox/REPOS/Azure-Cloud-Engineer/Migration/README.md`
 
+<!-- workflow-diagram:start -->
+## Workflow Snapshot
+
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#0078D4','secondaryColor':'#50E6FF','tertiaryColor':'#E6F4FF'}}}%%
+flowchart LR
+  subgraph Discover[Assess & Prepare]
+    A[Inventory Estate] --> B[Azure Migrate Assessment]
+    B --> C[Dependency Discovery]
+    C --> D{Landing zone ready?}
+  end
+  subgraph Plan[Migration Planning]
+    D -- No --> E[Fix Identity, Network, Policy]
+    E --> D
+    D -- Yes --> F[Wave Planning]
+    F --> G[Pilot Group]
+  end
+  subgraph Execute[Move & Cutover]
+    G --> H[Replicate Servers / DBs / Files]
+    H --> I[Test in Azure]
+    I --> J{Business sign-off?}
+    J -- No --> K[Remediate & Retest]
+    J -- Yes --> L[Cutover Window]
+  end
+  subgraph Optimize[Post-Migration]
+    L --> M[Validate Apps, Backup, Monitoring]
+    M --> N[Optimize Cost & Performance]
+    N --> O[Decommission Legacy Estate]
+  end
+  K --> I
+  classDef migrate fill:#0078D4,stroke:#005A9E,color:#ffffff,stroke-width:2px;
+  classDef ready fill:#50E6FF,stroke:#0078D4,color:#002050,stroke-width:2px;
+  classDef decision fill:#FFF4CE,stroke:#FFB900,color:#5C2D00,stroke-width:2px;
+  classDef ops fill:#107C10,stroke:#0B5A0B,color:#ffffff,stroke-width:2px;
+  class A,B,C,F,G,H migrate;
+  class E,I,L,M,N,O ready;
+  class D,J decision;
+  class K ops;
+```
+
+This migration workflow follows the Azure journey from assessment and landing-zone readiness through replication, cutover, and post-migration optimization.
+<!-- workflow-diagram:end -->
+
 ## Table of Contents
 
 1. [Cloud Adoption Framework](#cloud-adoption-framework)

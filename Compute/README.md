@@ -8,6 +8,49 @@ It is intentionally CLI-first.
 It uses Mermaid diagrams for quick visual recall.
 It also includes best practices for production deployments.
 
+<!-- workflow-diagram:start -->
+## Workflow Snapshot
+
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#0078D4','secondaryColor':'#50E6FF','tertiaryColor':'#E6F4FF'}}}%%
+flowchart LR
+  subgraph Plan[Provisioning Plan]
+    A[Workload Request] --> B[Choose VM / VMSS / App Service]
+    B --> C[Select Size, Image, Disk]
+    C --> D[Pick Zone / Availability Model]
+  end
+  subgraph Configure[Configuration]
+    D --> E[Create Compute Resource]
+    E --> F[Cloud-init / Extensions]
+    F --> G[Join VNet, NSG, Bastion]
+  end
+  subgraph Operate[Scale & Operate]
+    G --> H[Enable Backup & Monitoring]
+    H --> I{Healthy after validation?}
+    I -- Yes --> J[Serve Production Traffic]
+    I -- No --> K[Patch, Resize, or Rebuild]
+  end
+  subgraph Improve[Continuous Improvement]
+    J --> L{Demand increasing?}
+    L -- Yes --> M[Scale Out / Scale Up]
+    L -- No --> N[Maintain Baseline]
+    K --> E
+    M --> O[Review Cost & Performance]
+    N --> O
+  end
+  classDef compute fill:#0078D4,stroke:#005A9E,color:#ffffff,stroke-width:2px;
+  classDef platform fill:#50E6FF,stroke:#0078D4,color:#002050,stroke-width:2px;
+  classDef decision fill:#FFF4CE,stroke:#FFB900,color:#5C2D00,stroke-width:2px;
+  classDef ops fill:#107C10,stroke:#0B5A0B,color:#ffffff,stroke-width:2px;
+  class A,B,C,D,E compute;
+  class F,G,H,J,M,N platform;
+  class I,L decision;
+  class K,O ops;
+```
+
+This VM-centric workflow follows Azure compute from sizing and deployment through configuration, scaling, monitoring, and continuous optimization.
+<!-- workflow-diagram:end -->
+
 ## How to read this guide
 
 - Use the VM Series section to select a compute family.

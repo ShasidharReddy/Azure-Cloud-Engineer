@@ -2,6 +2,49 @@
 
 > Comprehensive Azure serverless reference with Mermaid diagrams, Azure CLI examples, `func` CLI examples, decision guidance, and best practices.
 
+<!-- workflow-diagram:start -->
+## Workflow Snapshot
+
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#0078D4','secondaryColor':'#50E6FF','tertiaryColor':'#E6F4FF'}}}%%
+flowchart LR
+  subgraph Trigger[Event Sources]
+    A[HTTP / Queue / Timer / Event Grid] --> B[Azure Functions]
+    A --> C[Logic Apps]
+  end
+  subgraph Execute[Execution Path]
+    B --> D{Need orchestration?}
+    D -- Yes --> E[Durable Functions]
+    D -- No --> F[Single Function]
+    C --> G[Connector Workflow]
+  end
+  subgraph Integrate[Service Integration]
+    E --> H[Storage / Service Bus / Cosmos DB]
+    F --> H
+    G --> H
+    H --> I[API Management / Events / Notifications]
+  end
+  subgraph Reliability[Reliability Controls]
+    I --> J{Succeeded?}
+    J -- Yes --> K[Emit Business Outcome]
+    J -- No --> L[Retry / Dead-Letter / Compensation]
+    L --> M[Alert & Trace]
+    K --> M
+  end
+  M --> N[Scale and Cost Review]
+  classDef serverless fill:#0078D4,stroke:#005A9E,color:#ffffff,stroke-width:2px;
+  classDef integrate fill:#50E6FF,stroke:#0078D4,color:#002050,stroke-width:2px;
+  classDef decision fill:#FFF4CE,stroke:#FFB900,color:#5C2D00,stroke-width:2px;
+  classDef ops fill:#107C10,stroke:#0B5A0B,color:#ffffff,stroke-width:2px;
+  class A,B,C,E,F serverless;
+  class G,H,I integrate;
+  class D,J decision;
+  class K,L,M,N ops;
+```
+
+This event-driven workflow shows how Azure serverless services route triggers, coordinate execution, integrate with downstream systems, and recover from failures.
+<!-- workflow-diagram:end -->
+
 ## Table of Contents
 1. [Overview](#overview)
 2. [Azure Functions](#azure-functions)
@@ -401,7 +444,6 @@ curl http://localhost:7071/runtime/webhooks/durabletask/instances/<instanceId>?t
 - Model compensation for distributed business actions.
 - Use timers for reminders and deadlines.
 - Document orchestration contracts and instance lifecycle.
-
 
 ---
 
@@ -1331,7 +1373,6 @@ az logic workflow list --resource-group $RG -o table
 - Audit who approved and when.
 - Do not block synchronous requests waiting for humans.
 
-
 ---
 
 ## Durable Functions Deep Dive
@@ -1630,7 +1671,6 @@ func new --template "Durable Functions activity" --name EscalateApproval
 - Validate approval callers and callback tokens.
 - Record approver identity and timestamps.
 - Model reminders, escalation, and expiry explicitly.
-
 
 ---
 
