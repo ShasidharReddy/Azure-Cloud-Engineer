@@ -109,6 +109,20 @@ flowchart LR
 
 ---
 
+
+## 📘 Detailed Setup Guides
+
+| Area | Guide | Summary |
+|---|---|---|
+| Containers | [`Containers/aks-production-setup.md`](./Containers/aks-production-setup.md) | Production AKS cluster build guide covering private clusters, node pools, networking, storage, security, monitoring, scaling, and maintenance. |
+| Containers | [`Containers/aks-deep-dive.md`](./Containers/aks-deep-dive.md) | Existing AKS concept and operations deep dive for architecture decisions, troubleshooting, GitOps, and best practices. |
+| CICD | [`CICD/azure-devops-complete-guide.md`](./CICD/azure-devops-complete-guide.md) | Hands-on Azure DevOps guide for org setup, Repos, YAML pipelines, approvals, artifacts, agents, and delivery patterns. |
+| CICD | [`CICD/README.md`](./CICD/README.md) | Existing broad Azure CI/CD and DevOps reference spanning Azure DevOps, IaC, GitHub Actions, and deployment strategies. |
+| Storage | [`Storage/blob-storage-complete-guide.md`](./Storage/blob-storage-complete-guide.md) | Blob Storage setup guide for accounts, redundancy, access control, lifecycle rules, private endpoints, integrations, and monitoring. |
+| Storage | [`Storage/README.md`](./Storage/README.md) | Existing full storage reference across Blob, Files, ADLS Gen2, Queue, Table, disks, backup, and DR. |
+
+---
+
 ## 🚀 Quick Start
 
 ### Prerequisites
