@@ -1,5 +1,7 @@
 # Network Policies and Protocols on Azure
 
+> **Screenshot Disclaimer:** Portal screenshots referenced in this guide are sourced from [Microsoft Learn](https://learn.microsoft.com/en-us/azure/) documentation. © Microsoft Corporation. All rights reserved. Used for educational reference only.
+
 ## NSG rules: what and why
 
 A Network Security Group filters traffic at subnet or NIC level using ordered allow and deny rules.
@@ -196,6 +198,18 @@ flowchart TD
 
 ## Microsoft Learn references
 
+> ![Create a virtual network in Azure portal](https://learn.microsoft.com/en-us/azure/virtual-network/media/quick-create-portal/create-virtual-network.png)
+>
+> *Screenshot source: [Microsoft Learn — Quickstart: Create an Azure Virtual Network | Microsoft Learn](https://learn.microsoft.com/en-us/azure/virtual-network/quick-create-portal). © Microsoft Corporation. Used for educational reference only.*
+
+> **Portal View:** Navigate to `Azure Portal` → `Network security groups` → `Inbound security rules` or `Effective security rules`. These blades help operators confirm rule priority, service tags, ASGs, and the combined result of subnet and NIC policy.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Network security groups](https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview).* 
+
+> **Portal View:** Navigate to `Azure Portal` → `Azure Firewall` → `Rule Collection Groups` or `Logs`. The experience shows application, network, and DNAT rules together with logging views used when tracing blocked flows.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Azure Firewall overview](https://learn.microsoft.com/en-us/azure/firewall/overview).* 
+
 - [Network security groups](https://learn.microsoft.com/azure/virtual-network/network-security-groups-overview)
 - [Azure Firewall](https://learn.microsoft.com/azure/firewall/overview)
 - [Application Gateway WAF](https://learn.microsoft.com/azure/web-application-firewall/ag/ag-overview)
@@ -203,702 +217,59 @@ flowchart TD
 - [Private endpoints](https://learn.microsoft.com/azure/private-link/private-endpoint-overview)
 - [Azure DNS](https://learn.microsoft.com/azure/dns/dns-overview)
 
-### Networking implementation note 1
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 1.
-- Capture the az command output in change records so auditors can trace decision 1.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 1.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 1.
-
-### Networking implementation note 2
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 2.
-- Capture the az command output in change records so auditors can trace decision 2.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 2.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 2.
-
-### Networking implementation note 3
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 3.
-- Capture the az command output in change records so auditors can trace decision 3.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 3.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 3.
-
-### Networking implementation note 4
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 4.
-- Capture the az command output in change records so auditors can trace decision 4.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 4.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 4.
-
-### Networking implementation note 5
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 5.
-- Capture the az command output in change records so auditors can trace decision 5.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 5.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 5.
-
-### Networking implementation note 6
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 6.
-- Capture the az command output in change records so auditors can trace decision 6.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 6.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 6.
-
-### Networking implementation note 7
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 7.
-- Capture the az command output in change records so auditors can trace decision 7.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 7.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 7.
-
-### Networking implementation note 8
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 8.
-- Capture the az command output in change records so auditors can trace decision 8.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 8.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 8.
-
-### Networking implementation note 9
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 9.
-- Capture the az command output in change records so auditors can trace decision 9.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 9.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 9.
-
-### Networking implementation note 10
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 10.
-- Capture the az command output in change records so auditors can trace decision 10.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 10.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 10.
-
-### Networking implementation note 11
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 11.
-- Capture the az command output in change records so auditors can trace decision 11.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 11.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 11.
-
-### Networking implementation note 12
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 12.
-- Capture the az command output in change records so auditors can trace decision 12.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 12.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 12.
-
-### Networking implementation note 13
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 13.
-- Capture the az command output in change records so auditors can trace decision 13.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 13.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 13.
-
-### Networking implementation note 14
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 14.
-- Capture the az command output in change records so auditors can trace decision 14.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 14.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 14.
-
-### Networking implementation note 15
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 15.
-- Capture the az command output in change records so auditors can trace decision 15.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 15.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 15.
-
-### Networking implementation note 16
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 16.
-- Capture the az command output in change records so auditors can trace decision 16.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 16.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 16.
-
-### Networking implementation note 17
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 17.
-- Capture the az command output in change records so auditors can trace decision 17.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 17.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 17.
-
-### Networking implementation note 18
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 18.
-- Capture the az command output in change records so auditors can trace decision 18.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 18.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 18.
-
-### Networking implementation note 19
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 19.
-- Capture the az command output in change records so auditors can trace decision 19.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 19.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 19.
-
-### Networking implementation note 20
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 20.
-- Capture the az command output in change records so auditors can trace decision 20.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 20.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 20.
-
-### Networking implementation note 21
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 21.
-- Capture the az command output in change records so auditors can trace decision 21.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 21.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 21.
-
-### Networking implementation note 22
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 22.
-- Capture the az command output in change records so auditors can trace decision 22.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 22.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 22.
-
-### Networking implementation note 23
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 23.
-- Capture the az command output in change records so auditors can trace decision 23.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 23.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 23.
-
-### Networking implementation note 24
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 24.
-- Capture the az command output in change records so auditors can trace decision 24.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 24.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 24.
-
-### Networking implementation note 25
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 25.
-- Capture the az command output in change records so auditors can trace decision 25.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 25.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 25.
-
-### Networking implementation note 26
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 26.
-- Capture the az command output in change records so auditors can trace decision 26.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 26.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 26.
-
-### Networking implementation note 27
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 27.
-- Capture the az command output in change records so auditors can trace decision 27.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 27.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 27.
-
-### Networking implementation note 28
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 28.
-- Capture the az command output in change records so auditors can trace decision 28.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 28.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 28.
-
-### Networking implementation note 29
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 29.
-- Capture the az command output in change records so auditors can trace decision 29.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 29.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 29.
-
-### Networking implementation note 30
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 30.
-- Capture the az command output in change records so auditors can trace decision 30.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 30.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 30.
-
-### Networking implementation note 31
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 31.
-- Capture the az command output in change records so auditors can trace decision 31.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 31.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 31.
-
-### Networking implementation note 32
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 32.
-- Capture the az command output in change records so auditors can trace decision 32.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 32.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 32.
-
-### Networking implementation note 33
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 33.
-- Capture the az command output in change records so auditors can trace decision 33.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 33.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 33.
-
-### Networking implementation note 34
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 34.
-- Capture the az command output in change records so auditors can trace decision 34.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 34.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 34.
-
-### Networking implementation note 35
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 35.
-- Capture the az command output in change records so auditors can trace decision 35.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 35.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 35.
-
-### Networking implementation note 36
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 36.
-- Capture the az command output in change records so auditors can trace decision 36.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 36.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 36.
-
-### Networking implementation note 37
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 37.
-- Capture the az command output in change records so auditors can trace decision 37.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 37.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 37.
-
-### Networking implementation note 38
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 38.
-- Capture the az command output in change records so auditors can trace decision 38.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 38.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 38.
-
-### Networking implementation note 39
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 39.
-- Capture the az command output in change records so auditors can trace decision 39.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 39.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 39.
-
-### Networking implementation note 40
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 40.
-- Capture the az command output in change records so auditors can trace decision 40.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 40.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 40.
-
-### Networking implementation note 41
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 41.
-- Capture the az command output in change records so auditors can trace decision 41.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 41.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 41.
-
-### Networking implementation note 42
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 42.
-- Capture the az command output in change records so auditors can trace decision 42.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 42.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 42.
-
-### Networking implementation note 43
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 43.
-- Capture the az command output in change records so auditors can trace decision 43.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 43.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 43.
-
-### Networking implementation note 44
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 44.
-- Capture the az command output in change records so auditors can trace decision 44.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 44.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 44.
-
-### Networking implementation note 45
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 45.
-- Capture the az command output in change records so auditors can trace decision 45.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 45.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 45.
-
-### Networking implementation note 46
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 46.
-- Capture the az command output in change records so auditors can trace decision 46.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 46.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 46.
-
-### Networking implementation note 47
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 47.
-- Capture the az command output in change records so auditors can trace decision 47.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 47.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 47.
-
-### Networking implementation note 48
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 48.
-- Capture the az command output in change records so auditors can trace decision 48.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 48.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 48.
-
-### Networking implementation note 49
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 49.
-- Capture the az command output in change records so auditors can trace decision 49.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 49.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 49.
-
-### Networking implementation note 50
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 50.
-- Capture the az command output in change records so auditors can trace decision 50.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 50.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 50.
-
-### Networking implementation note 51
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 51.
-- Capture the az command output in change records so auditors can trace decision 51.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 51.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 51.
-
-### Networking implementation note 52
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 52.
-- Capture the az command output in change records so auditors can trace decision 52.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 52.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 52.
-
-### Networking implementation note 53
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 53.
-- Capture the az command output in change records so auditors can trace decision 53.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 53.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 53.
-
-### Networking implementation note 54
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 54.
-- Capture the az command output in change records so auditors can trace decision 54.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 54.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 54.
-
-### Networking implementation note 55
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 55.
-- Capture the az command output in change records so auditors can trace decision 55.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 55.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 55.
-
-### Networking implementation note 56
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 56.
-- Capture the az command output in change records so auditors can trace decision 56.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 56.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 56.
-
-### Networking implementation note 57
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 57.
-- Capture the az command output in change records so auditors can trace decision 57.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 57.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 57.
-
-### Networking implementation note 58
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 58.
-- Capture the az command output in change records so auditors can trace decision 58.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 58.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 58.
-
-### Networking implementation note 59
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 59.
-- Capture the az command output in change records so auditors can trace decision 59.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 59.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 59.
-
-### Networking implementation note 60
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 60.
-- Capture the az command output in change records so auditors can trace decision 60.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 60.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 60.
-
-### Networking implementation note 61
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 61.
-- Capture the az command output in change records so auditors can trace decision 61.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 61.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 61.
-
-### Networking implementation note 62
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 62.
-- Capture the az command output in change records so auditors can trace decision 62.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 62.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 62.
-
-### Networking implementation note 63
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 63.
-- Capture the az command output in change records so auditors can trace decision 63.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 63.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 63.
-
-### Networking implementation note 64
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 64.
-- Capture the az command output in change records so auditors can trace decision 64.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 64.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 64.
-
-### Networking implementation note 65
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 65.
-- Capture the az command output in change records so auditors can trace decision 65.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 65.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 65.
-
-### Networking implementation note 66
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 66.
-- Capture the az command output in change records so auditors can trace decision 66.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 66.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 66.
-
-### Networking implementation note 67
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 67.
-- Capture the az command output in change records so auditors can trace decision 67.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 67.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 67.
-
-### Networking implementation note 68
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 68.
-- Capture the az command output in change records so auditors can trace decision 68.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 68.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 68.
-
-### Networking implementation note 69
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 69.
-- Capture the az command output in change records so auditors can trace decision 69.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 69.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 69.
-
-### Networking implementation note 70
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 70.
-- Capture the az command output in change records so auditors can trace decision 70.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 70.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 70.
-
-### Networking implementation note 71
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 71.
-- Capture the az command output in change records so auditors can trace decision 71.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 71.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 71.
-
-### Networking implementation note 72
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 72.
-- Capture the az command output in change records so auditors can trace decision 72.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 72.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 72.
-
-### Networking implementation note 73
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 73.
-- Capture the az command output in change records so auditors can trace decision 73.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 73.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 73.
-
-### Networking implementation note 74
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 74.
-- Capture the az command output in change records so auditors can trace decision 74.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 74.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 74.
-
-### Networking implementation note 75
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 75.
-- Capture the az command output in change records so auditors can trace decision 75.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 75.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 75.
-
-### Networking implementation note 76
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 76.
-- Capture the az command output in change records so auditors can trace decision 76.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 76.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 76.
-
-### Networking implementation note 77
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 77.
-- Capture the az command output in change records so auditors can trace decision 77.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 77.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 77.
-
-### Networking implementation note 78
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 78.
-- Capture the az command output in change records so auditors can trace decision 78.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 78.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 78.
-
-### Networking implementation note 79
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 79.
-- Capture the az command output in change records so auditors can trace decision 79.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 79.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 79.
-
-### Networking implementation note 80
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 80.
-- Capture the az command output in change records so auditors can trace decision 80.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 80.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 80.
-
-### Networking implementation note 81
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 81.
-- Capture the az command output in change records so auditors can trace decision 81.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 81.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 81.
-
-### Networking implementation note 82
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 82.
-- Capture the az command output in change records so auditors can trace decision 82.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 82.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 82.
-
-### Networking implementation note 83
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 83.
-- Capture the az command output in change records so auditors can trace decision 83.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 83.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 83.
-
-### Networking implementation note 84
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 84.
-- Capture the az command output in change records so auditors can trace decision 84.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 84.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 84.
-
-### Networking implementation note 85
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 85.
-- Capture the az command output in change records so auditors can trace decision 85.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 85.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 85.
-
-### Networking implementation note 86
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 86.
-- Capture the az command output in change records so auditors can trace decision 86.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 86.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 86.
-
-### Networking implementation note 87
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 87.
-- Capture the az command output in change records so auditors can trace decision 87.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 87.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 87.
-
-### Networking implementation note 88
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 88.
-- Capture the az command output in change records so auditors can trace decision 88.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 88.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 88.
-
-### Networking implementation note 89
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 89.
-- Capture the az command output in change records so auditors can trace decision 89.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 89.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 89.
-
-### Networking implementation note 90
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 90.
-- Capture the az command output in change records so auditors can trace decision 90.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 90.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 90.
-
-### Networking implementation note 91
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 91.
-- Capture the az command output in change records so auditors can trace decision 91.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 91.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 91.
-
-### Networking implementation note 92
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 92.
-- Capture the az command output in change records so auditors can trace decision 92.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 92.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 92.
-
-### Networking implementation note 93
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 93.
-- Capture the az command output in change records so auditors can trace decision 93.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 93.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 93.
-
-### Networking implementation note 94
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 94.
-- Capture the az command output in change records so auditors can trace decision 94.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 94.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 94.
-
-### Networking implementation note 95
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 95.
-- Capture the az command output in change records so auditors can trace decision 95.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 95.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 95.
-
-### Networking implementation note 96
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 96.
-- Capture the az command output in change records so auditors can trace decision 96.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 96.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 96.
-
-### Networking implementation note 97
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 97.
-- Capture the az command output in change records so auditors can trace decision 97.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 97.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 97.
-
-### Networking implementation note 98
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 98.
-- Capture the az command output in change records so auditors can trace decision 98.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 98.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 98.
-
-### Networking implementation note 99
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 99.
-- Capture the az command output in change records so auditors can trace decision 99.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 99.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 99.
-
-### Networking implementation note 100
-
-- Confirm scope, ownership, and rollback steps for networking implementation note 100.
-- Capture the az command output in change records so auditors can trace decision 100.
-- Revisit naming, tags, and RBAC boundaries before promoting to production wave 100.
-- Validate dependencies, DNS paths, routing, and policy assignments after milestone 100.
+## Practical implementation runbooks
+
+### Scenario 1: Three-tier app subnet policy
+
+```mermaid
+flowchart LR
+  Internet((Internet)) --> WAF[App Gateway / WAF]
+  WAF --> Web[Web subnet]
+  Web --> App[App subnet]
+  App --> Data[Data subnet]
+  Data --> SQL[Private SQL endpoint]
+  NSG1[NSG-Web] -. 443 only .-> Web
+  NSG2[NSG-App] -. 8443 only .-> App
+  NSG3[NSG-Data] -. 1433 only .-> Data
+```
+
+1. Attach a subnet-level NSG to each tier rather than mixing unrelated rules into one giant policy object.
+2. Use **Application Security Groups** so web-to-app and app-to-data flows follow workload labels rather than changing IP addresses.
+3. Validate the exact five-tuple with `az network watcher test-ip-flow` before approving production changes.
+4. Capture the effective NSG output and change ticket ID in the implementation record.
+
+Expected validation output for a healthy rule path:
+
+```text
+Access    RuleName
+--------  ------------------------------
+Allow     allow-https-from-appgw
+
+ConnectionStatus    Hops
+------------------  ----
+Reachable           3
+```
+
+### Scenario 2: Private endpoint with DNS governance
+
+- Use a dedicated or tightly governed private-endpoint subnet.
+- Host Private DNS zones centrally and link all consumer VNets.
+- Confirm clients resolve the service FQDN to the private IP before disabling the public endpoint.
+- Review UDRs carefully so inspection devices do not accidentally break Private Link traffic.
+
+### Scenario 3: AKS namespace isolation
+
+- Apply a default-deny policy first in non-production and test platform components such as ingress, DNS, and metrics.
+- Add explicit ingress and egress rules for dependencies like SQL private endpoints, queues, and CoreDNS.
+- Treat namespace labels and workload selectors as part of the application contract; policy drift often starts there.
+- Re-run connectivity tests after each deployment because new sidecars or destinations can silently break policy assumptions.
+
+## Operator checklist
+
+| Check | Why it matters | Evidence |
+| --- | --- | --- |
+| Effective NSG review | Confirms combined subnet + NIC behavior | `az network nic list-effective-nsg` output |
+| Next hop review | Validates routing after UDR or firewall changes | `az network watcher show-next-hop` output |
+| DNS resolution test | Confirms private endpoint name resolution | `nslookup` or `Resolve-DnsName` result |
+| Health probe allowance | Prevents false backend failures | Probe source and NSG rule review |
+| Log review | Explains blocked or asymmetric flows | NSG flow logs or Firewall logs |

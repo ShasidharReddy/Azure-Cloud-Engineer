@@ -1,8 +1,55 @@
+> **Screenshot Disclaimer:** Screenshots in this guide are sourced from [Microsoft Learn](https://learn.microsoft.com/en-us/azure/devops/) documentation. © Microsoft Corporation. All rights reserved. Used here for educational and reference purposes only. For the latest UI and features, always refer to the official documentation.
+
 # 04 Azure Pipelines CI
 
-> YAML first continuous integration guide for Azure Pipelines across common language stacks.
+Continuous integration in Azure Pipelines turns code changes into repeatable evidence. This guide explains how to design YAML-first CI, choose agents, manage variables and dependencies, publish tests and artifacts, and keep validation fast enough to support healthy pull-request flow.
+
+> [!NOTE]
+> A CI pipeline should answer a simple question: can this change be merged safely? Build, test, scan, and publish only what helps answer that question clearly.
+
+> [!TIP]
+> Favor fast, deterministic pipelines. When validation is noisy or slow, teams tend to weaken controls instead of improving the automation.
+
+> [!IMPORTANT]
+> Keep pipeline definitions in source control and review them through pull requests. The pipeline is part of the product's trusted delivery path.
+
+## Guide objectives
+
+- Create YAML-based CI pipelines that are readable and reviewable.
+- Publish structured test, coverage, and artifact evidence.
+- Select the right execution model for build agents and shared resources.
+- Move from one-off pipelines to reusable standards through templates.
+
+## Microsoft Learn screenshots
+
+> ![Azure DevOps left navigation experience](https://learn.microsoft.com/en-us/azure/devops/user-guide/media/left-navigation.png)
 >
-> Disclaimer: SonarQube, Trivy, Docker Hub, and other third party scanners or registries are referenced as common examples. Confirm support, licensing, and security controls before enterprise rollout.
+> *Screenshot source: [Microsoft Learn — What is Azure DevOps?](https://learn.microsoft.com/en-us/azure/devops/user-guide/what-is-azure-devops?view=azure-devops). © Microsoft Corporation. Used for educational reference only.*
+
+> ![Azure DevOps project dashboard overview](https://learn.microsoft.com/en-us/azure/devops/user-guide/media/dashboard-overview.png)
+>
+> *Screenshot source: [Microsoft Learn — What is Azure DevOps?](https://learn.microsoft.com/en-us/azure/devops/user-guide/what-is-azure-devops?view=azure-devops). © Microsoft Corporation. Used for educational reference only.*
+
+> ![Azure Resource Manager service connection subscription selection](https://learn.microsoft.com/en-us/azure/devops/pipelines/library/media/azure-resource-manager-subscription.png)
+>
+> *Screenshot source: [Microsoft Learn — Use an Azure Resource Manager service connection](https://learn.microsoft.com/en-us/azure/devops/pipelines/library/connect-to-azure?view=azure-devops). © Microsoft Corporation. Used for educational reference only.*
+
+## Prerequisites
+
+- A repository with code or infrastructure that can be validated automatically.
+- An agreed branch strategy and PR workflow.
+- A decision on Microsoft-hosted versus self-hosted agents.
+- A basic secret, variable, and package-restore strategy.
+
+## Quick decision guide
+
+| Decision area | Why it matters | Recommended baseline |
+|---|---|---|
+| Trigger model | Controls when validation runs | Use explicit branch and path filters |
+| Agent type | Defines runtime and network reach | Start hosted unless private access or tooling requires self-hosted |
+| Variable handling | Controls safe configuration reuse | Separate plain variables from secrets |
+| Artifact publishing | Supports later deployment or reuse | Publish only meaningful outputs |
+| Templates | Scale consistency | Adopt after the first strong baseline pipeline exists |
 
 ## 4. Overview
 
@@ -488,3 +535,84 @@ Expected output:
 - [Templates](https://learn.microsoft.com/azure/devops/pipelines/process/templates)
 - [Caching](https://learn.microsoft.com/azure/devops/pipelines/release/caching)
 - [Publish artifacts](https://learn.microsoft.com/azure/devops/pipelines/artifacts/pipeline-artifacts)
+
+## Real-world scenarios and examples
+
+### Scenario 1: Application repository validating every pull request
+
+A product team wants every PR to compile, run tests, and publish structured evidence before merge. Azure Pipelines CI and branch policy validation are the core controls.
+
+
+
+Implementation flow:
+
+1. Author a YAML pipeline in the repo.
+2. Run validation on PRs into the protected branch.
+3. Publish tests and artifacts.
+4. Require the pipeline in branch policy.
+
+
+
+Success indicators:
+
+- Broken code reaches protected branches less often.
+- Reviewers see usable evidence.
+- Teams trust PR validation.
+
+### Scenario 2: Infrastructure repository for landing zone modules
+
+Infrastructure code benefits from CI just as much as application code. Formatting, validation, policy checks, and published bundles give teams a reliable baseline before any deployment starts.
+
+
+
+Implementation flow:
+
+1. Restore required tooling.
+2. Run format and validation checks.
+3. Publish plan output or bundles when needed.
+4. Keep deployment logic separate from CI where appropriate.
+
+
+
+Success indicators:
+
+- Infrastructure changes are safer to merge.
+- Outputs are reproducible.
+- CI stays fast enough for branch protection.
+
+### Scenario 3: Platform team rolling out shared pipeline templates
+
+A platform team wants consistent CI behavior across many repositories without copy-paste YAML drift. Template reuse is the scaling pattern that follows a strong reference pipeline.
+
+
+
+Implementation flow:
+
+1. Create a shared templates repo.
+2. Protect it with branch policy.
+3. Pilot templates with a few teams.
+4. Version and communicate template changes.
+
+
+
+Success indicators:
+
+- Pipelines become more consistent.
+- New repositories onboard faster.
+- Platform controls spread with less manual effort.
+
+## Operating model checklist
+
+- Track build duration and flaky validation patterns as first-class metrics.
+- Review pipeline permissions with the same seriousness as repo permissions.
+- Keep shared templates versioned and documented.
+- Retire unused artifacts and excessive logging that add noise without value.
+
+## Official Microsoft References
+
+- [What is Azure Pipelines?](https://learn.microsoft.com/en-us/azure/devops/pipelines/get-started/what-is-azure-pipelines?view=azure-devops)
+- [Customize your pipeline](https://learn.microsoft.com/en-us/azure/devops/pipelines/customize-pipeline?view=azure-devops)
+- [How to use YAML templates for reusable and secure pipelines](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops)
+- [Publish test results task](https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/publish-test-results-v2?view=azure-pipelines)
+- [Use an Azure Resource Manager service connection](https://learn.microsoft.com/en-us/azure/devops/pipelines/library/connect-to-azure?view=azure-devops)
+- [Azure DevOps CLI reference](https://learn.microsoft.com/en-us/azure/devops/cli/?view=azure-devops)

@@ -1,4 +1,6 @@
 # 🗄️ Azure Database Migration Scenarios
+
+> **Screenshot Disclaimer:** Portal screenshots referenced in this guide are sourced from [Microsoft Learn](https://learn.microsoft.com/en-us/azure/) documentation. © Microsoft Corporation. All rights reserved. Used for educational reference only.
 > Real-world Azure database migration runbook with offline and online patterns, Azure CLI workflows, Terraform examples, verification outputs, rollback controls, and production cutover scenarios.
 
 **Audience:** Cloud engineers, DBAs, SREs, platform teams, and migration-factory teams.
@@ -43,6 +45,29 @@ The business choice is not simply about tooling; it is about downtime, operation
 - It is most valuable when you need repeatable migrations and minimal downtime patterns.
 - Teams still need application-level validation; DMS does not replace business testing.
 - Use DMS as part of a runbook that also covers DNS, secrets, monitoring, and rollback.
+
+> ![Create Azure SQL server during single database deployment](https://learn.microsoft.com/en-us/azure/azure-sql/database/media/single-database-create-quickstart/new-server.png)
+>
+> *Screenshot source: [Microsoft Learn — Create a Single Database - Azure SQL Database](https://learn.microsoft.com/en-us/azure/azure-sql/database/single-database-create-quickstart). © Microsoft Corporation. Used for educational reference only.*
+
+> **Portal View:** Navigate to `Azure Portal` → `Azure Database Migration Service` → `Migration projects`. The workflow shows source/target engine selection, integration runtime/networking choices, schema assessment, and cutover controls used during rehearsals.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — What is Azure Database Migration Service?](https://learn.microsoft.com/en-us/azure/dms/dms-overview).* 
+
+> **Portal View:** Navigate to `Azure Portal` → `Azure Database for PostgreSQL flexible servers` or `Azure Database for MySQL flexible servers` → `Networking`. These blades show private access, delegated subnet, firewall, and DNS selections that must be in place before online replication cutover.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Azure Database for PostgreSQL flexible server networking](https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-networking-private) and [Microsoft Learn — Azure Database for MySQL flexible server networking](https://learn.microsoft.com/en-us/azure/mysql/flexible-server/concepts-networking-vnet).* 
+
+```mermaid
+flowchart LR
+  A[Assess source engine] --> B[Build target in Azure]
+  B --> C[Enable network and DNS path]
+  C --> D[Run full-load migration]
+  D --> E[Run validation scripts]
+  E --> F[Start continuous sync if online]
+  F --> G[Freeze writes and cut over]
+  G --> H[Hypercare and rollback expiry]
+```
 
 ### 🔍 Assessment tools
 | Tool | Primary use | Typical migration |
@@ -964,7 +989,7 @@ Verify backups, alerts, and business transactions before celebrating.
 - [ ] Identify reporting and ETL consumers of SQL Server to Azure SQL Database.
 - [ ] List certificates, secrets, and DNS names related to SQL Server to Azure SQL Database.
 - [ ] Record current cost center and service owner for SQL Server to Azure SQL Database.
-- [ ] Create CAB/change placeholder for SQL Server to Azure SQL Database.
+- [ ] Create CAB/change record for SQL Server to Azure SQL Database with implementation window, rollback owner, and business approval attached.
 - [ ] Tag pilot, wave, and business criticality for SQL Server to Azure SQL Database.
 
 #### Assessment
@@ -1093,7 +1118,7 @@ Verify backups, alerts, and business transactions before celebrating.
 - [ ] Identify reporting and ETL consumers of MySQL to Azure Database for MySQL.
 - [ ] List certificates, secrets, and DNS names related to MySQL to Azure Database for MySQL.
 - [ ] Record current cost center and service owner for MySQL to Azure Database for MySQL.
-- [ ] Create CAB/change placeholder for MySQL to Azure Database for MySQL.
+- [ ] Create CAB/change record for MySQL to Azure Database for MySQL with implementation window, rollback owner, and business approval attached.
 - [ ] Tag pilot, wave, and business criticality for MySQL to Azure Database for MySQL.
 
 #### Assessment
@@ -1222,7 +1247,7 @@ Verify backups, alerts, and business transactions before celebrating.
 - [ ] Identify reporting and ETL consumers of PostgreSQL to Azure Database for PostgreSQL.
 - [ ] List certificates, secrets, and DNS names related to PostgreSQL to Azure Database for PostgreSQL.
 - [ ] Record current cost center and service owner for PostgreSQL to Azure Database for PostgreSQL.
-- [ ] Create CAB/change placeholder for PostgreSQL to Azure Database for PostgreSQL.
+- [ ] Create CAB/change record for PostgreSQL to Azure Database for PostgreSQL with implementation window, rollback owner, and business approval attached.
 - [ ] Tag pilot, wave, and business criticality for PostgreSQL to Azure Database for PostgreSQL.
 
 #### Assessment
@@ -1351,7 +1376,7 @@ Verify backups, alerts, and business transactions before celebrating.
 - [ ] Identify reporting and ETL consumers of Azure SQL to Managed Instance.
 - [ ] List certificates, secrets, and DNS names related to Azure SQL to Managed Instance.
 - [ ] Record current cost center and service owner for Azure SQL to Managed Instance.
-- [ ] Create CAB/change placeholder for Azure SQL to Managed Instance.
+- [ ] Create CAB/change record for Azure SQL to Managed Instance with implementation window, rollback owner, and business approval attached.
 - [ ] Tag pilot, wave, and business criticality for Azure SQL to Managed Instance.
 
 #### Assessment
@@ -1480,7 +1505,7 @@ Verify backups, alerts, and business transactions before celebrating.
 - [ ] Identify reporting and ETL consumers of Cross-cloud database migration.
 - [ ] List certificates, secrets, and DNS names related to Cross-cloud database migration.
 - [ ] Record current cost center and service owner for Cross-cloud database migration.
-- [ ] Create CAB/change placeholder for Cross-cloud database migration.
+- [ ] Create CAB/change record for Cross-cloud database migration with implementation window, rollback owner, and business approval attached.
 - [ ] Tag pilot, wave, and business criticality for Cross-cloud database migration.
 
 #### Assessment

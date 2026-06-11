@@ -1,8 +1,55 @@
+> **Screenshot Disclaimer:** Screenshots in this guide are sourced from [Microsoft Learn](https://learn.microsoft.com/en-us/azure/devops/) documentation. © Microsoft Corporation. All rights reserved. Used here for educational and reference purposes only. For the latest UI and features, always refer to the official documentation.
+
 # 03 Azure Boards
 
-> Azure Boards guide for planning hierarchy, backlogs, sprints, Kanban boards, queries, dashboards, and integrations.
+Azure Boards turns planning into a structured, queryable system that connects product intent to engineering execution. This guide explains how to design a practical work-item hierarchy, run backlogs and sprints, manage Kanban flow, and use dashboards that actually help teams make decisions.
+
+> [!NOTE]
+> Boards is strongest when it stays close to real team behavior. Lightweight, consistent work-item usage is usually better than heavy customization.
+
+> [!TIP]
+> Use a small set of states, tags, and hierarchy levels. Teams maintain data quality better when the process feels natural rather than bureaucratic.
+
+> [!IMPORTANT]
+> Do not customize the process model just because the platform allows it. Standard Agile, Scrum, or Basic processes are usually enough until reporting needs are proven.
+
+## Guide objectives
+
+- Create a clear hierarchy for epics, features, stories, tasks, and bugs.
+- Run backlogs and sprints with repeatable team practices.
+- Use boards, queries, and dashboards for real operational visibility.
+- Link work items meaningfully to code, tests, and releases.
+
+## Microsoft Learn screenshots
+
+> ![Azure Boards backlog and board navigation](https://learn.microsoft.com/en-us/azure/devops/user-guide/media/boards-backlogs.png)
 >
-> Disclaimer: Slack, Teams, and GitHub integrations are referenced as common patterns. Validate tenant controls, bot scopes, and message retention requirements before enabling them.
+> *Screenshot source: [Microsoft Learn — What is Azure Boards](https://learn.microsoft.com/en-us/azure/devops/boards/get-started/what-is-azure-boards?view=azure-devops). © Microsoft Corporation. Used for educational reference only.*
+
+> ![Azure DevOps project dashboard overview](https://learn.microsoft.com/en-us/azure/devops/user-guide/media/dashboard-overview.png)
+>
+> *Screenshot source: [Microsoft Learn — What is Azure DevOps?](https://learn.microsoft.com/en-us/azure/devops/user-guide/what-is-azure-devops?view=azure-devops). © Microsoft Corporation. Used for educational reference only.*
+
+> ![Azure DevOps left navigation experience](https://learn.microsoft.com/en-us/azure/devops/user-guide/media/left-navigation.png)
+>
+> *Screenshot source: [Microsoft Learn — What is Azure DevOps?](https://learn.microsoft.com/en-us/azure/devops/user-guide/what-is-azure-devops?view=azure-devops). © Microsoft Corporation. Used for educational reference only.*
+
+## Prerequisites
+
+- An Azure DevOps project with a defined process template.
+- Team, area path, and iteration path decisions.
+- A shared definition of what constitutes a story, task, and bug.
+- A basic reporting model for sprint, roadmap, or operations metrics.
+
+## Quick decision guide
+
+| Decision area | Why it matters | Recommended baseline |
+|---|---|---|
+| Process template | Shapes planning defaults | Start with Agile unless a strong reason exists otherwise |
+| Area paths | Represent ownership or product domains | Keep them aligned to real team boundaries |
+| Iteration paths | Drive sprint or timebox reporting | Create only the cadence you need |
+| Bug policy | Affects backlog and dashboard clarity | Decide early whether bugs appear with stories |
+| Dashboards | Support decision-making | Show only widgets that answer real questions |
 
 ## 3. Overview
 
@@ -310,3 +357,84 @@ Expected output:
 - [Kanban boards](https://learn.microsoft.com/azure/devops/boards/boards/kanban-overview)
 - [Queries](https://learn.microsoft.com/azure/devops/boards/queries/using-queries)
 - [Dashboards](https://learn.microsoft.com/azure/devops/report/dashboards/overview)
+
+## Real-world scenarios and examples
+
+### Scenario 1: Platform engineering backlog for cloud landing zone adoption
+
+A platform team needs to plan identity, networking, governance, and onboarding work in one shared backlog. Azure Boards helps turn that cross-functional roadmap into visible deliverables and dependencies.
+
+
+
+Implementation flow:
+
+1. Create epics by platform domain.
+2. Break them into features and sprint-sized stories.
+3. Link work to repos and pipelines.
+4. Use dashboards for roadmap and release health.
+
+
+
+Success indicators:
+
+- Dependencies are easier to spot.
+- Stakeholders see delivery progress.
+- Operational and engineering work can coexist in one model.
+
+### Scenario 2: Product team running two-week sprints
+
+A feature team wants predictable sprint planning, honest capacity review, and useful burndown data. Azure Boards provides this when backlog items are ready and board hygiene stays strong.
+
+
+
+Implementation flow:
+
+1. Plan from a refined backlog.
+2. Assign sprint capacity and days off.
+3. Keep board states current daily.
+4. Use sprint review and retro metrics to improve.
+
+
+
+Success indicators:
+
+- Sprint commitments become more realistic.
+- Blocked work surfaces earlier.
+- Reports are easier to trust.
+
+### Scenario 3: Operations team using Kanban rather than sprint delivery
+
+Not every team works in sprints. Boards also supports flow-based work such as incidents, changes, and maintenance through columns, swim lanes, and WIP-aware dashboards.
+
+
+
+Implementation flow:
+
+1. Create observable workflow states.
+2. Use swim lanes for expedite work.
+3. Track ownership with area paths.
+4. Measure aging and throughput with queries and widgets.
+
+
+
+Success indicators:
+
+- Flow bottlenecks are visible.
+- Urgent work is easier to separate from planned work.
+- Managers get more credible throughput data.
+
+## Operating model checklist
+
+- Review stale backlog items and unused queries regularly.
+- Keep area-path and iteration-path ownership current.
+- Use retrospectives to improve board states and completion definitions.
+- Archive or simplify dashboards that no longer influence decisions.
+
+## Official Microsoft References
+
+- [What is Azure Boards](https://learn.microsoft.com/en-us/azure/devops/boards/get-started/what-is-azure-boards?view=azure-devops)
+- [Backlogs, boards, and plans](https://learn.microsoft.com/en-us/azure/devops/boards/backlogs/backlogs-boards-plans?view=azure-devops)
+- [Define area paths and assign to a team](https://learn.microsoft.com/en-us/azure/devops/organizations/settings/set-area-paths?view=azure-devops)
+- [Set iteration paths and configure team iterations](https://learn.microsoft.com/en-us/azure/devops/boards/sprints/set-iteration-paths-sprints?view=azure-devops)
+- [About teams and Agile tools](https://learn.microsoft.com/en-us/azure/devops/organizations/settings/about-teams-and-settings?view=azure-devops)
+- [Azure DevOps CLI reference](https://learn.microsoft.com/en-us/azure/devops/cli/?view=azure-devops)

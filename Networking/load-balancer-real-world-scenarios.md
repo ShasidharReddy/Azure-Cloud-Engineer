@@ -1,5 +1,7 @@
 # Azure Load Balancing: Real-World Traffic Switching Scenarios
 
+> **Screenshot Disclaimer:** Portal screenshots referenced in this guide are sourced from [Microsoft Learn](https://learn.microsoft.com/en-us/azure/) documentation. © Microsoft Corporation. All rights reserved. Used for educational reference only.
+
 > A field guide for Azure cloud engineers who need to build, operate, and switch traffic across web tiers without downtime.
 
 This guide focuses on **practical load balancing patterns** rather than abstract theory.
@@ -160,6 +162,14 @@ Standard Load Balancer provides stronger security defaults, zone-aware capabilit
 - If the switch happens at the **DNS answer level**, think **Traffic Manager**.
 
 ## 2. Setting Up Load Balancer with 2 VMs (Step-by-Step)
+
+> **Portal View:** Navigate to `Azure Portal` → `Load balancers` → `Create`. The workflow shows frontend IP type, SKU, backend pool association, health probes, and inbound NAT rules used in this scenario.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Quickstart: Create a public load balancer to load balance VMs](https://learn.microsoft.com/en-us/azure/load-balancer/quickstart-load-balancer-standard-public-portal).* 
+
+> ![Create a virtual network in Azure portal](https://learn.microsoft.com/en-us/azure/virtual-network/media/quick-create-portal/create-virtual-network.png)
+>
+> *Screenshot source: [Microsoft Learn — Quickstart: Create an Azure Virtual Network | Microsoft Learn](https://learn.microsoft.com/en-us/azure/virtual-network/quick-create-portal). © Microsoft Corporation. Used for educational reference only.*
 
 This section builds a **regional web tier** with:
 

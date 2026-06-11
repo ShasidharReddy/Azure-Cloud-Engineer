@@ -1,5 +1,7 @@
 # Azure IAM & Security
 
+> **Screenshot Disclaimer:** Portal screenshots referenced in this guide are sourced from [Microsoft Learn](https://learn.microsoft.com/en-us/azure/) documentation. © Microsoft Corporation. All rights reserved. Used for educational reference only.
+
 > Comprehensive Azure IAM, identity, governance, and security reference with Mermaid diagrams, Azure CLI examples, and operational best practices.
 
 ## Standalone Deep Dive
@@ -299,6 +301,22 @@ flowchart TD
 - Scope hierarchy flows from management group to subscription to resource group to resource.
 - Deny assignments can explicitly block operations, even if an allow role exists through inheritance.
 
+> ![Add role assignment page in Azure portal](https://learn.microsoft.com/en-us/azure/role-based-access-control/media/role-assignments-portal/add-role-assignment-page.png)
+>
+> *Screenshot source: [Microsoft Learn — Assign Azure roles using the Azure portal - Azure RBAC](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal). © Microsoft Corporation. Used for educational reference only.*
+
+> **Portal View:** Navigate to `Azure Portal` → `Subscription` or `Resource group` → `Access control (IAM)` → `Add` → `Add role assignment`. The wizard shows role, member, and scope review steps that should map to your least-privilege design.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Assign Azure roles using the Azure portal - Azure RBAC](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal).* 
+
+### Step-by-step RBAC assignment pattern
+
+1. Identify the correct **scope** first; most access should be assigned at resource group or resource level, not subscription-wide.
+2. Assign access to an **Entra group** instead of directly to an individual wherever possible.
+3. Choose the smallest built-in or custom role that satisfies the operational task.
+4. Record the ticket, owner, and expiry or review date for privileged assignments.
+5. Validate the effective access with a test user or `az role assignment list` before closing the change.
+
 ```bash
 # Subscription context
 az account set --subscription "Production-Subscription"
@@ -585,6 +603,35 @@ flowchart TD
 - Grant controls include MFA, compliant device, password change, terms of use, or block.
 - Named locations simplify repeated trusted or blocked IP and geography definitions.
 - Conditional Access is most effective when designed in phases and monitored in report-only mode first.
+
+> **Portal View:** Navigate to `Microsoft Entra admin center` → `Protection` → `Conditional Access` → `Policies`. The experience shows assignments, conditions, grant controls, session controls, and report-only state used during safe rollout.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Plan a Conditional Access deployment](https://learn.microsoft.com/en-us/entra/identity/conditional-access/plan-conditional-access).* 
+
+> **Portal View:** Navigate to `Microsoft Entra admin center` → `Roles and administrators` or `Privileged Identity Management`. These blades show eligible assignments, approval requirements, MFA-on-activation, and access reviews for privileged identities.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — What is Privileged Identity Management?](https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure).* 
+
+### Conditional Access rollout sequence
+
+```mermaid
+flowchart LR
+  A[Identify admin / workforce / guest scope] --> B[Create pilot groups]
+  B --> C[Build report-only policies]
+  C --> D[Review sign-in impact]
+  D --> E[Enable for pilot]
+  E --> F[Expand to broad population]
+  F --> G[Review exclusions monthly]
+```
+
+### Real-world rollout examples
+
+| Scenario | Policy direction | Why |
+| --- | --- | --- |
+| Privileged admins | Require MFA and phishing-resistant auth, exclude break-glass | Protects the highest-value control plane paths |
+| Finance SaaS access | Require compliant device or trusted session controls | Reduces data exfiltration risk for sensitive apps |
+| External partner portal | Separate guest policy with limited exclusions | Prevents employee policy assumptions from breaking partner access |
+| Legacy protocols discovered | Block after reporting period and remediation plan | Removes old auth paths without surprise outage |
 
 ```bash
 # List Conditional Access policies
