@@ -1,5 +1,7 @@
 # Azure Networking
 
+> **Screenshot Disclaimer:** Portal screenshots referenced in this guide are sourced from [Microsoft Learn](https://learn.microsoft.com/en-us/azure/) documentation. © Microsoft Corporation. All rights reserved. Used for educational reference only.
+
 This document is a comprehensive Azure networking reference for cloud engineers.
 
 It covers the major Azure networking services and patterns used to build secure, scalable, hybrid, and globally distributed architectures.
@@ -86,9 +88,41 @@ All diagrams use Azure-themed colors:
 ## Notes
 
 - CLI commands are examples and may require parameter adjustments for your subscription, region, or service SKU.
-- Replace placeholder names, subscription IDs, passwords, PSKs, and hostnames before use.
+- Replace the sample names, subscription IDs, passwords, PSKs, and hostnames before use.
 - For production, prefer Infrastructure as Code, Azure Policy, and CI/CD validation over manual changes.
 - For a deep-dive runbook, see [Azure Load Balancing: Real-World Traffic Switching Scenarios](./load-balancer-real-world-scenarios.md).
+
+## Portal references and topology guidance
+
+> ![Create a virtual network in Azure portal](https://learn.microsoft.com/en-us/azure/virtual-network/media/quick-create-portal/create-virtual-network.png)
+>
+> *Screenshot source: [Microsoft Learn — Quickstart: Create an Azure Virtual Network | Microsoft Learn](https://learn.microsoft.com/en-us/azure/virtual-network/quick-create-portal). © Microsoft Corporation. Used for educational reference only.*
+
+> **Portal View:** Navigate to `Azure Portal` → `Network security groups` → `Inbound security rules` or `Outbound security rules`. The blades show priority ordering, source and destination scope, service tags, and application security group references used during segmentation reviews.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Network security groups](https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview).* 
+
+> **Portal View:** Navigate to `Azure Portal` → `Load balancers` → `Frontend IP configuration`, `Backend pools`, and `Health probes`. These blades show public/private frontends, backend membership, probe state, and rule binding used for production traffic validation.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Quickstart: Create a public load balancer to load balance VMs](https://learn.microsoft.com/en-us/azure/load-balancer/quickstart-load-balancer-standard-public-portal).* 
+
+### Reference hub-spoke topology
+
+```mermaid
+flowchart LR
+  Internet((Internet)) --> FD[Front Door / Public entry]
+  FD --> Hub[Hub VNet]
+  Hub --> FW[Azure Firewall]
+  Hub --> Shared[Private DNS / Bastion / Resolver]
+  Hub <--> SpokeApp[App Spoke]
+  Hub <--> SpokeData[Data Spoke]
+  SpokeApp --> ILB[Internal Load Balancer]
+  ILB --> AppVM[App Tier]
+  SpokeData --> PE[Private Endpoints]
+  PE --> PaaS[SQL / Storage / Key Vault]
+  OnPrem[(On-premises)] --> ER[VPN / ExpressRoute]
+  ER --> Hub
+```
 
 ---
 

@@ -1,5 +1,7 @@
 # Azure Cost Optimization Playbook
 
+> **Screenshot Disclaimer:** Portal screenshots referenced in this guide are sourced from [Microsoft Learn](https://learn.microsoft.com/en-us/azure/) documentation. © Microsoft Corporation. All rights reserved. Used for educational reference only.
+
 > A comprehensive Azure cost optimization guide with Mermaid diagrams, savings guidance, Azure CLI examples, and comparison tables.
 
 ## Document Goals
@@ -17,6 +19,33 @@
 3. Use **Advisor**, **Rightsizing**, **Storage**, **Network**, **Database**, and **AKS** sections to reduce run-rate waste.
 4. Use **Cost Management + Billing**, **Tagging**, and **FinOps** sections to operationalize governance and accountability.
 5. Revisit the **Monthly Azure Cost Review Checklist** every billing cycle.
+
+## Portal references for FinOps operators
+
+> ![Azure Cost Analysis view](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/media/quick-acm-cost-analysis/cost-analysis-ad-hoc.png)
+>
+> *Screenshot source: [Microsoft Learn — Quickstart - Start using Cost Analysis - Microsoft Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/quick-acm-cost-analysis). © Microsoft Corporation. Used for educational reference only.*
+
+> **Portal View:** Navigate to `Azure Portal` → `Cost Management + Billing` → `Budgets` → `Add`. The blade shows scope selection, reset period, alert thresholds, action groups, and forecast-based notifications used in monthly budget governance.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Tutorial: Create and manage Azure budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets).* 
+
+> **Portal View:** Navigate to `Azure Portal` → `Cost Management + Billing` → `Exports`. The blade shows schedule, storage destination, dataset type, and recurrence options used to automate actual and amortized cost exports.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Tutorial: Create and manage exported data](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-export-acm-data).* 
+
+## Monthly FinOps control loop
+
+```mermaid
+flowchart LR
+  A[Daily export] --> B[Cost analysis]
+  B --> C[Budget variance review]
+  C --> D[Rightsize / cleanup / commitments]
+  D --> E[Validate realized savings]
+  E --> F[Forecast next month]
+  F --> G[Executive and engineering review]
+  G --> A
+```
 
 <!-- workflow-diagram:start -->
 ## Workflow Snapshot
@@ -531,6 +560,39 @@ flowchart TD
 - Cost allocation depends on consistent tags, scopes, and sometimes business mappings because invoices alone rarely reflect application ownership.
 - Invoice review closes the loop by validating taxes, marketplace charges, reservation purchases, and amortized commitments.
 
+### Cost Management screenshots and navigation
+
+> ![Azure Cost Analysis ad hoc view](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/media/quick-acm-cost-analysis/cost-analysis-ad-hoc.png)
+>
+> *Screenshot source: [Microsoft Learn — Quickstart - Start using Cost Analysis - Microsoft Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/quick-acm-cost-analysis). © Microsoft Corporation. Used for educational reference only.*
+
+> **Portal View:** Navigate to `Azure Portal` → `Cost Management + Billing` → `Cost analysis` → `Group by`. The blade shows dimensions such as Resource group, Service name, Meter, and Tag that teams use to isolate spend spikes.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Quickstart - Start using Cost Analysis - Microsoft Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/quick-acm-cost-analysis).* 
+
+> **Portal View:** Navigate to `Azure Portal` → `Cost Management + Billing` → `Budgets`. The threshold panel shows current spend, forecast, and alert recipients so owners can react before month-end overruns.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Tutorial: Create and manage Azure budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets).* 
+
+### Budget creation runbook
+
+1. Select the correct **scope** first: management group for enterprise guardrails, subscription for platform accountability, or resource group for project-level control.
+2. Choose a **monthly reset period** unless the spend pattern is annual or tied to a fixed project window.
+3. Set multiple alert thresholds, such as **50%**, **80%**, **90%**, and **100%**, instead of relying on a single late warning.
+4. Send notifications to both the engineering owner and a shared action group so alerts are not lost during leave or team changes.
+5. Use **forecast alerts** for bursty workloads where overspend becomes obvious only near the end of the month.
+6. Document the action expected at each threshold: investigate, scale down, stop non-production, or escalate for approval.
+7. Review budget performance after one cycle and tune thresholds if the signal is too noisy or too late.
+
+### Real examples of savings actions
+
+| Situation | Action | Indicative result | Validation approach |
+| --- | --- | --- | --- |
+| Dev/test VMs left running overnight | Add start/stop automation and move eligible Windows hosts to Dev/Test pricing | 30% to 55% lower monthly spend | Compare month-over-month VM runtime hours and cost |
+| SQL database with weekday usage only | Move to serverless or smaller vCore SKU | 20% to 50% lower database cost | Watch CPU, storage, and query latency after change |
+| API fleet with consistent baseline and frequent burst | Cover baseline with Savings Plan, leave burst on PAYG | 10% to 35% blended compute reduction | Compare amortized cost view before and after purchase |
+| Old snapshots, unattached disks, and public IPs | Remove orphaned resources | 100% elimination of waste for those assets | Export Resource Graph inventory before and after cleanup |
+
 ### Cost Comparison Table
 
 | Option | Typical savings | Best fit | Key trade-off |
@@ -545,12 +607,42 @@ flowchart TD
 
 ```bash
 az consumption usage list --start-date 2025-01-01 --end-date 2025-01-31 --output table
-az consumption budget create --amount 5000 --budget-name prod-monthly-budget --category cost --resource-group rg-finops --time-grain monthly --start-date 2025-01-01 --end-date 2025-12-31 --notifications contactEmails=finops@example.com operator=GreaterThan threshold=80 enabled=true
+
+az monitor action-group create \
+  --resource-group rg-finops \
+  --name ag-cost \
+  --short-name COST \
+  --action email finops FinOpsTeam finops@example.com
+
+az consumption budget create \
+  --amount 5000 \
+  --budget-name prod-monthly-budget \
+  --category cost \
+  --resource-group rg-finops \
+  --time-grain monthly \
+  --start-date 2025-01-01 \
+  --end-date 2025-12-31 \
+  --notifications contactEmails=finops@example.com operator=GreaterThan threshold=80 enabled=true
+
 az consumption budget list --output table
 az billing invoice list --output table
 az billing profile list --output table
-az monitor action-group create --resource-group rg-finops --name ag-cost --short-name COST --action email finops FinOpsTeam finops@example.com
-az rest --method put --url "https://management.azure.com/subscriptions/<subscriptionId>/providers/Microsoft.CostManagement/exports/monthly-cost-export?api-version=2023-03-01" --body "{"properties":{"schedule":{"status":"Active","recurrence":"Monthly","recurrencePeriod":{"from":"2025-01-01T00:00:00Z","to":"2026-01-01T00:00:00Z"}},"format":"Csv","deliveryInfo":{"destination":{"resourceId":"/subscriptions/<subscriptionId>/resourceGroups/rg-finops/providers/Microsoft.Storage/storageAccounts/stcostexports","container":"exports","rootFolderPath":"monthly"}},"definition":{"type":"ActualCost","timeframe":"MonthToDate","dataset":{"granularity":"Daily"}}}}"
+
+az rest --method put \
+  --url "https://management.azure.com/subscriptions/<subscriptionId>/providers/Microsoft.CostManagement/exports/monthly-cost-export?api-version=2023-03-01" \
+  --body '{"properties":{"schedule":{"status":"Active","recurrence":"Monthly","recurrencePeriod":{"from":"2025-01-01T00:00:00Z","to":"2026-01-01T00:00:00Z"}},"format":"Csv","deliveryInfo":{"destination":{"resourceId":"/subscriptions/<subscriptionId>/resourceGroups/rg-finops/providers/Microsoft.Storage/storageAccounts/stcostexports","container":"exports","rootFolderPath":"monthly"}},"definition":{"type":"ActualCost","timeframe":"MonthToDate","dataset":{"granularity":"Daily"}}}}'
+```
+
+Expected output from a healthy budget and export setup usually looks like this:
+
+```text
+Name                 Amount    TimeGrain    CurrentSpend
+-------------------  --------  -----------  ------------
+prod-monthly-budget  5000      Monthly      3124.41
+
+Name                 Recurrence    Format    Status
+-------------------  ------------  --------  --------
+monthly-cost-export  Monthly       Csv       Active
 ```
 
 ### Decision Checklist

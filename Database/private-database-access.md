@@ -1,5 +1,7 @@
 # 🔐 Azure Database Private Access and Connectivity
 
+> **Screenshot Disclaimer:** Portal screenshots referenced in this guide are sourced from [Microsoft Learn](https://learn.microsoft.com/en-us/azure/) documentation. © Microsoft Corporation. All rights reserved. Used for educational reference only.
+
 > A comprehensive field guide for designing, deploying, securing, and troubleshooting private connectivity for Azure database platforms.
 
 This guide is written for Azure cloud engineers, platform teams, solution architects, operations engineers, and database administrators who need practical patterns for private database access across cloud-native, hybrid, and regulated environments.
@@ -210,6 +212,14 @@ flowchart LR
 
 ### 2.1 Portal deployment walkthrough
 
+> ![Create Azure SQL server during single database deployment](https://learn.microsoft.com/en-us/azure/azure-sql/database/media/single-database-create-quickstart/new-server.png)
+>
+> *Screenshot source: [Microsoft Learn — Create a Single Database - Azure SQL Database](https://learn.microsoft.com/en-us/azure/azure-sql/database/single-database-create-quickstart). © Microsoft Corporation. Used for educational reference only.*
+
+> **Portal View:** Navigate to `Azure Portal` → `SQL databases` → `Create` → `Networking`. The blade shows public access, private endpoint, connection policy, and minimum TLS settings that should be agreed before production rollout.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Create a Single Database - Azure SQL Database](https://learn.microsoft.com/en-us/azure/azure-sql/database/single-database-create-quickstart).* 
+
 1. Open the Azure portal and create or select a resource group for the database platform.
 2. Navigate to **SQL databases** and select **Create**.
 3. Choose subscription, resource group, database name, and compute + storage settings.
@@ -219,6 +229,13 @@ flowchart LR
 7. Decide whether you will start with public access plus firewall rules or a private connectivity pattern.
 8. Review networking defaults, security defaults, and monitoring options before submitting.
 9. Validate deployment in the portal, then test connectivity using a controlled client.
+
+### 2.1.1 Production-ready portal checks
+
+- Confirm whether **public network access** will remain enabled after migration or be disabled after private endpoint validation.
+- Review **Microsoft Entra admin**, auditing, Defender for SQL, and diagnostic settings before sign-off.
+- Validate backup redundancy and zone redundancy against the workload RPO/RTO, not just default cost settings.
+- Capture the logical server name and resource IDs early because they are reused in private endpoint, RBAC, and automation steps.
 
 ### 2.2 Azure CLI deployment
 
@@ -492,11 +509,26 @@ flowchart LR
 
 ### 3.1 What Private Endpoints solve
 
+> **Portal View:** Navigate to `Azure Portal` → `Private Link Center` → `Private endpoints`. The overview shows connection state, DNS integration, private IP assignment, and approval workflow status used when validating database private access.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — What is a private endpoint?](https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview).* 
+
+> **Portal View:** Navigate to `Azure Portal` → `Azure Cosmos DB` → `Networking` or `Azure Database for PostgreSQL flexible servers` → `Networking`. These blades show private access mode, DNS zone selection, and public access disablement that must align with application cutover plans.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Configure private endpoints for Azure Cosmos DB](https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-configure-private-endpoints) and [Microsoft Learn — Azure Database for PostgreSQL flexible server networking](https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-networking-private).* 
+
 - Remove dependency on public IP allowlists for internal applications.
 - Reduce exposure by letting you disable public network access entirely.
 - Keep name-based connectivity simple when paired with correct Private DNS zones.
 - Support hybrid connectivity when private DNS is extended to on-premises resolvers.
 - Help satisfy regulatory expectations for private transport paths and segmented network design.
+
+### 3.1.1 Private DNS resolution checklist
+
+1. Resolve the public FQDN from a workload subnet and confirm that it returns the **private** IP after zone-group creation.
+2. Test from both Azure and on-premises clients when hybrid access is part of the design.
+3. Verify that no stale conditional forwarder or host file entry bypasses the intended DNS path.
+4. Disable public network access only after name resolution and client connection tests both succeed.
 
 ### 3.2 Azure SQL Private Endpoint step-by-step with Azure CLI
 

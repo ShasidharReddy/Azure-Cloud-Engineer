@@ -1,8 +1,65 @@
+> **Screenshot Disclaimer:** Screenshots in this guide are sourced from [Microsoft Learn](https://learn.microsoft.com/en-us/azure/devops/) documentation. © Microsoft Corporation. All rights reserved. Used here for educational and reference purposes only. For the latest UI and features, always refer to the official documentation.
+
 # 08 Advanced Patterns
 
-> Advanced Azure DevOps operating patterns for scale, governance, and platform engineering.
+Advanced Azure DevOps patterns help platform teams scale beyond a small number of repositories and pipelines. This guide explains how to reuse YAML through template libraries, support monorepos and multi-repo delivery, add GitOps-style handoff, govern shared controls, and manage self-hosted agents responsibly.
+
+> [!NOTE]
+> Advanced patterns amplify both strengths and weaknesses. If your core repo, pipeline, environment, and package standards are unstable, fix those first before adding more platform abstraction.
+
+> [!TIP]
+> Treat shared pipeline templates, decorators, and agent images as products. They need versioning, support, documentation, and release discipline, not just a convenient repository.
+
+> [!IMPORTANT]
+> Centralized controls should reduce unsafe variation without turning every delivery change into a platform bottleneck. Use guardrails, not needless bureaucracy.
+
+## Guide objectives
+
+- Scale Azure DevOps across many repositories, teams, and environments.
+- Introduce reusable platform assets without losing team clarity.
+- Choose between monorepo, multi-repo, and GitOps-style delivery intentionally.
+- Operate self-hosted agents and governance controls with a product mindset.
+
+## Microsoft Learn screenshots
+
+> ![Azure DevOps left navigation experience](https://learn.microsoft.com/en-us/azure/devops/user-guide/media/left-navigation.png)
 >
-> Disclaimer: GitOps controllers, Jenkins, and external automation frameworks are included for comparative guidance only. Validate support models and change control requirements before production rollout.
+> *Screenshot source: [Microsoft Learn — What is Azure DevOps?](https://learn.microsoft.com/en-us/azure/devops/user-guide/what-is-azure-devops?view=azure-devops). © Microsoft Corporation. Used for educational reference only.*
+
+> ![Azure DevOps project dashboard overview](https://learn.microsoft.com/en-us/azure/devops/user-guide/media/dashboard-overview.png)
+>
+> *Screenshot source: [Microsoft Learn — What is Azure DevOps?](https://learn.microsoft.com/en-us/azure/devops/user-guide/what-is-azure-devops?view=azure-devops). © Microsoft Corporation. Used for educational reference only.*
+
+> ![Azure overview page for Azure Pipelines service connection creation](https://learn.microsoft.com/en-us/azure/devops/pipelines/library/media/azure-overview-page.png)
+>
+> *Screenshot source: [Microsoft Learn — Use an Azure Resource Manager service connection](https://learn.microsoft.com/en-us/azure/devops/pipelines/library/connect-to-azure?view=azure-devops). © Microsoft Corporation. Used for educational reference only.*
+
+## Prerequisites
+
+- Stable baseline practice for organization setup, repos, boards, CI, CD, and artifacts.
+- A platform or architecture team that owns shared standards.
+- An inventory of current repositories, pipelines, agents, and environments.
+- A migration goal if replacing Jenkins or other legacy tooling.
+
+## Quick decision guide
+
+| Decision area | Why it matters | Recommended baseline |
+|---|---|---|
+| Template library | Reduces YAML duplication | Use once a reference pipeline pattern is proven |
+| Monorepo | Improves coordinated change | Use only with strong ownership and path-aware automation |
+| Multi-repo | Preserves team autonomy | Use when release cadence and ownership differ strongly |
+| GitOps handoff | Separates build from reconciliation | Adopt when runtime operations prefer controller-based deployment |
+| Self-hosted agents | Provide private reach or custom tooling | Limit to workloads that truly need them |
+
+## Portal-view fallback references
+
+> **Portal view fallback:** Template and shared-pipeline guidance evolves frequently. Use the live article to compare the current YAML authoring experience with your tenant.
+>
+> For the most current Microsoft Learn walkthrough, review [How to use YAML templates for reusable and secure pipelines](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops).
+
+> **Portal view fallback:** For ephemeral environment and deployment-history details, compare your UI with the latest Microsoft Learn environments article.
+>
+> For the most current Microsoft Learn walkthrough, review [Create and target Azure DevOps environments for pipelines](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/environments?view=azure-devops).
 
 ## 8. Overview
 
@@ -311,3 +368,84 @@ stages:
 - [Audit logs](https://learn.microsoft.com/azure/devops/organizations/audit/auditing)
 - [Azure DevOps REST API](https://learn.microsoft.com/rest/api/azure/devops)
 - [Azure DevOps CLI](https://learn.microsoft.com/azure/devops/cli/)
+
+## Real-world scenarios and examples
+
+### Scenario 1: Enterprise platform team standardizing dozens of repositories
+
+A central platform team needs consistent CI and CD behavior across many codebases. Shared templates and targeted governance controls are the main scaling mechanism.
+
+
+
+Implementation flow:
+
+1. Create a protected template library.
+2. Pilot the templates with representative teams.
+3. Track exceptions and unsupported use cases.
+4. Roll out gradually with versioned changes.
+
+
+
+Success indicators:
+
+- Pipeline consistency improves.
+- Repository onboarding gets faster.
+- Exceptions are more visible and manageable.
+
+### Scenario 2: Monorepo supporting many services plus shared libraries
+
+A development organization wants easier cross-service refactoring and shared dependency management, but also needs path-aware automation and clear ownership to avoid chaos.
+
+
+
+Implementation flow:
+
+1. Define directory ownership.
+2. Use path filters in pipelines.
+3. Apply shared branch protections.
+4. Review monorepo health as the codebase grows.
+
+
+
+Success indicators:
+
+- Cross-service changes are easier.
+- Unrelated builds run less often.
+- Ownership stays clear.
+
+### Scenario 3: Jenkins migration into Azure DevOps with private agents
+
+A team moving from Jenkins still needs private network access and specialized build tools. Azure DevOps can support that through phased migration and well-governed self-hosted pools.
+
+
+
+Implementation flow:
+
+1. Inventory Jenkins jobs by pattern.
+2. Create purpose-built agent pools.
+3. Rebuild the first wave in reviewed YAML.
+4. Retire legacy jobs after trust is established.
+
+
+
+Success indicators:
+
+- Migration risk falls.
+- Agent usage becomes more intentional.
+- Legacy automation debt is reduced rather than copied forward.
+
+## Operating model checklist
+
+- Version and test shared templates like production code.
+- Track which workloads truly require self-hosted agents.
+- Review centralized controls with engineering stakeholders regularly.
+- Measure whether advanced patterns improve speed, consistency, or security instead of assuming complexity is helpful.
+
+## Official Microsoft References
+
+- [How to use YAML templates for reusable and secure pipelines](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops)
+- [Create and target Azure DevOps environments for pipelines](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/environments?view=azure-devops)
+- [Git branch policies and settings](https://learn.microsoft.com/en-us/azure/devops/repos/git/branch-policies?view=azure-devops)
+- [Deployment jobs](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/deployment-jobs?view=azure-devops)
+- [Agent pools and queues](https://learn.microsoft.com/en-us/azure/devops/pipelines/agents/pools-queues?view=azure-devops)
+- [Azure DevOps CLI reference](https://learn.microsoft.com/en-us/azure/devops/cli/?view=azure-devops)

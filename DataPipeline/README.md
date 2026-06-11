@@ -1,8 +1,74 @@
 # Azure Data Pipeline & Analytics
 
+> **Screenshot Disclaimer:** Portal screenshots referenced in this guide are sourced from [Microsoft Learn](https://learn.microsoft.com/en-us/azure/) documentation. © Microsoft Corporation. All rights reserved. Used for educational reference only.
+
 A comprehensive Azure-focused guide covering ingestion, orchestration, streaming, warehousing, lakehouse analytics, governance, and BI for enterprise data platforms.
 
+Azure data platforms are rarely built from a single service. Most production estates combine **Azure Data Factory** for orchestration, **Azure Synapse Analytics** for warehousing and lake analytics, **Azure Event Hubs** for durable streaming ingestion, and **Azure Stream Analytics** for low-latency stream processing. Together, these services let platform teams separate batch, streaming, transformation, and serving concerns while still operating within a consistent Azure governance model.
+
 > This document intentionally combines architecture patterns, Azure CLI examples, and operational guidance. Azure CLI command coverage varies by service and extension version, so validate commands in your tenant and pin versions in automation.
+
+## What this guide adds beyond product docs
+
+- Explains **when** to choose Data Factory, Synapse, Event Hubs, or Stream Analytics instead of listing features in isolation.
+- Shows how Azure teams usually connect ingestion, transformation, storage, and monitoring in a landing-zone-friendly way.
+- Includes portal references so operators can recognize the Azure experience they are automating.
+- Expands CLI sections with realistic verification commands and sample output expectations.
+- Adds service-selection guidance for batch pipelines, near-real-time processing, and event-driven analytics.
+
+## Azure data services at a glance
+
+| Service | Primary role | Best fit | Typical downstream dependency | Common pitfall |
+| --- | --- | --- | --- | --- |
+| Azure Data Factory | Orchestration and managed data movement | Scheduled ETL/ELT, hybrid copy, metadata-driven pipelines | ADLS Gen2, Synapse, SQL, Databricks | Overusing mapping data flows for small transformations that SQL could handle more cheaply |
+| Azure Synapse Analytics | SQL + Spark analytics workspace | Enterprise BI, lakehouse analytics, governed SQL serving | ADLS Gen2, Power BI, Purview | Treating serverless SQL like a full warehouse without file layout discipline |
+| Azure Event Hubs | High-throughput event ingestion | Telemetry, clickstream, IoT, app events | Stream Analytics, Functions, Spark | Underestimating partition count and consumer-group design |
+| Azure Stream Analytics | Low-code stream processing | Filtering, windowing, routing, alerts, low-latency aggregations | Power BI, Data Lake, Event Hubs, Functions | Using it for large historical batch transforms instead of live event analytics |
+
+## Service selection flow
+
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor':'#0078D4','primaryTextColor':'#ffffff','primaryBorderColor':'#005A9E','lineColor':'#0078D4','secondaryColor':'#50E6FF','tertiaryColor':'#E6F4FF'}}}%%
+flowchart TD
+  A[New data requirement] --> B{Arrival pattern?}
+  B -- Scheduled files / DB sync --> C[Azure Data Factory]
+  B -- Continuous events --> D{Need SQL-like streaming rules?}
+  D -- Yes --> E[Azure Stream Analytics]
+  D -- No --> F[Event Hubs + Spark / Synapse / Databricks]
+  C --> G{Serving target?}
+  G -- Warehouse / BI --> H[Azure Synapse Analytics]
+  G -- Data lake / ML --> I[ADLS Gen2 + Spark]
+  E --> I
+  F --> I
+  H --> J[Power BI / governed consumers]
+  I --> J
+```
+
+## Portal references for operators
+
+> ![Azure Data Factory visual guide](https://learn.microsoft.com/en-us/azure/data-factory/media/introduction/data-factory-visual-guide.png)
+>
+> *Screenshot source: [Microsoft Learn — Introduction to Azure Data Factory - Azure Data Factory](https://learn.microsoft.com/en-us/azure/data-factory/introduction). © Microsoft Corporation. Used for educational reference only.*
+
+> ![Create Azure Data Factory menu in the Azure portal](https://learn.microsoft.com/en-us/azure/data-factory/media/quickstart-create-data-factory-portal/new-azure-data-factory-menu.png)
+>
+> *Screenshot source: [Microsoft Learn — Create an Azure Data Factory - Azure Data Factory](https://learn.microsoft.com/en-us/azure/data-factory/quickstart-create-data-factory-portal). © Microsoft Corporation. Used for educational reference only.*
+
+> **Portal View:** Navigate to `Azure Portal` → `Synapse workspaces` → `Create`. The Basics, Security, and Networking tabs show workspace naming, managed resource group options, ADLS Gen2 linkage, and managed virtual network settings used in enterprise Synapse deployments.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — What is Azure Synapse Analytics?](https://learn.microsoft.com/en-us/azure/synapse-analytics/overview-what-is).* 
+
+> **Portal View:** Navigate to `Azure Portal` → `Event Hubs namespaces` → `Event Hubs` or `Stream Analytics jobs` → `Inputs` / `Outputs` / `Query`. These blades show partitioning, throughput units, consumer groups, query authoring, and output routing settings that operators validate during production cutovers.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Event Hubs features](https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-features) and [Microsoft Learn — Stream Analytics documentation](https://learn.microsoft.com/en-us/azure/stream-analytics/stream-analytics-introduction).* 
+
+## Batch and streaming operating model
+
+1. **Land data intentionally.** Batch data usually lands in ADLS Gen2 through Data Factory; streaming data usually lands in Event Hubs first so replay remains possible.
+2. **Separate orchestration from transformation.** Use Data Factory or Synapse pipelines to coordinate work, but use SQL, Spark, notebooks, or Stream Analytics for the heavy logic.
+3. **Preserve raw zones.** Keep immutable landing areas so you can replay after logic changes, schema issues, or audit requests.
+4. **Promote curated outputs.** Publish silver/gold datasets, warehouse tables, semantic models, or serving APIs only after validation and lineage checks.
+5. **Instrument the platform.** Capture run status, watermark progression, queue depth, failed events, and data freshness metrics for every major stage.
 
 <!-- workflow-diagram:start -->
 ## Workflow Snapshot
@@ -135,6 +201,125 @@ It provides visual orchestration, rich connectors, parameterized pipelines, mana
 - Common API pattern: Web activity obtains tokens and pagination metadata before a Copy or REST extraction.
 - Common hybrid pattern: self-hosted IR bridges on-premises SQL Server, SAP, file shares, and Oracle to Azure.
 - Common operational pattern: send pipeline metrics to Azure Monitor and alert on SLA breaches.
+
+### Portal walkthrough: creating a first production-friendly pipeline
+
+1. Create the **Data Factory** resource and open **Launch Studio**.
+2. In **Manage**, create linked services for the source system, staging storage, and any sink such as Synapse or Azure SQL.
+3. In **Author**, create parameterized datasets so folder paths, table names, or file patterns can vary by environment.
+4. Add a **Pipeline**, then drop in a **Copy data** activity for ingestion.
+5. Add validation or transformation steps such as **Stored Procedure**, **Notebook**, **If Condition**, or **ForEach**.
+6. Configure retry, timeout, secure input/output, and failure paths before publishing.
+7. Use **Debug** for design validation, then create a **Trigger** for schedule, event, or tumbling-window execution.
+8. Validate results in **Monitor** by checking activity duration, rows read/written, and error details.
+
+```mermaid
+flowchart LR
+  A[Author linked services] --> B[Define datasets]
+  B --> C[Create pipeline]
+  C --> D[Add Copy activity]
+  D --> E[Add validation / transform]
+  E --> F[Debug run]
+  F --> G[Publish]
+  G --> H[Create trigger]
+  H --> I[Monitor and tune]
+```
+
+### Step-by-step example: SFTP to ADLS to Synapse
+
+| Step | Azure service | Operator action | Validation signal |
+| --- | --- | --- | --- |
+| 1 | Data Factory | Create an SFTP linked service and test connection | Test connection succeeds with the selected Integration Runtime |
+| 2 | Data Factory | Create an ADLS Gen2 linked service using managed identity | Linked service test succeeds without embedded keys |
+| 3 | Data Factory | Create source and sink datasets with parameters for folder/date | Dataset preview resolves the expected path |
+| 4 | Data Factory | Build a pipeline with Copy Activity and a Stored Procedure or Notebook activity | Debug run shows source rows copied and downstream transform invoked |
+| 5 | Synapse | Land raw files in `bronze/sales/` and load curated table into a warehouse or lakehouse table | Target table row count matches the expected watermark window |
+| 6 | Monitor | Add Azure Monitor alerts for pipeline failure, runtime saturation, and long duration | Alert rule fires in test when pipeline is forced to fail |
+
+### Expanded Azure CLI commands
+
+```bash
+az extension add --name datafactory
+
+az group create --name rg-data --location eastus
+
+az datafactory factory create \
+  --resource-group rg-data \
+  --factory-name adf-enterprise-demo \
+  --location eastus
+
+az datafactory integration-runtime create \
+  --resource-group rg-data \
+  --factory-name adf-enterprise-demo \
+  --name AutoResolveIntegrationRuntime \
+  --type Managed
+
+az datafactory linked-service create \
+  --resource-group rg-data \
+  --factory-name adf-enterprise-demo \
+  --name ls-adls \
+  --properties @linkedservice-adls.json
+
+az datafactory dataset create \
+  --resource-group rg-data \
+  --factory-name adf-enterprise-demo \
+  --name ds-sales-csv \
+  --properties @dataset-sales.json
+
+az datafactory pipeline create \
+  --resource-group rg-data \
+  --factory-name adf-enterprise-demo \
+  --name pl-batch-load \
+  --pipeline @pipeline-batch.json
+
+az datafactory trigger create \
+  --resource-group rg-data \
+  --factory-name adf-enterprise-demo \
+  --name trg-daily-load \
+  --properties @trigger-daily.json
+
+az datafactory trigger start \
+  --resource-group rg-data \
+  --factory-name adf-enterprise-demo \
+  --name trg-daily-load
+
+RUN_ID=$(az datafactory pipeline create-run \
+  --resource-group rg-data \
+  --factory-name adf-enterprise-demo \
+  --name pl-batch-load \
+  --parameters sourcePath=raw/sales \
+  --query runId -o tsv)
+
+echo "Pipeline run id: $RUN_ID"
+
+az datafactory pipeline-run show \
+  --resource-group rg-data \
+  --factory-name adf-enterprise-demo \
+  --run-id $RUN_ID \
+  --query '{status:status,invokedBy:invokedBy.name,lastUpdated:lastUpdated}'
+
+az datafactory activity-run query-by-pipeline-run \
+  --resource-group rg-data \
+  --factory-name adf-enterprise-demo \
+  --run-id $RUN_ID \
+  --last-updated-after 2025-01-01T00:00:00Z \
+  --last-updated-before 2025-12-31T23:59:59Z \
+  --query 'value[].{activity:activityName,status:status,duration:durationInMs}' -o table
+```
+
+Expected output after a healthy test run typically looks like this:
+
+```text
+Pipeline run id: 2f37c7a8-6f91-4d7a-a8d3-9c1c9a6df5fb
+status    invokedBy        lastUpdated
+--------  ---------------  -------------------------
+Succeeded Manual trigger   2025-02-14T06:13:48.000Z
+
+activity         status     duration
+---------------  ---------  --------
+CopyToBronze     Succeeded  38214
+LoadCuratedSales Succeeded  12987
+```
 
 ### Azure CLI commands
 
