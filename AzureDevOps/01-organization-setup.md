@@ -1,8 +1,55 @@
+> **Screenshot Disclaimer:** Screenshots in this guide are sourced from [Microsoft Learn](https://learn.microsoft.com/en-us/azure/devops/) documentation. © Microsoft Corporation. All rights reserved. Used here for educational and reference purposes only. For the latest UI and features, always refer to the official documentation.
+
 # 01 Organization Setup
 
-> Build an Azure DevOps foundation that is secure, traceable, and ready for project teams.
+Organization setup defines the administrative and security foundation for every Azure DevOps project that follows. This guide explains what to configure first, why those decisions matter, and how to prepare identity, projects, service connections, and agents for long-term platform use.
+
+> [!NOTE]
+> Think of the organization as a shared control plane. Weak naming, access, or service-connection decisions here affect every project and every future pipeline.
+
+> [!TIP]
+> Decide the organization naming pattern, project taxonomy, and owner contacts before the first production team is onboarded. Cleanup later is possible, but far more expensive.
+
+> [!IMPORTANT]
+> Use least privilege. Keep organization administration separate from day-to-day contributor access, and prefer Microsoft Entra groups over one-off direct assignments.
+
+## Guide objectives
+
+- Establish the organization, project, and access baseline.
+- Connect Azure DevOps to Microsoft Entra ID for scalable identity governance.
+- Prepare secure Azure access and reliable pipeline execution paths.
+- Document a repeatable project-onboarding model.
+
+## Microsoft Learn screenshots
+
+> ![Create a new Azure DevOps organization](https://learn.microsoft.com/en-us/azure/devops/media/select-new-organization.png)
 >
-> Disclaimer: Third party identity providers, registries, source platforms, and scanners referenced here should be validated against your security baseline and official vendor guidance.
+> *Screenshot source: [Microsoft Learn — Create an organization](https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/create-organization?view=azure-devops). © Microsoft Corporation. Used for educational reference only.*
+
+> ![Select Microsoft Entra directory to connect to Azure DevOps](https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/media/shared/select-azure-ad-connect-directory.png)
+>
+> *Screenshot source: [Microsoft Learn — Connect organization to Microsoft Entra ID](https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/connect-organization-to-azure-ad?view=azure-devops). © Microsoft Corporation. Used for educational reference only.*
+
+> ![Complete the new project creation form](https://learn.microsoft.com/en-us/azure/devops/organizations/projects/media/create-project/create-new-project-form.png)
+>
+> *Screenshot source: [Microsoft Learn — Create a project](https://learn.microsoft.com/en-us/azure/devops/organizations/projects/create-project?view=azure-devops). © Microsoft Corporation. Used for educational reference only.*
+
+## Prerequisites
+
+- Permission to create or administer an Azure DevOps organization.
+- An Azure subscription and billing owner if Azure deployment is planned.
+- A Microsoft Entra tenant and supporting identity contacts.
+- A naming and ownership convention for organizations, projects, service connections, and agent pools.
+
+## Quick decision guide
+
+| Decision area | Why it matters | Recommended baseline |
+|---|---|---|
+| Organization count | Affects governance and reporting | Keep the number of organizations low unless separation is mandatory |
+| Project creation | Defines collaboration boundaries | Create projects by product or platform domain |
+| Identity model | Controls onboarding and offboarding | Use Entra-connected group-based access |
+| Azure access | Defines how pipelines reach subscriptions | Use scoped service connections |
+| Agent model | Determines network reach and maintenance | Start hosted, add self-hosted only when justified |
 
 ## 1. Overview
 
@@ -71,18 +118,17 @@ flowchart TB
   - avoid person specific names
   - document owner and backup owner
 
-### 2.2 What the screen looks like
+### 2.2 Creation page landmarks
 
-- A clean creation form with the Microsoft header on top.
-- Center panel shows a text box for organization name and region selection.
-- Right side or lower section shows a short explanation of privacy, terms, and region placement.
-- Primary action button reads `Continue` or `Create organization`.
+- The organization creation page centers the organization name field and region selection so administrators can validate identity and residency choices before provisioning.
+- Supporting text explains privacy, terms, and any subscription or billing implications.
+- The primary action button stays disabled until the name is valid, which helps prevent accidental malformed organization names.
 
-### 2.3 After creation what you see
+### 2.3 Post-creation landing experience
 
-- Left rail with service hubs such as Boards, Repos, Pipelines, Test Plans, and Artifacts.
-- Top project selector with a prompt to create your first project.
-- A welcome card that highlights import repo, create project, invite users, and install extensions.
+- After provisioning, Azure DevOps redirects to the new organization and loads the standard service rail with Boards, Repos, Pipelines, Test Plans, and Artifacts.
+- The header usually highlights the organization name and offers a quick path to create the first project.
+- The welcome experience typically promotes common next steps such as creating a project, importing code, inviting users, and reviewing settings.
 
 ### 2.4 Quick bootstrap commands
 
@@ -181,11 +227,11 @@ Expected output:
   5. Review impact on existing users.
   6. Confirm and synchronize.
 
-### 4.3 What the user sees
+### 4.3 Directory connection landmarks
 
-- A tenant selection dialog with tenant name, domain, and confirmation text.
-- A warning section explains how user identities will be matched.
-- A confirmation screen shows the selected tenant and an action button to finalize connection.
+- The tenant selection experience shows the tenant name, verified domain, and connection confirmation details so administrators can confirm they are attaching the right Microsoft Entra directory.
+- A warning panel explains how Azure DevOps will reconcile existing users, which is especially important when personal and work identities have been mixed historically.
+- The final confirmation step restates the selected tenant before the connection is committed.
 
 ### 4.4 Entra design tips
 
@@ -210,12 +256,11 @@ Expected output:
   - process template
   - version control type
 
-### 5.2 What the screen looks like
+### 5.2 Project creation form landmarks
 
-- Modal or full page form with a large project name text box.
-- Dropdowns for visibility, work item process, and source control.
-- Informational helper text under each dropdown.
-- Create button is disabled until a valid project name is entered.
+- The project creation form places the project name field first because naming and visibility are the most important initial decisions.
+- Visibility, process template, and source control selections are presented as explicit dropdown choices with helper text beneath each one.
+- Azure DevOps validates the name before the **Create** button becomes available, which helps maintain clean project naming standards.
 
 ### 5.3 Public vs private projects
 
@@ -488,3 +533,84 @@ Expected output:
 - [Projects and process templates](https://learn.microsoft.com/azure/devops/organizations/projects/about-projects)
 - [Service connections](https://learn.microsoft.com/azure/devops/pipelines/library/service-endpoints)
 - [Agents and agent pools](https://learn.microsoft.com/azure/devops/pipelines/agents/agents)
+
+## Real-world scenarios and examples
+
+### Scenario 1: Landing zone platform team creating a new enterprise Azure DevOps foundation
+
+A central platform team needs one shared Azure DevOps organization for infrastructure code, templates, and onboarding automation. Strong organization setup prevents project sprawl and insecure Azure access.
+
+
+
+Implementation flow:
+
+1. Create the organization and reference project.
+2. Connect Microsoft Entra ID and define admin groups.
+3. Create Azure service connections for the landing zone subscriptions.
+4. Prepare the first agent pools and onboarding checklist.
+
+
+
+Success indicators:
+
+- New projects follow a consistent pattern.
+- Identity and Azure access are auditable.
+- Platform teams can onboard application teams quickly.
+
+### Scenario 2: Regulated team separating organization administration from project delivery
+
+A regulated environment needs clear separation of duties. Azure DevOps supports that well when organization settings, billing, service connections, and project permissions are designed up front.
+
+
+
+Implementation flow:
+
+1. Reserve organization-level roles for a small platform team.
+2. Delegate project-level permissions deliberately.
+3. Use group-based access for approvers and administrators.
+4. Review audit and security settings as part of onboarding.
+
+
+
+Success indicators:
+
+- Admin rights are easier to review.
+- Project teams can move fast within safe guardrails.
+- Audit questions are easier to answer.
+
+### Scenario 3: Private-network deployment estate requiring self-hosted agents
+
+Some workloads need agents that can reach private Azure endpoints or internal services. Organization setup is where that execution model should be defined and governed.
+
+
+
+Implementation flow:
+
+1. Assess network and tooling requirements.
+2. Create a dedicated agent pool with hardened hosts.
+3. Restrict the service connection scopes.
+4. Validate a safe deployment path before production use.
+
+
+
+Success indicators:
+
+- Agents have the right reach and owner.
+- Deployment credentials remain scoped.
+- Private network delivery becomes repeatable.
+
+## Operating model checklist
+
+- Review organization administrators, project administrators, and service connection owners on a schedule.
+- Track agent pool ownership, image maintenance, and network dependencies.
+- Publish a formal project request and onboarding process.
+- Keep a record of which policies are organization-scoped versus project-scoped.
+
+## Official Microsoft References
+
+- [Create an organization](https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/create-organization?view=azure-devops)
+- [Connect organization to Microsoft Entra ID](https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/connect-organization-to-azure-ad?view=azure-devops)
+- [Create a project](https://learn.microsoft.com/en-us/azure/devops/organizations/projects/create-project?view=azure-devops)
+- [Use an Azure Resource Manager service connection](https://learn.microsoft.com/en-us/azure/devops/pipelines/library/connect-to-azure?view=azure-devops)
+- [What is Azure DevOps?](https://learn.microsoft.com/en-us/azure/devops/user-guide/what-is-azure-devops?view=azure-devops)
+- [Azure DevOps CLI reference](https://learn.microsoft.com/en-us/azure/devops/cli/?view=azure-devops)

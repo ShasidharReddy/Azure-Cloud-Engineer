@@ -1,5 +1,7 @@
 # Azure Blob Storage Complete Setup & Configuration Guide
 
+> **Screenshot Disclaimer:** Portal screenshots referenced in this guide are sourced from [Microsoft Learn](https://learn.microsoft.com/en-us/azure/) documentation. © Microsoft Corporation. All rights reserved. Used for educational reference only.
+
 > Detailed hands-on guide for creating, securing, protecting, monitoring, and integrating Azure Blob Storage in production environments.
 >
 > Pair this guide with [Storage/README.md](./README.md) for broader storage coverage and with [Architecture/storage-classes-and-data-strategy.md](../Architecture/storage-classes-and-data-strategy.md) when mapping blob use cases to enterprise data patterns.
@@ -64,12 +66,27 @@ az storage account create   --resource-group $RG   --name $STG   --location $LOC
 
 ### 2.3 Portal steps for operators
 
+> ![Create storage account basics tab](https://learn.microsoft.com/en-us/azure/storage/common/media/storage-account-create/create-storage-account-basics-tab.png)
+>
+> *Screenshot source: [Microsoft Learn — Create an Azure Storage Account - Azure Storage](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create). © Microsoft Corporation. Used for educational reference only.*
+
+> **Portal View:** Navigate to `Azure Portal` → `Storage accounts` → `Networking` or `Data protection`. The blades show public network access, private endpoints, versioning, soft delete, and change feed settings required for production blob workloads.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Create an Azure Storage Account - Azure Storage](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create).*
+
 1. Open the Azure portal and navigate to **Storage accounts**.
 2. Select **Create**, choose the correct subscription and resource group, and enter a globally unique storage account name.
 3. Choose the performance tier, redundancy model, and secure transfer settings aligned to your workload.
 4. On the **Networking** tab, disable public access unless the workload explicitly requires internet endpoints.
 5. On **Data protection**, enable soft delete, versioning, and change feed if your recovery objectives require them.
 6. On **Advanced**, confirm shared key access, SFTP, NFS, and hierarchical namespace choices based on workload design.
+
+### 2.3.1 Storage account approval checklist
+
+- Confirm the naming standard, owner tag, environment tag, and data-classification tag before creation.
+- Document whether the account will support only blob workloads or a wider mix of blob, queue, table, and file services.
+- Decide whether **shared key access** will remain disabled for production and whether Microsoft Entra auth is sufficient for operators and apps.
+- Validate the chosen redundancy option against both cost and recovery design, not just default preference.
 
 ### 2.4 Account types
 
@@ -136,13 +153,31 @@ az storage blob download   --account-name $STG   --container-name $CONTAINER   -
 
 ### 3.3 AzCopy and Storage Explorer
 
+> **Portal View:** Navigate to `Azure Portal` → `Storage accounts` → `Lifecycle management` or `Containers`. Operators usually compare policy coverage with actual container layout before large AzCopy migrations.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Optimize costs by automatically managing the data lifecycle](https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-overview).*
+
 ```bash
-azcopy copy './media/*' 'https://stgblobprod001.blob.core.windows.net/media?<sas-token>' --recursive=true
-azcopy sync './archive/' 'https://stgblobprod001.blob.core.windows.net/archive?<sas-token>' --delete-destination=false
+azcopy login --tenant-id <tenant-id>
+azcopy copy './media/*' 'https://stgblobprod001.blob.core.windows.net/media' --recursive=true
+azcopy sync './archive/' 'https://stgblobprod001.blob.core.windows.net/archive' --delete-destination=false
+azcopy jobs list
+azcopy jobs show <job-id>
 ```
 
 - Use AzCopy for large transfers because it parallelizes operations, resumes failed copies, and produces detailed job logs.
 - Use Azure Storage Explorer for ad-hoc operator workflows like browsing, metadata inspection, and limited content moves.
+- Prefer Microsoft Entra authentication over long-lived SAS tokens for operator-led migrations where possible.
+- Capture AzCopy job IDs in the migration record so failed objects can be replayed without guessing which run performed the upload.
+
+Expected success output normally includes job state, completed transfers, and bytes moved:
+
+```text
+Final Job Status: Completed
+Elapsed Time (Minutes): 3.41
+Number of File Transfers: 420
+Transfers Failed: 0
+```
 
 ### 3.4 Blob types and when to use them
 
@@ -329,6 +364,24 @@ az storage account or-policy create   --resource-group $RG   --account-name $STG
 - Tag blobs or segregate prefixes by data class so lifecycle policies can move only the right content to cooler tiers.
 - Use access metrics to confirm the policy before archiving, especially for analytics jobs that unexpectedly re-read old data.
 - Keep a small hot working set and move inactive backups quickly to cold or archive to reduce cost.
+
+### 6.1.1 Lifecycle policy design rules
+
+| Data pattern | Recommended tier path | Why |
+| --- | --- | --- |
+| Application uploads accessed daily for 30 days | Hot → Cool | Balances active serving with lower month-two cost |
+| Compliance records retained for years | Hot/Cool → Archive | Minimizes long-term storage cost when read access is rare |
+| Backup files with monthly restore testing | Hot → Cool → Cold | Keeps restores practical without archive rehydration delay |
+| Versioned content with frequent updates | Hot + separate version cleanup rules | Prevents versions from silently growing total spend |
+
+```mermaid
+flowchart LR
+  A[New blob] --> B[Hot tier]
+  B -->|30 days no modification| C[Cool tier]
+  C -->|90 days no modification| D[Cold tier]
+  D -->|180+ days no modification| E[Archive tier]
+  E -->|Retention met| F[Delete or legal-hold review]
+```
 
 ### 6.2 Apply lifecycle policy
 

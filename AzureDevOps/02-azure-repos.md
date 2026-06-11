@@ -1,8 +1,55 @@
+> **Screenshot Disclaimer:** Screenshots in this guide are sourced from [Microsoft Learn](https://learn.microsoft.com/en-us/azure/devops/) documentation. © Microsoft Corporation. All rights reserved. Used here for educational and reference purposes only. For the latest UI and features, always refer to the official documentation.
+
 # 02 Azure Repos
 
-> Azure Repos guide for repository creation, branch governance, pull requests, merge strategy, and day to day Git usage.
+Azure Repos provides the source control workflow that Azure DevOps delivery depends on. This guide explains how to choose a repository model, protect important branches, keep pull requests reviewable, and use Git in a way that supports both developer speed and controlled change management.
+
+> [!NOTE]
+> Repository design should follow ownership and release boundaries, not personal preference. Strong default-branch protection and simple merge rules usually matter more than exotic Git workflows.
+
+> [!TIP]
+> Make the safe path the easy path: short-lived branches, clear PR templates, fast validation, and small numbers of merge strategies.
+
+> [!IMPORTANT]
+> If `main` or a release branch feeds production, direct unreviewed pushes should be rare or fully blocked. Branch policies are a baseline control, not an optional refinement.
+
+## Guide objectives
+
+- Choose a repository topology that matches team boundaries.
+- Apply branch protection and pull request policy consistently.
+- Improve traceability between work items, commits, PRs, and pipeline runs.
+- Keep day-two Git operations maintainable at scale.
+
+## Microsoft Learn screenshots
+
+> ![Azure DevOps Repos view from the project experience](https://learn.microsoft.com/en-us/azure/devops/user-guide/media/repos-github.png)
 >
-> Disclaimer: GitHub and IDE integrations are included as interoperability examples. Confirm connector permissions and extension policies before enabling them in production.
+> *Screenshot source: [Microsoft Learn — What is Azure DevOps?](https://learn.microsoft.com/en-us/azure/devops/user-guide/what-is-azure-devops?view=azure-devops). © Microsoft Corporation. Used for educational reference only.*
+
+> ![Azure DevOps left navigation experience](https://learn.microsoft.com/en-us/azure/devops/user-guide/media/left-navigation.png)
+>
+> *Screenshot source: [Microsoft Learn — What is Azure DevOps?](https://learn.microsoft.com/en-us/azure/devops/user-guide/what-is-azure-devops?view=azure-devops). © Microsoft Corporation. Used for educational reference only.*
+
+> ![Azure DevOps project dashboard overview](https://learn.microsoft.com/en-us/azure/devops/user-guide/media/dashboard-overview.png)
+>
+> *Screenshot source: [Microsoft Learn — What is Azure DevOps?](https://learn.microsoft.com/en-us/azure/devops/user-guide/what-is-azure-devops?view=azure-devops). © Microsoft Corporation. Used for educational reference only.*
+
+## Prerequisites
+
+- An Azure DevOps project with Repos enabled.
+- Git installed locally and on build agents.
+- A basic branch and merge strategy decision.
+- At least one CI pipeline design to use as branch validation.
+
+## Quick decision guide
+
+| Decision area | Why it matters | Recommended baseline |
+|---|---|---|
+| Single repo | Best for clear product ownership | Use for one application or bounded codebase |
+| Monorepo | Best for closely related services | Use only with strong path filtering and ownership |
+| Squash merge | Keeps history readable | Good default for feature branches |
+| Build validation | Prevents unsafe merges | Require it on release-feeding branches |
+| Required reviewers | Protects critical code paths | Use selectively to avoid review bottlenecks |
 
 ## 2. Overview
 
@@ -55,10 +102,10 @@ flowchart LR
 - Inputs:
   - repository name
   - optional import source
-- What the user sees:
-  - repository selector at the top left
-  - new repository form with name field
-  - option to add a README or import from another source in some experiences
+- Portal landmarks:
+  - repository selector at the top left so users can switch between repos without leaving the hub
+  - a focused creation form with repository name and optional import or initialization choices
+  - onboarding actions that may offer a README seed or import workflow depending on the experience
 
 ### 3.2 CLI example
 
@@ -103,12 +150,11 @@ Expected output:
   - build validation
   - merge strategy restrictions
 
-### 4.3 What the screen looks like
+### 4.3 Branch policy page landmarks
 
-- Branch table with branch names and a menu at the far right.
-- Branch policies page with collapsible cards for each policy.
-- Toggles and numeric selectors for minimum reviewers.
-- Build validation section listing pipeline definitions and expiration windows.
+- The branch list shows each branch with a context menu that leads to policy management.
+- The policy experience is organized into expandable sections so reviewers can compare options such as minimum reviewers, linked work items, and build validation in one place.
+- Numeric selectors, toggles, and pipeline pickers make it clear which protections are advisory and which are blocking.
 
 ### 4.4 Example policy baseline
 
@@ -145,12 +191,10 @@ Expected output:
 ### 5.2 Creating a pull request
 
 - Navigation: `dev.azure.com` → project → `Repos` → `Pull requests` → `New pull request`.
-- What the user sees:
-  - source branch selector on the left
-  - target branch selector on the right
-  - title and description fields
-  - reviewers panel
-  - links to work items and builds
+- Portal landmarks:
+  - source and target branch selectors sit at the top of the pull request form so the merge direction is obvious
+  - title and description fields give authors room to explain intent, testing, and rollout considerations
+  - reviewer, work item, and build panels keep approval and traceability details visible alongside the code diff
 
 ### 5.3 Review and approval states
 
@@ -303,10 +347,10 @@ Expected output:
 
 - Navigation: `Repos` → repository picker → `Import repository`.
 - Use for migrations from GitHub, Bitbucket, or another Git remote.
-- What the user sees:
-  - source URL field
-  - optional authentication section
-  - destination repository selection
+- Portal landmarks:
+  - the import wizard requests the source URL first so the service can inspect the remote repository
+  - authentication options appear only when the import source requires credentials
+  - the destination repository choice stays visible so teams can validate where the migrated history will land
 - Validate large file history and branch protection settings after import.
 
 ## 11. Pull request completion options
@@ -334,3 +378,84 @@ Expected output:
 - [Pull requests](https://learn.microsoft.com/azure/devops/repos/git/pull-requests)
 - [Import and manage Git repos](https://learn.microsoft.com/azure/devops/repos/git/create-new-repo)
 - [TFVC overview](https://learn.microsoft.com/azure/devops/repos/tfvc/what-is-tfvc)
+
+## Real-world scenarios and examples
+
+### Scenario 1: Infrastructure-as-code repository for landing zones
+
+Landing zone code often governs policy, networking, and identity guardrails. Azure Repos gives teams a place to protect those changes with strong review and validation requirements.
+
+
+
+Implementation flow:
+
+1. Create a dedicated infrastructure repo.
+2. Require linked work items and reviewer approval.
+3. Run CI validation before merge.
+4. Tag or record release points clearly.
+
+
+
+Success indicators:
+
+- Infrastructure history is auditable.
+- Unsafe changes are blocked early.
+- Release inputs are easier to identify.
+
+### Scenario 2: Application team adopting trunk-based development
+
+A product team wants to merge frequently with small PRs. Azure Repos works well for this model when validation stays fast and branch protection stays strict.
+
+
+
+Implementation flow:
+
+1. Use short feature branches.
+2. Require fast CI and a small reviewer set.
+3. Prefer squash merge.
+4. Delete feature branches after merge.
+
+
+
+Success indicators:
+
+- Cycle time improves.
+- Merge conflicts fall.
+- PR review becomes more consistent.
+
+### Scenario 3: Monorepo with many services and libraries
+
+A monorepo can simplify shared refactoring, but only when ownership, path filters, and review patterns are explicit. Azure Repos plus Azure Pipelines can support that operating model well.
+
+
+
+Implementation flow:
+
+1. Define directory ownership.
+2. Use path-aware pipelines.
+3. Apply branch policies at the right branch level.
+4. Document service-specific release rules.
+
+
+
+Success indicators:
+
+- Refactoring across services becomes easier.
+- Unrelated pipelines run less often.
+- Review ownership stays understandable.
+
+## Operating model checklist
+
+- Review branch policy drift regularly across repositories.
+- Archive or lock inactive repositories instead of leaving them ambiguous.
+- Keep contribution guidance near the code and update it when branch rules change.
+- Use release tags or references that map clearly to deployment evidence.
+
+## Official Microsoft References
+
+- [Git branch policies and settings](https://learn.microsoft.com/en-us/azure/devops/repos/git/branch-policies?view=azure-devops)
+- [Complete, abandon, or revert pull requests](https://learn.microsoft.com/en-us/azure/devops/repos/git/complete-pull-requests?view=azure-devops)
+- [Git branching guidance](https://learn.microsoft.com/en-us/azure/devops/repos/git/git-branching-guidance?view=azure-devops)
+- [Set Git repository permissions](https://learn.microsoft.com/en-us/azure/devops/repos/git/set-git-repository-permissions?view=azure-devops)
+- [What is Azure DevOps?](https://learn.microsoft.com/en-us/azure/devops/user-guide/what-is-azure-devops?view=azure-devops)
+- [Azure DevOps CLI reference](https://learn.microsoft.com/en-us/azure/devops/cli/?view=azure-devops)

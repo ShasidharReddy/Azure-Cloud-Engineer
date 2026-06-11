@@ -1,5 +1,7 @@
 # Azure Database Services Field Guide
 
+> **Screenshot Disclaimer:** Portal screenshots referenced in this guide are sourced from [Microsoft Learn](https://learn.microsoft.com/en-us/azure/) documentation. © Microsoft Corporation. All rights reserved. Used for educational reference only.
+
 > A practical reference for selecting, deploying, and operating Azure database and analytics services.
 
 This guide is designed for cloud engineers, solution architects, platform teams, and operations teams working in Azure environments. It focuses on real service-selection tradeoffs, deployment patterns, CLI-driven operations, and best practices you can apply immediately.
@@ -58,7 +60,7 @@ This workflow highlights Azure database selection, secure connectivity, performa
 
 - You have the Azure CLI installed and authenticated with `az login`.
 - You understand Azure resource groups, virtual networks, managed identities, RBAC, and monitoring basics.
-- Command examples use placeholder names; replace them with values for your subscription and environment.
+- Command examples use sample resource names; replace them with values for your subscription and environment.
 
 ## Common variables used in CLI examples
 
@@ -81,6 +83,37 @@ export DMS_NAME=dms-prod-01
 
 - [`database-migration-scenarios.md`](./database-migration-scenarios.md) — comprehensive real-world Azure database migration scenarios covering SQL Server, MySQL, PostgreSQL, Managed Instance, cross-cloud migrations, validation, rollback, and production cutover patterns.
 - [`private-database-access.md`](./private-database-access.md) — private endpoint, DNS, and secure connectivity patterns for Azure database services.
+
+## Portal references for database operators
+
+> ![Create Azure SQL server during single database deployment](https://learn.microsoft.com/en-us/azure/azure-sql/database/media/single-database-create-quickstart/new-server.png)
+>
+> *Screenshot source: [Microsoft Learn — Create a Single Database - Azure SQL Database](https://learn.microsoft.com/en-us/azure/azure-sql/database/single-database-create-quickstart). © Microsoft Corporation. Used for educational reference only.*
+
+> **Portal View:** Navigate to `Azure Portal` → `Azure Cosmos DB` → `Create`. The workflow shows API choice, geo-distribution, capacity mode, free tier, and networking options that strongly influence application design and cost.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Quickstart: Create an Azure Cosmos DB account](https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/quickstart-portal).* 
+
+> **Portal View:** Navigate to `Azure Portal` → `Azure Database for PostgreSQL flexible servers` → `Create`. The wizard shows compute tier, storage growth, high availability, private access, and maintenance window settings used in production Postgres deployments.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Quickstart: Create an Azure Database for PostgreSQL flexible server](https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/quickstart-create-server-portal).* 
+
+> **Portal View:** Navigate to `Azure Portal` → `Azure Database for MySQL flexible servers` → `Create`. The blade shows server parameters, high availability, connectivity mode, and backup retention selections that usually need application-team sign-off before go-live.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Quickstart: Create an Azure Database for MySQL flexible server](https://learn.microsoft.com/en-us/azure/mysql/flexible-server/quickstart-create-server-portal).* 
+
+## Database deployment and connectivity flow
+
+```mermaid
+flowchart LR
+  A[Choose engine and tier] --> B[Create server / account]
+  B --> C[Set networking model]
+  C --> D[Create database / schema]
+  D --> E[Store secrets or assign identity]
+  E --> F[Validate connection strings]
+  F --> G[Enable backups, diagnostics, and alerts]
+  G --> H[Rehearse restore and failover]
+```
 
 ## Azure database landscape at a glance
 
@@ -243,6 +276,23 @@ For resilience across regions, Azure SQL Database supports **active geo-replicat
 - Use **DTU** when you need simplicity, older cost references, or smaller-scale deployments with less need for capacity transparency.
 - Use **vCore** when you need clearer sizing, independent storage choices, serverless, Hyperscale, Azure Hybrid Benefit, or better alignment to on-prem SQL Server core planning.
 - For net-new production solutions, vCore is commonly preferred.
+
+### Connection string quick examples
+
+```text
+ADO.NET / SQL auth
+Server=tcp:sqlprodshared01.database.windows.net,1433;Initial Catalog=appdb01;Encrypt=True;TrustServerCertificate=False;Authentication=SqlPassword;User ID=appuser;Password=<password>;
+
+ADO.NET / Microsoft Entra ID
+Server=tcp:sqlprodshared01.database.windows.net,1433;Initial Catalog=appdb01;Encrypt=True;Authentication=Active Directory Default;
+
+JDBC
+jdbc:sqlserver://sqlprodshared01.database.windows.net:1433;database=appdb01;encrypt=true;trustServerCertificate=false;loginTimeout=30;
+```
+
+- Prefer **Microsoft Entra ID** or managed identity where the client stack supports it.
+- Keep TLS validation enabled and rotate secrets through Key Vault or application configuration services.
+- If private endpoints are enabled, validate that the hostname resolves to the private IP before troubleshooting the database itself.
 
 ### Service tier guidance
 
@@ -560,6 +610,18 @@ For distributed scale-out, Azure documentation and architecture discussions ofte
 - You need JSONB, geospatial capabilities, or open-source portability.
 - You want managed relational service without adopting SQL Server.
 - You need read replicas or distributed PostgreSQL patterns.
+
+### PostgreSQL connection examples
+
+```text
+psql "host=pgflex-prod-01.postgres.database.azure.com port=5432 dbname=appdb user=appuser sslmode=require"
+
+postgres://appuser:<password>@pgflex-prod-01.postgres.database.azure.com:5432/appdb?sslmode=require
+```
+
+- Validate `sslmode=require` or stronger settings in every client.
+- If you use private access, test DNS from the same subnet or peered VNet as the application.
+- Enable connection pooling before assuming the server needs more compute.
 
 ### Azure CLI examples
 

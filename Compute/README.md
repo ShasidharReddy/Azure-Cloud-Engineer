@@ -1,5 +1,7 @@
 # Azure Compute Guide
 
+> **Screenshot Disclaimer:** Portal screenshots referenced in this guide are sourced from [Microsoft Learn](https://learn.microsoft.com/en-us/azure/) documentation. © Microsoft Corporation. All rights reserved. Used for educational reference only.
+
 ## Purpose
 
 This guide is a practical field reference for Azure compute services.
@@ -62,25 +64,65 @@ This VM-centric workflow follows Azure compute from sizing and deployment throug
 - Use the Managed Disks section to pick storage tiers.
 - Use the Batch, Bastion, and PPG sections for supporting compute patterns.
 
-## Placeholder convention
+## Working variables and portal walkthrough
 
-Replace these placeholders before running commands:
+Use concrete environment variables when you test commands so output is easier to compare across sections:
 
-- `<subscription-id>`
-- `<resource-group>`
-- `<location>`
-- `<vm-name>`
-- `<vnet-name>`
-- `<subnet-name>`
-- `<nsg-name>`
-- `<public-ip-name>`
-- `<vmss-name>`
-- `<app-name>`
-- `<plan-name>`
-- `<disk-name>`
-- `<batch-account>`
-- `<bastion-name>`
-- `<ppg-name>`
+```bash
+export SUBSCRIPTION_ID="00000000-0000-0000-0000-000000000000"
+export RESOURCE_GROUP="rg-compute-prod"
+export LOCATION="eastus"
+export VM_NAME="vm-web-01"
+export VNET_NAME="vnet-prod-eastus"
+export SUBNET_NAME="snet-web"
+export NSG_NAME="nsg-web"
+export PUBLIC_IP_NAME="pip-web-01"
+export VMSS_NAME="vmss-api-prod"
+export APP_NAME="app-prod-api-001"
+export PLAN_NAME="asp-prod-linux"
+export DISK_NAME="disk-data-01"
+export BASTION_NAME="bas-prod-eastus"
+export PPG_NAME="ppg-lowlatency-prod"
+```
+
+### Portal references for compute operators
+
+> ![Create virtual machine in Azure portal](https://learn.microsoft.com/en-us/azure/virtual-machines/media/quick-create-portal/create-virtual-machine.png)
+>
+> *Screenshot source: [Microsoft Learn — Quickstart - Create a Windows VM in the Azure portal - Azure Virtual Machines](https://learn.microsoft.com/en-us/azure/virtual-machines/windows/quick-create-portal). © Microsoft Corporation. Used for educational reference only.*
+
+> **Portal View:** Navigate to `Azure Portal` → `Virtual machine scale sets` → `Create`. The blade shows orchestration mode, image, zone, autoscale, load balancing, and instance-count settings used for VMSS deployments.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Azure Virtual Machine Scale Sets documentation](https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/overview).* 
+
+> **Portal View:** Navigate to `Azure Portal` → `App Services` → `Create` or `App Service plan` → `Scale out (App Service plan)`. The blades show runtime stack, deployment region, pricing tier, deployment slots, and autoscale choices for managed web hosting.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Overview of Azure App Service](https://learn.microsoft.com/en-us/azure/app-service/overview).* 
+
+### Compute selection workflow
+
+```mermaid
+flowchart TD
+  A[New workload request] --> B{Need OS-level control?}
+  B -- Yes --> C{Many identical instances?}
+  C -- Yes --> D[VM Scale Sets]
+  C -- No --> E[Virtual Machines]
+  B -- No --> F{HTTP/API workload?}
+  F -- Yes --> G[App Service]
+  F -- No --> H[VMs or Batch]
+  D --> I[Attach LB / App Gateway and autoscale]
+  E --> J[Choose size, disk, backup, Bastion]
+  G --> K[Use slots, managed identity, autoscale]
+```
+
+### Scenario-based starting points
+
+| Scenario | Best fit | Why | First validation check |
+| --- | --- | --- | --- |
+| Internal Windows line-of-business app | VM | Needs domain join, admin agents, custom patch sequencing | Confirm AD join, backup policy, and NSG reachability |
+| Stateless public API with variable demand | VMSS or App Service | Needs autoscale and repeatable deployment | Confirm health endpoint, autoscale rules, and zone support |
+| Enterprise web app with safe release slots | App Service | Wants managed runtime, TLS, deployment slots | Confirm slot swap warm-up and app settings separation |
+| Queue-based worker pool | VMSS | Needs scale by queue depth and consistent node image | Confirm queue metric permissions and instance bootstrap time |
 
 ## Table of contents
 
@@ -846,6 +888,37 @@ Typical triggers include:
 - HTTP request volume.
 - Schedule-based business hours.
 
+### Step-by-step VMSS deployment flow
+
+1. Create or identify the target VNet, subnet, NSG, and load-balancing design.
+2. Decide between **Uniform** and **Flexible** orchestration before creating the scale set.
+3. Select an image with fast bootstrap time or use a baked image from Azure Compute Gallery.
+4. Start with at least two instances for production so upgrades and failures do not remove all capacity.
+5. Add a health probe that reflects the application state, not just the VM power state.
+6. Configure autoscale with both scale-out and scale-in conditions plus cooldown.
+7. Validate rolling upgrade behavior and extension execution before putting the fleet behind production traffic.
+
+| VMSS design choice | When to choose it | Why it matters |
+| --- | --- | --- |
+| Uniform orchestration | Stateless web/API fleets | Simplifies autoscale, image management, and rolling updates |
+| Flexible orchestration | Need more VM-level control | Supports mixed placement and operations closer to standalone VMs |
+| Image baking | Slow bootstrap workloads | Reduces time to healthy node during scale events |
+| Queue-based autoscale | Worker or background jobs | Tracks actual business demand better than CPU alone |
+| Zones | Regional fault isolation needed | Keeps capacity available during datacenter failure |
+
+### Expected CLI verification output
+
+```text
+Name            OrchestrationMode    Sku              Capacity    ProvisioningState
+--------------  ------------------   ---------------  ----------  -------------------
+vmss-api-prod   Uniform              Standard_D2s_v5  2           Succeeded
+
+InstanceId    LatestModelApplied    ProvisioningState    PowerState
+------------  --------------------  -------------------  -----------------
+0             true                  Succeeded            VM running
+1             true                  Succeeded            VM running
+```
+
 ### VMSS patterns
 
 - Web front ends behind load balancers.
@@ -1001,6 +1074,49 @@ Common use:
 - Validate config and health.
 - Swap staging into production.
 - Roll back quickly by swapping back if needed.
+
+### Step-by-step App Service rollout
+
+1. Create an App Service plan sized for the steady-state baseline, not the marketing peak.
+2. Create the web app with the correct runtime stack, region, and identity settings.
+3. Add application settings, connection strings, and Key Vault references before the first deployment.
+4. Create a **staging** slot and mark environment-specific secrets as slot settings.
+5. Enable health checks and Always On for production plans that require quick failover or reduced cold-start risk.
+6. Configure autoscale on the plan, then test both scale-out and scale-in conditions.
+7. Swap staging to production only after warm-up, smoke tests, and dependency checks pass.
+
+```mermaid
+flowchart LR
+  A[Create plan] --> B[Create web app]
+  B --> C[Assign managed identity]
+  C --> D[Configure settings and Key Vault refs]
+  D --> E[Create staging slot]
+  E --> F[Deploy build]
+  F --> G[Run smoke tests]
+  G --> H[Swap to production]
+  H --> I[Monitor latency and errors]
+```
+
+### App Service scenarios
+
+| Scenario | App Service guidance | Why |
+| --- | --- | --- |
+| Public API with moderate traffic | Premium plan with autoscale and deployment slots | Handles safe releases and burst demand with low ops overhead |
+| Internal web app with private dependencies | Use VNet integration and managed identity | Reaches private services without embedding secrets |
+| Shared plan with many small apps | Separate noisy neighbors by criticality | Prevents one app from exhausting shared worker resources |
+| Regulated workload | Pair with Private Endpoint, diagnostics, and policy | Improves auditability and reduces public exposure |
+
+### Expected CLI verification output
+
+```text
+Name             Location    State    HostNames
+---------------  ----------  -------  -------------------------------------------
+app-prod-api-001 eastus      Running  app-prod-api-001.azurewebsites.net
+
+Name            NumberOfWorkers    Sku     Reserved
+--------------  -----------------  ------  --------
+asp-prod-linux  2                  P1v3    true
+```
 
 ### Autoscale in App Service
 

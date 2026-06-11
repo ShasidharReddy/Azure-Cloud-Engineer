@@ -1,13 +1,46 @@
 # Azure Storage Comprehensive Guide
 
+> **Screenshot Disclaimer:** Portal screenshots referenced in this guide are sourced from [Microsoft Learn](https://learn.microsoft.com/en-us/azure/) documentation. © Microsoft Corporation. All rights reserved. Used for educational reference only.
+
 > A practical reference for Azure Storage services, backup, disaster recovery, data transfer, and architecture choices.
 
 ## How to use this guide
 
 - Every major storage topic includes a Mermaid diagram, explanation, Azure CLI commands, and best practices.
-- CLI examples use placeholder values such as `<resource-group>`, `<storage-account>`, and `<location>`.
+- CLI examples use sample values such as `<resource-group>`, `<storage-account>`, and `<location>`; replace them with your environment-specific names before running commands.
 - Some operations, such as Azure Files AD DS integration or Azure Backup protected item workflows, often need portal, PowerShell, or workload-specific steps in addition to CLI.
 - Mermaid diagrams use Azure-inspired brand colors centered on `#0078D4`.
+
+## Portal references for storage operators
+
+> ![Create storage account basics tab](https://learn.microsoft.com/en-us/azure/storage/common/media/storage-account-create/create-storage-account-basics-tab.png)
+>
+> *Screenshot source: [Microsoft Learn — Create an Azure Storage Account - Azure Storage](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create). © Microsoft Corporation. Used for educational reference only.*
+
+> **Portal View:** Navigate to `Azure Portal` → `Storage accounts` → `Lifecycle management`. The policy editor shows filters, blob types, last-modified conditions, and delete actions used for cost and retention automation.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Optimize costs by automatically managing the data lifecycle](https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-overview).*
+
+> **Portal View:** Navigate to `Azure Portal` → `Storage accounts` → `Containers` or `Data protection`. These blades show versioning, soft delete, immutable storage, and container-level operations that operators validate before production data onboarding.
+>
+> *For the latest portal screenshots, see [Microsoft Learn — Blob storage documentation](https://learn.microsoft.com/en-us/azure/storage/blobs/).*
+
+### Storage platform decision path
+
+```mermaid
+flowchart TD
+  A[New dataset] --> B{Object, file, queue, or table?}
+  B -- Object --> C[Blob Storage / ADLS Gen2]
+  B -- File share --> D[Azure Files]
+  B -- Queue --> E[Queue Storage]
+  B -- Key-value --> F[Table Storage]
+  C --> G{Access frequency?}
+  G -- Hot --> H[Hot / Premium]
+  G -- Warm --> I[Cool]
+  G -- Cold --> J[Cold / Archive]
+  H --> K[Lifecycle + protection policy]
+  I --> K
+  J --> K
 
 <!-- workflow-diagram:start -->
 ## Workflow Snapshot
@@ -1703,6 +1736,40 @@ az databox catalog sku list \
 - After ingestion, switch to online methods such as AzCopy or Data Factory for ongoing incremental movement.
 
 ---
+
+### Practical AzCopy examples
+
+```bash
+# Bulk upload a local media folder using Microsoft Entra auth
+azcopy login --tenant-id <tenant-id>
+azcopy copy './media/*' 'https://'$STG'.blob.core.windows.net/media' --recursive=true
+
+# Sync a backup folder without deleting destination content
+azcopy sync './nightly-backup/' 'https://'$STG'.blob.core.windows.net/nightly' --delete-destination=false
+
+# Validate job status
+azcopy jobs list
+azcopy jobs show <job-id>
+```
+
+Expected output from a healthy large transfer usually includes completed file counts, throughput, and any skipped objects:
+
+```text
+Final Job Status: Completed
+Number of File Transfers: 1240
+Number of Folder Property Transfers: 0
+Total Number of Transfers: 1240
+Transfers Completed: 1240
+Transfers Failed: 0
+```
+
+### Blob lifecycle management operating notes
+
+- Move data to **Cool** only when the application can tolerate higher read and transaction costs.
+- Move to **Cold** when data must stay online but access is genuinely rare.
+- Use **Archive** only for retention and audit use cases that can tolerate rehydration delay.
+- Apply separate policies for current data, previous versions, and snapshots so recovery settings do not accidentally erase retention evidence.
+- Review policy scope every quarter because new containers often arrive without lifecycle coverage.
 
 ## 13. AzCopy & Storage Explorer
 

@@ -1,8 +1,55 @@
+> **Screenshot Disclaimer:** Screenshots in this guide are sourced from [Microsoft Learn](https://learn.microsoft.com/en-us/azure/devops/) documentation. © Microsoft Corporation. All rights reserved. Used here for educational and reference purposes only. For the latest UI and features, always refer to the official documentation.
+
 # 05 Azure Pipelines CD
 
-> Delivery and deployment guide for Azure Pipelines using environments, approvals, checks, and safe rollout strategies.
+Continuous delivery in Azure Pipelines turns validated artifacts into controlled deployments. This guide explains how to model environments, use approvals and checks, design rollout strategies, and keep rollback and deployment evidence strong enough for production operations.
+
+> [!NOTE]
+> Delivery speed and delivery safety can coexist. The key is to make approvals, checks, and post-deployment validation explicit rather than manual and improvised.
+
+> [!TIP]
+> Name environments after the way operations teams actually think about them: dev, test, staging, production, regional production, or ephemeral review. Clear names make approval history and troubleshooting easier.
+
+> [!IMPORTANT]
+> Production deployment should never depend on personal credentials or hidden tribal knowledge. Use reviewed YAML, service connections, environment checks, and documented rollback paths.
+
+## Guide objectives
+
+- Model delivery around real environments and promotion boundaries.
+- Use service connections, checks, and approvals safely.
+- Choose rollout strategies that match workload risk and architecture.
+- Capture deployment evidence that supports operations and audit review.
+
+## Microsoft Learn screenshots
+
+> ![Azure Resource Manager service connection subscription selection](https://learn.microsoft.com/en-us/azure/devops/pipelines/library/media/azure-resource-manager-subscription.png)
 >
-> Disclaimer: Feature flag platforms, Ansible, Terraform modules, and external approval systems are included as reference patterns. Review vendor specific controls before production use.
+> *Screenshot source: [Microsoft Learn — Use an Azure Resource Manager service connection](https://learn.microsoft.com/en-us/azure/devops/pipelines/library/connect-to-azure?view=azure-devops). © Microsoft Corporation. Used for educational reference only.*
+
+> ![Azure overview page for Azure Pipelines service connection creation](https://learn.microsoft.com/en-us/azure/devops/pipelines/library/media/azure-overview-page.png)
+>
+> *Screenshot source: [Microsoft Learn — Use an Azure Resource Manager service connection](https://learn.microsoft.com/en-us/azure/devops/pipelines/library/connect-to-azure?view=azure-devops). © Microsoft Corporation. Used for educational reference only.*
+
+> ![Azure DevOps project dashboard overview](https://learn.microsoft.com/en-us/azure/devops/user-guide/media/dashboard-overview.png)
+>
+> *Screenshot source: [Microsoft Learn — What is Azure DevOps?](https://learn.microsoft.com/en-us/azure/devops/user-guide/what-is-azure-devops?view=azure-devops). © Microsoft Corporation. Used for educational reference only.*
+
+## Prerequisites
+
+- A CI pipeline that publishes a versioned artifact or package.
+- Approved Azure service connections or deployment identities.
+- Defined target environments and approver groups.
+- Observability signals that indicate whether a deployment is healthy.
+
+## Quick decision guide
+
+| Decision area | Why it matters | Recommended baseline |
+|---|---|---|
+| Environment model | Defines promotion boundaries | Represent real operational targets |
+| Approval scope | Controls risk at release points | Apply stronger checks for production than for lower environments |
+| Artifact strategy | Improves reproducibility | Deploy versioned CI outputs instead of rebuilding |
+| Rollout pattern | Controls blast radius | Use simple stage promotion first, then blue-green or canary where justified |
+| Rollback plan | Reduces incident time | Define it before go-live |
 
 ## 5. Overview
 
@@ -110,10 +157,10 @@ flowchart TB
   - test
   - staging
   - production
-- What the user sees:
-  - environment list page with status badges
-  - creation dialog with name and optional target resource type
-  - deployment history when the environment already exists
+- Portal landmarks:
+  - the environments list shows each environment name with status indicators and recent deployment history
+  - the creation dialog asks for a name first, then optionally lets you associate specific target resources
+  - once an environment exists, deployment history becomes the anchor for approvals, checks, and audit review
 
 ### 8.2 Manual approvals and checks
 
@@ -368,11 +415,10 @@ Expected output:
 ## 16. Classic release pipeline screen guide
 
 - Navigation: `dev.azure.com` → project → `Pipelines` → `Releases`.
-- What the user sees:
-  - stage boxes aligned left to right
-  - artifact sources at the top
-  - lightning icons for triggers and pre deployment conditions
-  - task list within each stage
+- Portal landmarks:
+  - classic release definitions present stage boxes from left to right to emphasize promotion order
+  - artifact sources remain pinned at the top of the canvas so teams can confirm exactly what build output is being released
+  - trigger and condition icons surface predeployment controls, while each stage exposes its own task list and approval settings
 - Use classic release only when you must preserve a legacy process that is not yet modeled in YAML.
 
 ## 17. Environment checks examples
@@ -408,3 +454,84 @@ Expected output:
 - [Deploy to App Service](https://learn.microsoft.com/azure/devops/pipelines/apps/cd/deploy-webdeploy-webapps)
 - [Deploy to AKS](https://learn.microsoft.com/azure/devops/pipelines/ecosystems/kubernetes/deploy)
 - [Azure Key Vault task](https://learn.microsoft.com/azure/devops/pipelines/tasks/reference/azure-key-vault-v2)
+
+## Real-world scenarios and examples
+
+### Scenario 1: Web application promoted from staging to production
+
+A team wants automated staging deployment, visible approval, and controlled production release from the same versioned artifact. Azure Pipelines environments and deployment history fit this model well.
+
+
+
+Implementation flow:
+
+1. Deploy to staging automatically.
+2. Run smoke tests.
+3. Require production approval based on visible evidence.
+4. Deploy the same versioned artifact to production.
+
+
+
+Success indicators:
+
+- Approvers see meaningful evidence.
+- Production history is traceable.
+- Rollback points are easier to identify.
+
+### Scenario 2: Infrastructure deployment with production change windows
+
+A platform team needs to deliver landing zone changes only during approved windows, with strict Azure access and visible deployment evidence. Azure Pipelines can support that without reverting to manual deployment scripts.
+
+
+
+Implementation flow:
+
+1. Create a production environment with checks.
+2. Scope the Azure service connection tightly.
+3. Require platform approval.
+4. Capture deployment history and validation output.
+
+
+
+Success indicators:
+
+- Change-window compliance improves.
+- Manual release steps are reduced.
+- Audit evidence is easier to retrieve.
+
+### Scenario 3: High-availability service using progressive rollout
+
+A high-availability workload may need blue-green or canary promotion instead of all-at-once deployment. Azure Pipelines can orchestrate the stages while monitoring and traffic control determine whether rollout continues.
+
+
+
+Implementation flow:
+
+1. Deploy to a small slice or inactive target.
+2. Validate telemetry and smoke tests.
+3. Promote traffic gradually or switch fully.
+4. Rollback quickly if health degrades.
+
+
+
+Success indicators:
+
+- Blast radius is reduced.
+- Rollback becomes faster.
+- Operational confidence improves.
+
+## Operating model checklist
+
+- Review approvals, failed releases, and rollback events as part of platform operations.
+- Keep environment ownership and support contacts current.
+- Audit which pipelines are authorized to use production service connections.
+- Retain enough deployment history to support incident review and compliance.
+
+## Official Microsoft References
+
+- [What is Azure Pipelines?](https://learn.microsoft.com/en-us/azure/devops/pipelines/get-started/what-is-azure-pipelines?view=azure-devops)
+- [Create and target Azure DevOps environments for pipelines](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/environments?view=azure-devops)
+- [Use an Azure Resource Manager service connection](https://learn.microsoft.com/en-us/azure/devops/pipelines/library/connect-to-azure?view=azure-devops)
+- [Deployment jobs](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/deployment-jobs?view=azure-devops)
+- [Approvals and checks](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/approvals?view=azure-devops)
+- [Azure DevOps CLI reference](https://learn.microsoft.com/en-us/azure/devops/cli/?view=azure-devops)
