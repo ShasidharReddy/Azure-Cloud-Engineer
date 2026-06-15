@@ -1,0 +1,8 @@
+subscription_id = "00000000-0000-0000-0000-000000000000"
+prefix          = "proddata"
+location        = "eastus"
+vnet_cidr       = "10.70.0.0/16"
+private_endpoint_subnet_cidr = "10.70.1.0/24"
+soft_delete_retention_days   = 14
+blob_data_contributor_principal_ids = ["11111111-1111-1111-1111-111111111111"]
+tags = { owner = "data-platform", cost_center = "cc-7001" }

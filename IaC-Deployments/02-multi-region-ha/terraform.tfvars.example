@@ -1,0 +1,11 @@
+subscription_id       = "00000000-0000-0000-0000-000000000000"
+prefix                = "prodha"
+regions               = ["eastus", "westus2"]
+vm_count_per_region   = 2
+vm_size               = "Standard_D2s_v5"
+admin_username        = "azureadmin"
+ssh_public_key        = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDReplaceWithYourKey"
+management_source_cidr = "203.0.113.10/32"
+zones = { eastus = ["1", "2"], westus2 = ["1", "2"] }
+region_cidrs = { eastus = { vnet = "10.20.0.0/16", subnet = "10.20.1.0/24" }, westus2 = { vnet = "10.30.0.0/16", subnet = "10.30.1.0/24" } }
+tags = { owner = "platform-team", cost_center = "cc-2001" }

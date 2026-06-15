@@ -1,0 +1,11 @@
+subscription_id   = "00000000-0000-0000-0000-000000000000"
+prefix            = "prod"
+vm_name           = "vm-prod-01"
+location          = "eastus"
+vm_size           = "Standard_D2s_v5"
+admin_username    = "azureadmin"
+ssh_public_key    = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCyReplaceWithYourKey"
+vnet_cidr         = "10.10.0.0/16"
+subnet_cidr       = "10.10.1.0/24"
+data_disk_size_gb = 128
+tags = { owner = "platform-team", cost_center = "cc-1001" }

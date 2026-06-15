@@ -1,0 +1,12 @@
+subscription_id      = "00000000-0000-0000-0000-000000000000"
+prefix               = "prodweb"
+primary_location     = "eastus"
+secondary_location   = "westus2"
+app_service_sku      = "P1v3"
+autoscale_minimum    = 2
+autoscale_default    = 2
+autoscale_maximum    = 5
+enable_custom_domain = false
+dns_zone_name        = "example.com"
+custom_subdomain     = "app"
+tags = { owner = "application-platform", cost_center = "cc-6001" }

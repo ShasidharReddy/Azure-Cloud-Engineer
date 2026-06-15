@@ -1,0 +1,12 @@
+subscription_id = "00000000-0000-0000-0000-000000000000"
+prefix          = "prodops"
+location        = "eastus"
+log_retention_in_days = 30
+monthly_budget_amount = 500
+budget_start_date     = "2025-01-01T00:00:00Z"
+budget_contact_emails = ["ops@example.com"]
+email_receivers = [{ name = "OpsEmail", email_address = "ops@example.com" }]
+webhook_receivers = [{ name = "IncidentWebhook", service_uri = "https://example.com/hooks/azure-monitor" }]
+vm_resource_ids = ["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-prod/providers/Microsoft.Compute/virtualMachines/vm-prod-01"]
+diagnostic_resource_ids = []
+tags = { owner = "operations-team", cost_center = "cc-8001" }
