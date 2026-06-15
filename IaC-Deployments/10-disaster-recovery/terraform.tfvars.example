@@ -1,0 +1,19 @@
+subscription_id                 = "00000000-0000-0000-0000-000000000000"
+prefix                          = "proddr"
+primary_location                = "eastus"
+secondary_location              = "westus2"
+primary_vnet_cidr               = "10.80.0.0/16"
+secondary_vnet_cidr             = "10.81.0.0/16"
+secondary_subnet_cidr           = "10.81.1.0/24"
+source_vm_id                    = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-prod/providers/Microsoft.Compute/virtualMachines/vm-prod-01"
+source_os_disk_id               = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-prod/providers/Microsoft.Compute/disks/vm-prod-01-os"
+source_data_disk_ids            = []
+source_network_interface_id     = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-prod/providers/Microsoft.Network/networkInterfaces/vm-prod-01-nic"
+primary_public_ip_resource_id   = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-prod/providers/Microsoft.Network/publicIPAddresses/pip-primary"
+secondary_public_ip_resource_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-dr/providers/Microsoft.Network/publicIPAddresses/pip-secondary"
+sql_administrator_login         = "sqladminuser"
+sql_administrator_password      = "ReplaceWithAStrongPassword!234"
+sql_database_name               = "appdb-prod"
+rpo_target_minutes              = 15
+rto_target_minutes              = 60
+tags = { owner = "business-continuity", cost_center = "cc-10001" }

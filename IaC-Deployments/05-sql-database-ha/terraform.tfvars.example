@@ -1,0 +1,12 @@
+subscription_id             = "00000000-0000-0000-0000-000000000000"
+prefix                      = "prodsql"
+primary_location            = "eastus"
+secondary_location          = "westus2"
+sql_administrator_login     = "sqladminuser"
+sql_administrator_password  = "ReplaceWithAStrongPassword!234"
+database_name               = "appdb-prod"
+database_sku_name           = "GP_S_Gen5_2"
+database_max_size_gb        = 256
+enable_elastic_pool         = false
+enable_public_network_access = false
+tags = { owner = "database-team", cost_center = "cc-5001" }
