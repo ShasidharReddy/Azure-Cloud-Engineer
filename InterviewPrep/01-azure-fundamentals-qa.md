@@ -60,7 +60,7 @@ Expected output:
 
 ## Q and A
 
-### Q: What is cloud computing?
+### Q1: What is cloud computing?
 
 **Answer:**
 Cloud computing is the on-demand delivery of compute, storage, networking, databases, and higher-level platform services over the internet with pay-as-you-go pricing and elastic scaling.
@@ -81,7 +81,7 @@ The five essential characteristics are on-demand self-service, broad network acc
 **Q: How does elasticity differ from scalability?**
 Elasticity is the ability to automatically or quickly adjust capacity up and down as demand changes, while scalability is the broader ability to increase capacity by scaling up or out. For example, Azure Virtual Machine Scale Sets can elastically add instances during a traffic spike, while scaling Azure SQL Database to a higher tier is a scalability decision.
 
-### Q: What are the main cloud service models?
+### Q2: What are the main cloud service models?
 
 **Answer:**
 The main cloud service models are IaaS, PaaS, and SaaS. IaaS gives you infrastructure building blocks, PaaS provides a managed application platform, and SaaS delivers a ready-to-use application.
@@ -102,7 +102,7 @@ I would choose IaaS when I need OS-level control, custom networking, special sec
 **Q: What are tradeoffs of SaaS?**
 SaaS reduces operational effort because the provider manages the application and platform, but it also limits deep customization and infrastructure control. For example, Microsoft 365 is quick to adopt, but the customer still has to manage identities, data governance, and integration requirements.
 
-### Q: What is the difference between public, private, and hybrid cloud?
+### Q3: What is the difference between public, private, and hybrid cloud?
 
 **Answer:**
 Public cloud uses provider-owned infrastructure shared across customers, private cloud is dedicated to one organization, and hybrid cloud combines on-premises and cloud services with identity, management, and network integration.
@@ -123,7 +123,7 @@ Azure Arc extends Azure management to on-premises and multi-cloud servers and Ku
 **Q: When is private cloud still justified?**
 Private cloud can still be justified when there are strict sovereignty, ultra-low-latency, legacy hardware, or isolation requirements that public cloud cannot meet cleanly. A common example is a manufacturing environment with specialized equipment and local control systems that must stay on-premises but still integrate with Azure for backup or monitoring.
 
-### Q: What is Azure?
+### Q4: What is Azure?
 
 **Answer:**
 Microsoft Azure is Microsofts cloud platform that provides infrastructure, platform, data, AI, security, networking, and management services for building and operating workloads globally.
@@ -144,7 +144,7 @@ Commonly used Azure services include Azure Virtual Machines, Azure Storage, Virt
 **Q: What differentiates Azure in hybrid scenarios?**
 Azure is strong in hybrid because it integrates closely with Microsoft Entra ID, Azure Arc, ExpressRoute, and technologies like Azure Stack HCI. For example, a company can keep Windows Server workloads on-premises while using Arc and Entra ID to apply Azure-based governance and identity controls consistently.
 
-### Q: What are some key Azure service categories?
+### Q5: What are some key Azure service categories?
 
 **Answer:**
 Azure services are commonly grouped into compute, networking, storage, databases, identity, security, monitoring, analytics, and DevOps.
@@ -165,7 +165,7 @@ IaaS services include Azure Virtual Machines, Virtual Machine Scale Sets, and mo
 **Q: Which categories matter most for landing zones?**
 The most important landing zone categories are identity, networking, governance, security, and management or monitoring. In practice, that means defining management groups and policy, building hub-and-spoke networking, standardizing RBAC, and sending logs to Azure Monitor or Log Analytics from day one.
 
-### Q: What is an Azure region?
+### Q6: What is an Azure region?
 
 **Answer:**
 An Azure region is a geographical area containing one or more datacenters connected through a low-latency network. Regions are where Azure resources are deployed.
@@ -186,7 +186,7 @@ I select a region based on latency, data residency, service availability, Availa
 **Q: What happens if a region does not support a required SKU?**
 If a required SKU is unavailable, you either choose a nearby region, select an alternative supported SKU, or redesign around a different Azure service. For example, if a zonal VM family is not available in a region, you might switch to a supported VM family or deploy that workload in another approved region.
 
-### Q: What are Azure Availability Zones?
+### Q7: What are Azure Availability Zones?
 
 **Answer:**
 Availability Zones are physically separate datacenters within an Azure region, each with independent power, cooling, and networking to improve fault isolation and resilience.
@@ -207,7 +207,7 @@ Availability Zones are separate datacenters within a region, while Availability 
 **Q: Which services support zone redundancy?**
 Zone redundancy is supported by a number of Azure services, including Azure SQL Database with zone-redundant high availability, Standard Load Balancer, zone-redundant storage options like ZRS, and services such as Application Gateway v2 in supported regions. A common example is deploying an app across zones with Azure SQL zone redundancy so a single datacenter failure does not take down the application.
 
-### Q: What is the difference between Availability Zones and Availability Sets?
+### Q8: What is the difference between Availability Zones and Availability Sets?
 
 **Answer:**
 Availability Zones protect against datacenter-level failures within a region, while Availability Sets protect against host and rack-level failures within a single datacenter environment.
@@ -228,7 +228,7 @@ Update domains are groups of VMs in an Availability Set that Azure reboots in se
 **Q: Can VMSS span zones?**
 Yes, Virtual Machine Scale Sets can be deployed across multiple Availability Zones in supported regions, or pinned to a specific zone for zonal placement. A common design is a VMSS web tier spread across three zones behind a Standard Load Balancer to improve both scale and resiliency.
 
-### Q: What are region pairs in Azure?
+### Q9: What are region pairs in Azure?
 
 **Answer:**
 Region pairs are predefined Azure regional pairings within the same geography that help support disaster recovery priorities, platform updates, and data residency expectations.
@@ -249,7 +249,7 @@ No, region pairs are useful guidance, but the best disaster recovery target depe
 **Q: How do region pairs relate to GRS storage?**
 Geo-redundant storage options such as GRS and RA-GRS replicate data to a secondary region that Azure chooses as part of its paired-region design. A practical example is a storage account using RA-GRS so data remains available from the secondary region if the primary region has a major outage.
 
-### Q: How do you explain Azure global infrastructure in an interview?
+### Q10: How do you explain Azure global infrastructure in an interview?
 
 **Answer:**
 Azure global infrastructure is built from geographies, regions, availability zones, edge locations, and global networking. I explain it by starting from business needs: low latency, compliance, fault tolerance, and disaster recovery.
@@ -270,7 +270,7 @@ Examples of global Azure services include Azure Front Door, Traffic Manager, Mic
 **Q: What is the role of Microsofts backbone network?**
 Microsofts backbone network carries traffic between Azure regions and edge locations over Microsoft's private global infrastructure, which improves reliability and often reduces latency compared to relying only on the public internet. For example, Azure Front Door and ExpressRoute use that backbone to move traffic efficiently between users, edge points, and backend services.
 
-### Q: What is Azure Resource Manager?
+### Q11: What is Azure Resource Manager?
 
 **Answer:**
 Azure Resource Manager, or ARM, is the management plane for Azure. It provides a consistent deployment and management layer for resources through the portal, CLI, PowerShell, REST APIs, ARM templates, and Bicep.
@@ -291,7 +291,7 @@ The control plane manages Azure resources themselves, while the data plane acces
 **Q: How does ARM handle dependencies?**
 ARM builds a dependency graph and creates resources in the right order by using explicit `dependsOn` statements and implicit references between resources. A practical example is creating a virtual network before deploying a NIC and VM that reference it.
 
-### Q: How does ARM deployment work?
+### Q12: How does ARM deployment work?
 
 **Answer:**
 ARM evaluates a template or requested operation, checks permissions and policy, resolves dependencies, communicates with resource providers, and then creates or updates resources in the target scope.
@@ -312,7 +312,7 @@ Incremental mode adds or updates the resources defined in the template and leave
 **Q: Why is Bicep preferred over raw JSON ARM in many teams?**
 Bicep is usually preferred because it is easier to read, supports modules and reusable code, and provides better authoring features than raw ARM JSON. For example, a team can build a reusable Bicep module for VNets or Key Vault and deploy it consistently across environments with less template complexity.
 
-### Q: What is a resource provider?
+### Q13: What is a resource provider?
 
 **Answer:**
 A resource provider is a service namespace that exposes Azure resource types, such as `Microsoft.Compute` for VMs or `Microsoft.Network` for VNets.
@@ -333,7 +333,7 @@ You can check provider registration in the Azure portal under the subscription's
 **Q: Why do some providers require explicit registration?**
 Some providers require explicit registration so Azure can enable the namespace and features for that subscription before resources are created. A practical example is registering `Microsoft.ContainerService` before deploying AKS if the subscription has never used that provider.
 
-### Q: What is the Azure hierarchy of management groups, subscriptions, resource groups, and resources?
+### Q14: What is the Azure hierarchy of management groups, subscriptions, resource groups, and resources?
 
 **Answer:**
 Azure uses a layered hierarchy. Management groups sit at the top for governance, subscriptions provide billing and quota boundaries, resource groups organize related resources, and resources are the actual services you deploy.
@@ -354,7 +354,7 @@ Budgets should be applied at the scope where financial accountability exists, mo
 **Q: What scope is best for shared policy?**
 Shared policy is usually best assigned at the management group level so multiple subscriptions inherit the same governance controls consistently. A good example is applying an initiative at the Production management group to enforce allowed regions, required tags, and diagnostic settings across every production subscription.
 
-### Q: What is a management group?
+### Q15: What is a management group?
 
 **Answer:**
 A management group is a governance scope above subscriptions that lets organizations apply policies, RBAC assignments, and structure across multiple subscriptions.
@@ -375,7 +375,7 @@ Azure supports up to six levels of management groups beneath the root management
 **Q: What policies are commonly assigned at this level?**
 Common management group policies include allowed locations, approved VM SKUs, required tags, restrictions on public IPs, and mandatory diagnostic settings. For example, a production management group may deny unsupported regions and require all resources to send logs to a central Log Analytics workspace.
 
-### Q: What is an Azure subscription?
+### Q16: What is an Azure subscription?
 
 **Answer:**
 An Azure subscription is a billing, quota, and access boundary where Azure resources are deployed and consumed.
@@ -396,7 +396,7 @@ Yes, a subscription can be moved between management groups if you have the right
 **Q: What are common reasons to create multiple subscriptions?**
 Organizations create multiple subscriptions to separate billing, quotas, environments, ownership, and governance boundaries. A common example is keeping production and development in separate subscriptions so cost controls, access, and service limits are easier to manage independently.
 
-### Q: What is a resource group?
+### Q17: What is a resource group?
 
 **Answer:**
 A resource group is a logical container for Azure resources that share a lifecycle, ownership model, or deployment boundary.
@@ -417,7 +417,7 @@ Yes, resources inside one resource group can be deployed to different regions ev
 **Q: What are good resource group design practices?**
 Good design practices are to group resources by shared lifecycle, ownership, environment, and deployment boundary rather than by resource type alone. For example, an application might use one resource group for its app tier and another shared resource group for centralized monitoring components like Log Analytics and Application Insights.
 
-### Q: How do tags help in Azure?
+### Q18: How do tags help in Azure?
 
 **Answer:**
 Tags are name-value metadata pairs used to organize, report, automate, and govern Azure resources.
@@ -438,7 +438,7 @@ Most Azure resources do not automatically inherit tags from their resource group
 **Q: How do you remediate missing tags?**
 The standard way to remediate missing tags is with Azure Policy using `modify` or `deployIfNotExists`, followed by a remediation task to update existing resources. A practical example is enforcing inheritance of the `environment` tag from the resource group to older storage accounts that were deployed before policy was assigned.
 
-### Q: What are resource locks?
+### Q19: What are resource locks?
 
 **Answer:**
 Resource locks prevent accidental changes. `CanNotDelete` blocks deletion, and `ReadOnly` blocks modifications and deletions.
@@ -459,7 +459,7 @@ A broad ReadOnly lock can block many normal write operations, including scaling,
 **Q: How do locks interact with automation?**
 Locks apply to automation too, so a pipeline or runbook with Contributor access still cannot modify a locked resource unless the lock is removed or scoped differently. A practical example is an IaC deployment failing against a shared resource group because a delete or ReadOnly lock protects the central Log Analytics workspace.
 
-### Q: What is the shared responsibility model in Azure?
+### Q20: What is the shared responsibility model in Azure?
 
 **Answer:**
 The shared responsibility model means Microsoft secures the cloud infrastructure, while customers remain responsible for identities, data, configurations, applications, and many network and operating system decisions depending on the service model.
@@ -480,7 +480,7 @@ In SaaS, the provider manages much more of the stack, including the application 
 **Q: Where do patching responsibilities sit in App Service vs VMs?**
 With Azure App Service, Microsoft patches the underlying platform and OS components, while the customer remains responsible for application code, frameworks, and configuration choices. With Azure Virtual Machines, the customer owns guest OS patching and often uses Azure Update Manager to schedule and track updates.
 
-### Q: What are Azure pricing models?
+### Q21: What are Azure pricing models?
 
 **Answer:**
 Azure pricing includes pay-as-you-go, reserved capacity, spot pricing for some compute, savings options, and service-specific pricing dimensions such as transactions, storage, and data transfer.
@@ -501,7 +501,7 @@ Reserved capacity becomes risky when workload demand is uncertain or the archite
 **Q: Which workloads fit Spot VMs?**
 Spot VMs fit interruptible, fault-tolerant workloads such as batch processing, rendering, CI runners, and scale-out test jobs. A practical example is using Azure Batch or an AKS spot node pool for queue-based processing where failed work can simply be retried.
 
-### Q: What are Reserved Instances and Savings Plans?
+### Q22: What are Reserved Instances and Savings Plans?
 
 **Answer:**
 Reserved Instances commit to one or three years for specific resource types, while Azure savings plans provide more flexible compute discounting across eligible services based on an hourly spend commitment.
@@ -522,7 +522,7 @@ Reservations usually target a specific resource type, region, and SKU family, wh
 **Q: Can reservations be exchanged or canceled?**
 Scope changes are straightforward, but exchanges and cancellations depend on the reservation type and Microsoft's current commerce policy, with cancellation typically subject to refund limits. A practical example is adjusting reservation scope from one subscription to shared scope, while handling larger changes through the reservation management process in Azure.
 
-### Q: What are Spot VMs?
+### Q23: What are Spot VMs?
 
 **Answer:**
 Spot VMs provide unused Azure compute capacity at reduced prices, but Azure can evict them when capacity is needed back.
@@ -543,7 +543,7 @@ Spot should be avoided for stateful, customer-facing, hard-deadline, or single-i
 **Q: How do you architect around eviction?**
 You architect around eviction by making jobs idempotent, using queues and checkpoints, and mixing Spot with regular capacity in services like AKS or Virtual Machine Scale Sets. A practical example is pulling work from Azure Queue Storage so a Spot VM can be evicted and another worker can safely retry the unfinished job.
 
-### Q: What is an Azure SLA?
+### Q24: What is an Azure SLA?
 
 **Answer:**
 An Azure SLA, or Service Level Agreement, is a Microsoft commitment about availability or connectivity for a service under specific deployment conditions.
@@ -564,7 +564,7 @@ Architecture affects SLA because Microsoft publishes availability commitments ba
 **Q: How do you compare SLA and actual resilience?**
 SLA is a contractual uptime commitment, while actual resilience includes failover design, dependency health, operational readiness, backups, and recovery testing. For example, an app can have a strong App Service SLA but still recover poorly if its database failover, secret rotation, or DNS cutover process has never been tested.
 
-### Q: How do you calculate composite SLA?
+### Q25: How do you calculate composite SLA?
 
 **Answer:**
 Composite SLA is calculated by multiplying the decimal availability of each dependent component, then converting back to a percentage.
@@ -585,7 +585,7 @@ No, a higher SLA does not automatically mean better disaster recovery because SL
 **Q: What design changes improve composite SLA?**
 Composite SLA improves when you remove serial dependencies, add redundancy, and use resilient managed services across zones or regions where needed. A practical example is placing Azure Front Door in front of two App Service deployments and pairing that with Azure SQL failover capabilities instead of relying on one regional stack.
 
-### Q: What are Azure support plans?
+### Q26: What are Azure support plans?
 
 **Answer:**
 Azure support plans provide different levels of technical support, response times, advisory services, and billing support depending on business need.
@@ -606,7 +606,7 @@ A higher support tier is justified for revenue-impacting outages, regulated prod
 **Q: How do support plans affect operational readiness?**
 Support plans improve operational readiness by providing faster response targets, clearer escalation paths, and access to architectural guidance for critical workloads. In practice, that means a team can resolve Azure platform issues faster and prepare better for incidents involving services like Azure SQL, networking, or identity.
 
-### Q: What is Azure Arc?
+### Q27: What is Azure Arc?
 
 **Answer:**
 Azure Arc extends Azure management and governance to on-premises, multi-cloud, and edge resources so they can be inventoried, governed, and managed using Azure tools.
@@ -627,7 +627,7 @@ Common Azure Arc use cases include governing on-premises and multi-cloud servers
 **Q: Does Arc move workloads into Azure?**
 No, Azure Arc does not move workloads into Azure by itself; it extends Azure management to resources that stay where they are. A practical example is keeping a SQL workload on-premises while using Arc to bring governance, inventory, and monitoring into the Azure control plane.
 
-### Q: What is Azure Policy?
+### Q28: What is Azure Policy?
 
 **Answer:**
 Azure Policy is a governance service that evaluates resources for compliance against defined rules and can deny, audit, append, deploy, or remediate configurations.
@@ -648,7 +648,7 @@ A policy initiative is a grouped collection of Azure Policy definitions that are
 **Q: How do remediation tasks work?**
 Remediation tasks apply policy-driven fixes to existing noncompliant resources, usually with `modify` or `deployIfNotExists` effects and a managed identity. A practical example is assigning a tag policy and then running remediation so older storage accounts inherit the missing `environment` tag.
 
-### Q: What is the difference between the control plane and data plane?
+### Q29: What is the difference between the control plane and data plane?
 
 **Answer:**
 The control plane manages the resource itself, like creating a storage account or VM. The data plane interacts with the data inside the service, like uploading blobs or reading secrets.
@@ -669,7 +669,7 @@ In Azure Storage or Key Vault, someone can have permission to manage the resourc
 **Q: Why is this distinction important in RBAC design?**
 This distinction is important because it lets you separate platform administration from data access and enforce least privilege more precisely. A common example is allowing a platform team to manage Key Vault networking and diagnostics while only the application's managed identity can retrieve the production secrets.
 
-### Q: What are Azure availability concepts interviewers expect you to know?
+### Q30: What are Azure availability concepts interviewers expect you to know?
 
 **Answer:**
 Interviewers typically expect you to explain high availability within a region, disaster recovery across regions, fault domains, update domains, load balancing, backups, replication, and the difference between SLA, SLO, RPO, and RTO.
@@ -690,7 +690,7 @@ Backup creates recoverable restore points for earlier states, while replication 
 **Q: How do RPO and RTO influence cost?**
 Lower RPO and RTO targets usually increase cost because they require more frequent replication, faster failover, and more standby capacity. For example, near-real-time replication with Azure Site Recovery or active geo-replication for Azure SQL costs more than relying only on nightly backups and manual restore steps.
 
-### Q: What is Azure Advisor?
+### Q31: What is Azure Advisor?
 
 **Answer:**
 Azure Advisor is a recommendation service that analyzes deployed resources and suggests improvements for reliability, security, performance, operational excellence, and cost.
@@ -711,7 +711,7 @@ Azure Advisor focuses on optimization recommendations across reliability, perfor
 **Q: Can Advisor recommendations be automated?**
 Yes, Advisor recommendations can be integrated with automation through APIs, Azure Monitor, Logic Apps, or runbooks to trigger workflows. A practical example is creating an alert or ticket when Advisor identifies underutilized VMs so the operations team can review and downsize them.
 
-### Q: What is Azure Service Health?
+### Q32: What is Azure Service Health?
 
 **Answer:**
 Azure Service Health provides personalized information about Azure incidents, planned maintenance, and health advisories that may affect your subscriptions and regions.
@@ -732,7 +732,7 @@ Service Health shows subscription- and region-scoped Azure platform incidents, p
 **Q: Can Service Health integrate with alerts?**
 Yes, Service Health can integrate with Azure Monitor action groups to send email, SMS, webhook, ITSM, or collaboration notifications. A common example is routing planned maintenance alerts for a production region into Teams or ServiceNow so operations can respond early.
 
-### Q: What is Azure Resource Health?
+### Q33: What is Azure Resource Health?
 
 **Answer:**
 Azure Resource Health shows whether a specific Azure resource, like a VM or App Service, is available and whether issues are caused by the Azure platform or customer configuration.
@@ -753,7 +753,7 @@ I would use Resource Health to see whether Azure reports a platform issue, then 
 **Q: Which incidents still require guest OS troubleshooting?**
 Incidents like application crashes, full disks, failed services, bad OS patches, or broken agents still require guest OS troubleshooting even if the Azure platform is healthy. In practice, teams use RDP or SSH, Serial Console, boot diagnostics, and VM insights to diagnose those problems inside the VM.
 
-### Q: Why is governance important in Azure from day one?
+### Q34: Why is governance important in Azure from day one?
 
 **Answer:**
 Governance is important because cloud environments scale quickly. Without naming standards, tags, policies, RBAC boundaries, and subscription strategy, cost, security, and operations become difficult to control.
@@ -774,7 +774,7 @@ I would start with management group structure, RBAC, naming and tagging standard
 **Q: How do management groups support governance?**
 Management groups support governance by providing a higher scope where Azure Policy and RBAC can be assigned once and inherited by many subscriptions. A practical example is applying production security baselines at a Production management group so every new subscription automatically receives the same controls.
 
-### Q: What is Azure Marketplace?
+### Q35: What is Azure Marketplace?
 
 **Answer:**
 Azure Marketplace is a catalog of Microsoft and third-party solutions, images, and services that can be deployed into Azure subscriptions.
@@ -795,7 +795,7 @@ Marketplace usage can introduce licensing surprises, unsupported architectures, 
 **Q: How do you restrict unapproved offers?**
 You can restrict unapproved offers with Azure Policy, RBAC, and Private Marketplace controls so only reviewed images and services are available for deployment. A practical example is allowing only approved publishers and image SKUs while blocking direct deployment of unvetted Marketplace offers.
 
-### Q: How would you summarize Azure for a nontechnical interviewer?
+### Q36: How would you summarize Azure for a nontechnical interviewer?
 
 **Answer:**
 Azure is Microsofts cloud platform that lets organizations run applications, store data, secure identities, automate deployments, and recover from failures without owning all the physical infrastructure themselves.

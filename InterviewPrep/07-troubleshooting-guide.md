@@ -29,7 +29,7 @@ flowchart TD
   Identity --> Governance[Policy and Cost Controls]
 ```
 
-### Scenario: VM Not Starting
+### Scenario 1: VM Not Starting
 
 **Symptoms:**
 - VM shows `Stopped`, `Failed`, or provisioning issues.
@@ -62,7 +62,7 @@ Repair startup configuration, remove failing extensions, restore from backup, or
 **Portal Navigation:**
 > **Portal View:** Navigate to `Virtual machines` → `myVM` → `Boot diagnostics` → `Screenshot` or `Serial console`.
 
-### Scenario: Cannot RDP to Windows VM
+### Scenario 2: Cannot RDP to Windows VM
 
 **Symptoms:**
 - RDP times out or is refused.
@@ -92,7 +92,7 @@ Open the correct path, reset RDP settings, or use Bastion/private connectivity w
 **Portal Navigation:**
 > `Virtual machines` → `myVM` → `Networking` → `Effective security rules`.
 
-### Scenario: Cannot SSH to Linux VM
+### Scenario 3: Cannot SSH to Linux VM
 
 **Symptoms:**
 - SSH timeout or connection refused.
@@ -121,7 +121,7 @@ Restart SSH, fix host firewall, correct keys, or repair the OS through console a
 **Portal Navigation:**
 > `Virtual machines` → `Support + troubleshooting` → `Serial console`.
 
-### Scenario: VM Performance Is Slow
+### Scenario 4: VM Performance Is Slow
 
 **Symptoms:**
 - High latency.
@@ -151,7 +151,7 @@ Right-size the VM, move to faster disks, tune the app, or scale out if the workl
 **Portal Navigation:**
 > `Virtual machines` → `myVM` → `Metrics`.
 
-### Scenario: NSG Is Blocking Traffic
+### Scenario 5: NSG Is Blocking Traffic
 
 **Symptoms:**
 - Specific ports fail while others work.
@@ -181,7 +181,7 @@ Correct rule priority, source scope, or NSG attachment and retest before broaden
 **Portal Navigation:**
 > `Network Watcher` → `IP flow verify`.
 
-### Scenario: Application Gateway Returns 502
+### Scenario 6: Application Gateway Returns 502
 
 **Symptoms:**
 - Clients receive `502 Bad Gateway`.
@@ -210,7 +210,7 @@ Fix probe settings, backend certificates, routing, or application health endpoin
 **Portal Navigation:**
 > `Application gateways` → `myAppGw` → `Backend health`.
 
-### Scenario: Load Balancer Health Probe Fails
+### Scenario 7: Load Balancer Health Probe Fails
 
 **Symptoms:**
 - Backend instances are marked unhealthy.
@@ -233,7 +233,7 @@ Fix the listener or probe settings, permit probe traffic, and verify the app res
 **Portal Navigation:**
 > `Load balancers` → `myLB` → `Health probes`.
 
-### Scenario: VNet Peering Is Not Working
+### Scenario 8: VNet Peering Is Not Working
 
 **Symptoms:**
 - Resources in peered VNets cannot communicate.
@@ -261,7 +261,7 @@ Correct peering configuration, remove route conflicts, and fix filtering on both
 **Portal Navigation:**
 > `Virtual networks` → `myVNet` → `Peerings`.
 
-### Scenario: DNS Resolution Fails
+### Scenario 9: DNS Resolution Fails
 
 **Symptoms:**
 - Applications time out or resolve to wrong IPs.
@@ -288,7 +288,7 @@ Fix DNS zone linkage, forwarding rules, or host configuration and revalidate res
 **Portal Navigation:**
 > `Private DNS zones` → select zone → `Virtual network links`.
 
-### Scenario: Storage Account Access Denied
+### Scenario 10: Storage Account Access Denied
 
 **Symptoms:**
 - Uploads or downloads fail with authorization errors.
@@ -316,7 +316,7 @@ Assign correct data-plane roles, regenerate delegated access, or fix network pat
 **Portal Navigation:**
 > `Storage accounts` → `mystorage` → `Access control (IAM)` and `Networking`.
 
-### Scenario: Azure SQL Connection Timeout
+### Scenario 11: Azure SQL Connection Timeout
 
 **Symptoms:**
 - Application cannot connect to Azure SQL.
@@ -345,7 +345,7 @@ Correct network access path, DNS resolution, or firewall settings and verify fro
 **Portal Navigation:**
 > `SQL servers` → `myserver` → `Networking`.
 
-### Scenario: AKS Pod CrashLoopBackOff or ImagePullBackOff
+### Scenario 12: AKS Pod CrashLoopBackOff or ImagePullBackOff
 
 **Symptoms:**
 - Pods restart repeatedly.
@@ -373,7 +373,7 @@ Fix image access, configuration, or application startup and redeploy with valida
 **Portal Navigation:**
 > `Kubernetes services` → cluster → `Workloads`.
 
-### Scenario: Pipeline Build Failure
+### Scenario 13: Pipeline Build Failure
 
 **Symptoms:**
 - CI pipeline fails on restore, test, build, or auth step.
@@ -398,7 +398,7 @@ Fix the earliest failing step, pin dependencies, and improve pipeline validation
 **Portal Navigation:**
 > `Azure DevOps` → `Pipelines` → pipeline run → failed job → failed step logs.
 
-### Scenario: Function App Cold Start or Timeout
+### Scenario 14: Function App Cold Start or Timeout
 
 **Symptoms:**
 - First requests are slow.
@@ -422,7 +422,7 @@ Move to Premium if needed, optimize code initialization, and refactor long-runni
 **Portal Navigation:**
 > `Function App` → `Functions` → selected function → `Monitor`.
 
-### Scenario: Entra Sign-In Failures
+### Scenario 15: Entra Sign-In Failures
 
 **Symptoms:**
 - Users cannot sign in.
@@ -447,7 +447,7 @@ Adjust policy safely, fix app configuration, or restore account state while main
 **Portal Navigation:**
 > `Microsoft Entra ID` → `Sign-in logs`.
 
-### Scenario: Certificate Expiration Issues
+### Scenario 16: Certificate Expiration Issues
 
 **Symptoms:**
 - TLS errors start appearing.
@@ -471,7 +471,7 @@ Renew and bind the correct certificate, validate chain trust, and add expiry ale
 **Portal Navigation:**
 > `Key vaults` → `Certificates` or `Application Gateway` → `Listeners`.
 
-### Scenario: Azure Policy Non-Compliance
+### Scenario 17: Azure Policy Non-Compliance
 
 **Symptoms:**
 - Deployment is denied or compliance shows many noncompliant resources.
@@ -498,7 +498,7 @@ Adjust deployment to match policy, create justified exemptions sparingly, or rem
 **Portal Navigation:**
 > `Azure Policy` → `Compliance` → select assignment.
 
-### Scenario: Cost Spike Investigation
+### Scenario 18: Cost Spike Investigation
 
 **Symptoms:**
 - Monthly spend jumps unexpectedly.
@@ -527,7 +527,7 @@ Right-size, apply autoscale and budgets, clean idle resources, and tune diagnost
 **Portal Navigation:**
 > `Cost Management + Billing` → `Cost analysis`.
 
-### Scenario: Private Endpoint Works from One Subnet but Not Another
+### Scenario 19: Private Endpoint Works from One Subnet but Not Another
 
 **Symptoms:**
 - Same service is reachable from one workload but not another.
